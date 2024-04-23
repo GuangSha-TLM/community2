@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gsxy.core.mapper.ActiveMapper">
+
+    <!-- 添加活动功能 -->
+    <insert id="addActive">
+        insert into
+            active
+            (title,context,community,community_list,start_time,create_time
+            ,create_by,status,del_flag)
+        values
+            (#{title},#{context},#{community},#{communityList},
+             #{startTime},#{createTime},#{createBy},0,0)
+    </insert>
+
+    <!-- 修改活动功能 -->
+    <update id="updateActiveById">
+        update active
+        <set>
+            <if test="title != null and title != ''">
+                title = #{title},
+            </if>
+            <if test="context != null and context != ''">
+                context = #{context},
+            </if>
+            <if test="community != null">
+                community = #{community},
+            </if>
+            <if test="communityList != null and communityList != ''">
+                community_list = #{communityList},
+            </if>
+            <if test="startTime != null">
+                start_time = #{startTime},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime},
+            </if>
+            <if test="true">
+                update_by = #{updateBy},update_time=#{updateTime},
+            </if>
+        </set>
+        where
+            id = #{id}
+    </update>
+
+    <!-- 根据id删除活动 -->
+    <delete id="deleteActiveById">
+        delete from
+            active
+        where
+            id = #{id}
+    </delete>
+
+    <!-- 查询所有活动信息 -->
+    <select id="findAll" resultType="com.gsxy.core.pojo.Active">
+        select
+            *
+        from
+            active
+        limit 0,15
+    </select>
+
+    <!-- 根据title进行模糊查询 -->
+    <select id="activeLikeToGetByTitle" resultType="com.gsxy.core.pojo.Active"
+            parameterType="com.gsxy.core.pojo.bo.ActiveLikeToGetByTitleBo">
+        select
+            *
+        from
+            active
+        where
+            title like concat('%',#{title},'%')
+          and
+            status = #{status}
+          and
+            del_flag = #{delFlag}
+    </select>
+
+    <!-- 获取所有活动数据 -->
+    <select id="pagingToGetActiveData" resultType="com.gsxy.core.pojo.Active"
+            parameterType="com.gsxy.core.pojo.bo.PagingToGetActiveDataBo">
+        select
+            *
+        from
+            active
+        where
+            <if test="title != null and title != ''">
+                title like #{title} and
+            </if>
+                status = #{status} and
+                del_flag = #{delFlag}
+        limit
+            #{start},#{size}
+    </select>
+
+    <!-- 获取活动总数 -->
+    <select id="pagingToGetCountOfActiveData" resultType="java.lang.Long"
+            parameterType="com.gsxy.core.pojo.bo.PagingToGetActiveDataBo">
+        select
+            count(*)
+        from
+            active
+        where
+            <if test="title != null and title != ''">
+                title like #{title} and
+            </if>
+            status = #{status} and
+            del_flag = #{delFlag}
+    </select>
+
+    <!-- 获取前端指定社团相关字段实体类 -->
+    <select id="selectCommunityByCreateBy" resultType="com.gsxy.core.pojo.bo.CommunityInActiveBo"
+            parameterType="com.gsxy.core.pojo.bo.CommunityInActiveBo">
+        select
+            community.id,community.name,community.create_by,user.username
+        from
+            community
+        inner join
+            user
+        on
+            community.create_by = (select create_by from community where create_by = #{createBy})
+        limit 1
+    </select>
+
+    <!-- 获取前端指定活动相关字段实体类 -->
+    <select id="selectActiveToGetById" resultType="com.gsxy.core.pojo.bo.ActiveToGetBo"
+            parameterType="com.gsxy.core.pojo.bo.ActiveSelectToGetBo">
+        select
+            *
+        from
+            active
+        where
+            id = #{id}
+        limit 1
+    </select>
+
+    <!-- 获取前端指定社团相关字段实体类 -->
+    <select id="selectActiveToGetCreateByById" resultType="java.lang.Long"
+            parameterType="com.gsxy.core.pojo.bo.ActiveSelectByIdBo">
+        select
+            community.create_by
+        from
+            community
+        inner join
+            active
+        on
+            community.community_id = (select create_by from active where id = #{id})
+        limit 1
+    </select>
+
+    <!-- 根据id查询活动 -->
+    <select id="selectActiveById" resultType="java.lang.Long">
+        select
+            id
+        from
+            active
+        where
+            id = #{id}
+    </select>
+
+    <!-- 查询该社团所有活动 -->
+    <select id="findAllByCommunityId" resultType="com.gsxy.core.pojo.Active" parameterType="java.lang.Long">
+        select
+            distinct t1.id,t1.title,t1.context,t1.community,t1.community_list,t1.start_time,t1.end_time
+            ,t1.create_time,t1.create_by,t1.status
+        from
+            active t1
+        inner join
+            community_user t2
+        on
+            t1.community = t2.community_id
+        and
+            t1.community = #{communityId}
+    </select>
+
+    <!-- 获取对应的社团ID -->
+    <select id="selectToGetCommunityId" resultType="java.lang.Long">
+        select
+            community_id
+        from
+            community_user
+        where
+            user_id = #{userId}
+        limit 1
+    </select>
+
+    <!-- 根据userId查询社团创建人 -->
+    <select id="selectToGetByUserId" resultType="java.lang.Long">
+        select
+            create_by
+        from
+            community_user
+        where
+            create_by = #{userId}
+        limit 1
+    </select>
+
+</mapper>

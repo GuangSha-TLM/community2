@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gsxy.core.mapper.CommunityMapper">
+    <!--
+        @author zhuxinyu 2023-10-24
+            添加社团
+    -->
+    <insert id="addcommunity">
+        insert into
+            Community
+        values
+            (null, #{name},
+             #{introduce},#{communityId},
+             #{createBy}, #{createTime},
+             #{updateBy}, #{updateTime},
+             #{status}, #{delFlag} ,#{remark})
+    </insert>
+    <!--
+        @author zhuxinyu 2023-10-24
+           删除社团
+    -->
+    <delete id="deleteByIdcommunity">
+        delete from Community where id = #{id}
+    </delete>
+    <!--
+        @author zhuxinyu 2023-10-24
+           查找社团
+    -->
+    <select id="selectByIdcommunity" resultType="com.gsxy.core.pojo.Community">
+        select * from Community where id = #{id} 
+    </select>
+    <!--
+        @author zhuxinyu 2023-10-30
+            查询社团所有用户数据
+    -->
+    <select id="communityAndUser" resultType="com.gsxy.core.pojo.vo.CommunityAndUserVo"
+            parameterType="com.gsxy.core.pojo.bo.CommunityAndUserBo">
+        SELECT
+            us.name,us.student_id,us.college,
+            us.professional,us.grade,cu.user_id
+                FROM
+                community_user AS cu
+        INNER JOIN
+	        `user` AS us
+        ON(cu.user_id = us.id)
+        WHERE community_id=#{communityId}
+    </select>
+
+    <!--
+        @author zhuxinyu 2023-11-02
+            查询社团所有活动
+    -->
+    <select id="communityAndActive" resultType="com.gsxy.core.pojo.vo.CommunityAndActiveVo"
+            parameterType="com.gsxy.core.pojo.bo.CommunityAndActiveBo">
+        SELECT
+            ac.title,
+            ac.context,
+            ac.community
+        FROM
+            community AS co
+                INNER JOIN active AS ac ON(co.community_id = ac.community)
+        WHERE community_id = #{communityId}
+    </select>
+    <!--
+          @author  zhuxinyu 2023-11-02
+          根据社团Id查询社团的所有社团
+
+    -->
+    <select id="communityAllname" resultType="com.gsxy.core.pojo.bo.CommunityAllname">
+        SELECT
+            c.`name`, c.introduce, c.community_id,u.username,c.create_by
+        FROM
+            community AS c
+                INNER JOIN
+            user AS u
+            ON(c.create_by = u.id)
+    </select>
+    <!--
+        @author zhuxinyu 2023-10-24
+           更新社团
+    -->
+    <update id="updateByIdcommunity">
+        update Community
+        <set>
+            <if test="name != null and name != '' ">
+                name = #{name},
+            </if>
+            <if test="introduce != null and introduce != '' ">
+                introduce = #{introduce},
+            </if>
+            <if test="communityId != null ">
+                community_id = #{communityId},
+            </if>
+            <if test="createBy != null ">
+                create_by = #{createBy},
+            </if>
+            <if test="createTime != null ">
+                create_time = #{createTime},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag},
+            </if>
+            <if test="remark">
+                remark = #{remark}
+            </if>
+        </set>
+        where
+        id = #{id}
+
+    </update>
+    <!--
+       @author zhuxinyu 2023-10-30
+       分页获取用户数据集合
+   -->
+    <select id="communityPagingToGetData" resultType="com.gsxy.core.pojo.Community"
+            parameterType="com.gsxy.core.pojo.bo.CommunityPagingToGetDataBo">
+        select
+        *
+        from
+        community
+        <where>
+            <if test="name != null and name != ''">
+                name like concat('%',#{name},'%') and
+            </if>
+        </where>
+        status = #{status} and
+        del_flag = #{delFlag}
+        limit
+        #{start},#{size}
+    </select>
+
+
+    <!--
+           @author Oh...Yeah!!! 2023-10-30
+           根据community_id查找社团
+    -->
+    <select id="selectByCommunityId" resultType="com.gsxy.core.pojo.Community">
+        select
+            *
+        from
+            community
+        where
+            community_id = #{communityId}
+        limit 1
+    </select>
+
+    <!-- 获取该社团内所有用户的id -->
+    <select id="selectToGetUserId" resultType="java.lang.Long" parameterType="java.lang.Long">
+        select
+            user_id
+        from
+            community_user
+        where
+            create_by = #{adminId}
+    </select>
+
+</mapper>

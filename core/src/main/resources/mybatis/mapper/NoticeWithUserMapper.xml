@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gsxy.core.mapper.NoticeWithUserMapper">
+
+
+    <!--
+          @author Oh… Yeah!!!, 2023-10-28
+          根据id查询数据.
+    -->
+    <select id="selectByIdNoticeWithUser" resultType="com.gsxy.core.pojo.NoticeWithUser"
+            parameterType="java.lang.Long">
+        select
+            *
+        from
+            notice_with_user
+        where
+            id = #{id}
+        limit 1
+    </select>
+
+    <!--
+         @author Oh… Yeah!!! 2023-10-23
+         根据Id删除
+    -->
+    <delete id="deleteByIdNoticeWithUser" parameterType="java.lang.Long">
+        delete from
+            notice_with_user
+        where
+            id = #{id}
+    </delete>
+
+    <!--
+         @author Oh… Yeah!!! 2023-10-23
+         增加新数据
+    -->
+    <insert id="addNoticeWithUser" parameterType="com.gsxy.core.pojo.NoticeWithUser">
+        insert into
+            notice_with_user
+        values
+            (null,#{sendUserId},#{receiveUserId},#{noticeId},#{name},#{createBy},
+             #{createTime},#{updateBy},#{updateTime},
+             #{status},#{delFlag});
+    </insert>
+
+    <!--
+           @author Oh… Yeah!!! 2023-10-23
+           更新数据
+     -->
+    <update id="updateByIdNoticeWithUser" parameterType="com.gsxy.core.pojo.NoticeWithUser">
+        update notice_with_user
+        <set>
+            <if test="sendUserId != null ">
+                send_user_id = #{sendUserId},
+            </if>
+            <if test="receiveUserId != null ">
+                receive_user_id = #{receiveUserId},
+            </if>
+            <if test="noticeId != null ">
+                notice_id = #{noticeId},
+            </if>
+            <if test="name != null and name != '' ">
+                name = #{name},
+            </if>
+            <if test="createBy != null ">
+                create_by = #{createBy},
+            </if>
+            <if test="createTime != null ">
+                create_time = #{createTime},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag}
+            </if>
+        </set>
+        where
+        id = #{id}
+    </update>
+
+
+    <!--
+          @author Oh...Yeah!!! 2023-10-28
+          分页获取用户数据集合
+    -->
+    <select id="noticeWithUserPagingToGetData" resultType="com.gsxy.core.pojo.NoticeWithUser"
+            parameterType="com.gsxy.core.pojo.bo.NoticeWithUserPagingToGetDataBo">
+        select
+            *
+        from
+        notice_with_user
+        <where>
+            <if test="name != null and name != ''">
+                name like concat('%',#{name},'%') and
+            </if>
+        </where>
+        status = #{status} and
+        del_flag = #{delFlag}
+        limit
+        #{start},#{size}
+    </select>
+
+
+    <!--
+      @author Oh...Yeah!!! 2023-10-30
+      根据通知id来获取历史记录
+    -->
+    <select id="selectByNoticeId" resultType="com.gsxy.core.pojo.NoticeWithUser">
+        select
+            *
+        from
+            notice_with_user
+        where
+            notice_id = #{noticeId}
+        limit 1
+    </select>
+
+</mapper>

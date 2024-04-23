@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gsxy.core.mapper.UserMapper">
+
+    <!-- 用户注册 -->
+    <insert id="userReg" parameterType="com.gsxy.core.pojo.User">
+        insert into
+            user
+            (username,password,name,college,student_id,org,grade,professional,create_by,create_time,update_by,update_time,status,del_flag)
+        values
+            (#{username},#{password},#{name},#{college},#{studentId},#{org},#{grade},#{professional},#{createBy},#{createTime},#{updateBy},#{updateTime},#{status},#{delFlag})
+    </insert>
+
+    <!-- 通过id修改用户 -->
+    <update id="updateByUserId" parameterType="com.gsxy.core.pojo.User">
+        update user
+        <set>
+            <if test="username != null and username != ''">
+                username = #{username},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="college != null">
+                college = #{college},
+            </if>
+            <if test="studentId != null and studentId != ''">
+                student_id = #{studentId},
+            </if>
+            <if test="org != null and org != ''">
+                org = #{org},
+            </if>
+            <if test="grade != null and grade != ''">
+                grade = #{grade},
+            </if>
+            <if test="professional != null and professional != ''">
+                professional = #{professional},
+            </if>
+            <if test="true">
+                update_by = #{updateBy},update_time = #{updateTime},
+            </if>
+            <if test="status != null and status != ''">
+                status = #{status},
+            </if>
+            <if test="delFlag != null and delFlag != ''">
+                del_flag = #{delFlag}
+            </if>
+        </set>
+        where
+            id = #{id}
+    </update>
+
+    <!-- 根据id删除用户 -->
+    <delete id="deleteByUserId" parameterType="java.lang.Long">
+        delete
+        from
+            user
+        where
+            id=#{id}
+    </delete>
+
+    <!-- 用户登录 -->
+    <select id="userLogin" resultType="com.gsxy.core.pojo.User"
+            parameterType="com.gsxy.core.pojo.bo.UserLoginBo">
+        select *
+        from user
+        where
+            username = #{username} and
+            status = 0 and
+            del_flag = 0
+        limit 1
+    </select>
+
+    <!-- 根据username查询用户 -->
+    <select id="findByUsername" resultType="com.gsxy.core.pojo.User" parameterType="java.lang.String">
+        select *
+        from user
+        where
+            username=#{username}
+        limit 1
+    </select>
+
+    <!-- 根据id查找用户 -->
+
+
+    <!-- 查询所有用户信息 -->
+    <select id="userFindAll" resultType="com.gsxy.core.pojo.User">
+        select
+            id,username,name,college,student_id,grade,professional
+        from
+            user
+        limit 0,15
+    </select>
+
+    <!-- 获取所有活动数据 -->
+    <select id="pagingToGetUserData" resultType="com.gsxy.core.pojo.User"
+            parameterType="com.gsxy.core.pojo.bo.PagingToGetUserDataBo">
+        select
+            *
+        from
+            user
+        where
+            <if test="username != null and username != ''">
+                username = #{username} and
+            </if>
+                status = #{status} and
+                del_flag = #{delFlag}
+        limit
+            #{start},#{size}
+    </select>
+
+    <!-- 获取活动总数 -->
+    <select id="pagingToGetCountOfUserData" resultType="java.lang.Long"
+            parameterType="com.gsxy.core.pojo.bo.PagingToGetUserDataBo">
+        select
+            count(*)
+        from
+            user
+        where
+            <if test="username != null and username != ''">
+                username like #{username} and
+            </if>
+                status = #{status} and
+                del_flag =  #{delFlag}
+    </select>
+
+<!--    &lt;!&ndash; 根据user_id获取社团id &ndash;&gt;-->
+<!--    <select id="selectToGetCommunityIdByUserId" resultType="com.gsxy.core.pojo.bo.UserSignInBo">-->
+<!--        SELECT-->
+<!--            t2.id,t2.user_id,t2.status,t1.community_id,t2.create_time-->
+<!--        FROM-->
+<!--            community_user t1-->
+<!--        inner join-->
+<!--            sign_in t2-->
+<!--        on-->
+<!--            t1.user_id = t2.user_id-->
+<!--        and-->
+<!--            t2.status = 1-->
+<!--        limit 1-->
+<!--    </select>-->
+
+    <!-- 根据前端指定字段返回User信息 -->
+    <select id="selectToGetUser" resultType="com.gsxy.core.pojo.vo.UserSelectToGetVo"
+            parameterType="com.gsxy.core.pojo.vo.UserSelectToGetVo">
+        select
+            id,name,college,grade,professional
+        from
+            user
+        where
+            college = #{college}
+          and
+            grade like concat('%',#{grade},'%')
+          and
+            professional like concat('%',#{professional},'%')
+    </select>
+
+    <!-- 根据userId获取communityId -->
+    <select id="selectToGetCommunityId" resultType="java.lang.Long" parameterType="java.lang.Long">
+        SELECT
+            community_id
+        FROM
+            community_user
+        where
+            user_id = #{userId}
+        limit 1
+    </select>
+
+    <!-- 查询UserAndAdminSignIn实体类信息 -->
+    <select id="selectToGetUserAndAdminSignIn" resultType="com.gsxy.core.pojo.SignInUserStatusWeb">
+        select
+            t1.user_id,t2.admin_id,t1.community_id,t3.name,t3.college,t3.grade,t3.professional,
+            t3.org,t3.student_id,t2.release_time,t1.create_time,t2.sign_in_time,t1.uuid
+        from
+            sign_in_websocket t1
+        inner join
+            sign_in_admin_websocket t2
+        inner join
+            user t3
+        inner join
+            notice t4
+        on
+                t2.community_id = t1.community_id
+        and
+                t1.user_id = (select id from user where id = #{id})
+        and
+                t1.content = t2.content
+        and
+                t1.create_time >= t2.release_time
+        and
+                DATE(t1.create_time) = CURDATE()
+        and
+                DATE(t2.release_time) = CURDATE()
+        and
+                dealt = 0
+        and
+                t1.uuid = t2.uuid
+        where
+                t2.release_time > t1.create_time - INTERVAL t2.sign_in_time MINUTE
+        limit 1
+    </select>
+
+
+    <!-- 查询UserAndAdminSignIn实体类信息 -->
+    <select id="selectToGetUserAndAdminSignInNew" resultType="com.gsxy.core.pojo.SignInUserStatusWeb">
+        select
+            t1.user_id,t2.admin_id,t1.community_id,t3.name,t3.college,t3.grade,t3.professional,
+            t3.org,t3.student_id,t2.release_time,t1.create_time,t2.sign_in_time,t4.uuid
+        from
+            sign_in_websocket t1
+        inner join
+            sign_in_admin_websocket t2
+        inner join
+            user t3
+        inner join
+            notice  t4
+        on
+            t2.community_id = t1.community_id
+        and
+            t1.user_id = (select id from user where id = #{id})
+        and
+            t1.content = t2.content
+        and
+            DATE(t1.create_time) = CURDATE()
+        and
+            DATE(t2.release_time) = CURDATE()
+        and
+            t1.uuid = t2.uuid
+        where
+            t2.release_time > t1.create_time - INTERVAL t2.sign_in_time MINUTE
+        order by
+            t4.create_time
+        desc
+        limit 1
+    </select>
+
+
+    <!-- 查询用户姓名根据id -->
+    <select id="selectToGetNameByUserId" resultType="java.lang.String" parameterType="java.lang.Long">
+        select
+            name
+        from
+            user
+        where
+            id = #{id}
+    </select>
+
+    <!-- 查找用户权限 -->
+    <select id="selectByUserAndUserAdminId" resultType="java.lang.Integer">
+        select
+            t1.role
+        from
+            user_admin t1
+        inner join
+             user t2
+        on
+            t2.id = t1.user_id
+        and
+            t2.id = (select id from user where id = #{id})
+        limit 1
+    </select>
+
+
+
+
+    <!-- 返回所有用户信息 -->
+    <select id="selectGetUser" resultType="com.gsxy.core.pojo.vo.FindAllVo">
+        select
+            username,name,college,student_id,org,grade,professional,count(id)
+        from
+            user
+        limit 0 ,10
+    </select>
+
+
+    <!-- 返回用户表中所有数据的个数 -->
+    <select id="selectToGetCount" resultType="java.lang.Integer">
+        select
+        count(*)
+        from
+        user
+        where
+        <if test="college != null">
+            college = #{college} and
+        </if>
+        <if test="grade != null">
+            grade like concat('%',#{grade},'%')  and
+        </if>
+        <if test="professional != null">
+            professional like concat('%',#{professional},'%')
+        </if>
+    </select>
+
+
+    <!-- 根据传入的id查找该社团内的用户id -->
+    <select id="selectGetUserId" resultType="java.lang.Long">
+        select
+            distinct t1.user_id
+        from
+            community_user t1
+        inner join
+            user t2
+        where
+            t1.community_id = #{userId}
+        and
+            t1.user_id = t2.id
+    </select>
+
+    <!-- 根据传入的id查找该社团内的用户的总数 -->
+    <select id="selectToGetCountNew" resultType="java.lang.Integer">
+        select
+            count(*)
+        from
+            community_user
+        where
+            community_id = #{userId}
+    </select>
+
+    <select id="selectByUserId" resultType="com.gsxy.core.pojo.User">
+        select
+            *
+        from
+            user
+        where
+            id=#{id}
+        limit 1
+    </select>
+
+    <select id="selectToUserId" resultType="com.gsxy.core.pojo.vo.SelectUserVo">
+        select
+            t1.id,t1.username,t1.name,t1.college,t1.student_id,t1.org,t1.grade,t1.professional,t2.role
+        from
+            user t1
+        inner join
+            user_admin t2
+        on
+            t1.id=#{id}
+        and
+            t2.user_id = t1.id
+        limit 1
+    </select>
+
+    <select id="selectToGetUserBy" resultType="com.gsxy.core.pojo.vo.FindAllVo">
+<!--        select-->
+<!--        distinct t1.id, t1.name, t1.college, t1.grade, t1.professional-->
+<!--        from-->
+<!--            user t1-->
+<!--        INNER JOIN-->
+<!--            community_user t2-->
+<!--        on-->
+<!--            t2.user_id != t1.id-->
+<!--        and-->
+<!--            t1.id != #{userId}-->
+<!--        <where>-->
+<!--            <if test="college != null">-->
+<!--                college = #{college}-->
+<!--            </if>-->
+<!--            <if test="grade != null">-->
+<!--                and grade like concat('%', #{grade}, '%')-->
+<!--            </if>-->
+<!--            <if test="professional != null">-->
+<!--                and professional like concat('%', #{professional}, '%')-->
+<!--            </if>-->
+<!--        and-->
+<!--            t2.community_id = #{userId}-->
+<!--        </where>-->
+<!--        limit #{page}, #{size}-->
+        SELECT DISTINCT user.id, user.name, user.college, user.grade, user.professional
+        FROM user
+        LEFT JOIN community_user ON user.id = community_user.user_id AND community_user.community_id = #{userId}
+        <where>
+            <if test="college != null">
+                AND user.college = #{college}
+            </if>
+            <if test="grade != null">
+                AND user.grade LIKE CONCAT('%', #{grade}, '%')
+            </if>
+            <if test="professional != null">
+                AND user.professional LIKE CONCAT('%', #{professional}, '%')
+            </if>
+        </where>
+        AND community_user.user_id IS NULL
+        and user.id != #{userId}
+        LIMIT #{page}, #{size}
+    </select>
+
+    <!-- 查询前段指定字段查询用户信息 -->
+
+
+    <!--    &lt;!&ndash; 插入用户签到状态 &ndash;&gt;-->
+<!--    <insert id="userSignIn" parameterType="com.gsxy.core.pojo.bo.UserSignInBo">-->
+<!--        insert into-->
+<!--            sign_in-->
+<!--            (user_id,community_id,status,create_time)-->
+<!--        values-->
+<!--            (#{userId},#{communityId},#{status},#{createTime})-->
+<!--    </insert>-->
+
+    <!-- 将用户签到响应数据插入到sign_in_websocket -->
+    <insert id="insertSignInWeb" parameterType="com.gsxy.core.pojo.SignInWebSocket">
+        insert into
+            sign_in_websocket
+            (user_id,content,community_id,create_time,uuid)
+        values
+            (#{userId},#{content},#{communityId},#{createTime},#{uuid})
+    </insert>
+
+    <!-- 插入数据到 sign_in_user_status_web -->
+    <insert id="insertSignInUserWithAdmin" parameterType="com.gsxy.core.pojo.SignInUserStatusWeb">
+        insert into
+            sign_in_user_status_web
+            (user_id,admin_id,community_id,name,college,grade
+            ,professional,org,student_id,status,release_time,create_time,sign_in_time,uuid)
+        values
+            (#{userId},#{adminId},#{communityId},#{name},#{college},#{grade}
+            ,#{professional},#{org},#{studentId},1,#{releaseTime},#{createTime},#{signInTime},#{uuid})
+    </insert>
+
+</mapper>

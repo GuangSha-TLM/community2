@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gsxy.core.mapper.OrgMapper">
+        
+        <!--
+            @author zhuxinyu 2023-10-23
+                添加班级
+        -->
+        <insert id="addOrg">
+            insert into
+                Org
+            values
+                (null, #{grade}, #{professional},
+                 #{name},#{college},
+                 #{createBy}, #{createTime},
+                 #{updateBy}, #{updateTime}, 
+                 #{status}, #{delFlag} )
+        </insert>
+
+        <!--
+            @author zhuxinyu 2023-10-23
+                删除班级
+        -->
+        <delete id="deleteByIdOrg">
+            delete from Org where id = #{id}
+        </delete>
+
+        <!--
+            @author zhuxinyu 2023-10-23
+                查找班级
+        -->
+        <select id="selectByIdOrg" resultType="com.gsxy.core.pojo.Org">
+            select
+                *
+            from
+                Org
+            where
+                id = #{id}
+            limit 1
+        </select>
+        <!--
+            @author zhuxinyu 2023-10-25
+            查找所有信息
+        -->
+        <select id="selectAll" resultType="com.gsxy.core.pojo.bo.OrgAndUserBo">
+            SELECT DISTINCT org.id, org.college, org.professional, org.`name`, org.grade, org.create_time, org.update_time, `user`.username
+            FROM org
+            JOIN `user` ON org.create_by = `user`.id   LIMIT 0, 15
+        </select>
+        <!--
+            @author zhuxinyu 2023-10-25
+            根据org查找user信息
+        -->
+        <select id="selectOrgByUser" resultType="com.gsxy.core.pojo.bo.OrgSelectByUserBo">
+            SELECT
+                t1.username,
+                t1.name,
+                t1.professional,
+                t1.college,
+                t1.student_id,
+                t1.org,
+                t1.grade,
+                t1.create_by,
+                t1.update_by
+            FROM
+                user t1
+                    LEFT JOIN org t2 ON t1.college = t2.college AND t1.grade = t2.grade AND t1.org = t2.name AND t1.professional = t2.professional
+                LIMIT 0, 15
+        </select>
+        <!--
+            @author zhuxinyu 2023-10-23
+                更新班级
+        -->
+        <update id="updateByIdOrg">
+            update Org
+            <set>
+                <if test="grade != null and grade != ''">
+                    grade = #{grade},
+                </if>
+                <if test="professional != null and professional != ''">
+                    professional = #{professional},
+                </if>
+                <if test="name != null ">
+                    name = #{name},
+                </if>
+                <if test="college != null">
+                    college = #{college},
+                </if>
+                <if test="updateBy != null">
+                    update_by = #{updateBy},
+                </if>
+                <if test="updateTime != null">
+                    update_time = #{updateTime},
+                </if>
+                <if test="status != null">
+                    status = #{status},
+                </if>
+                <if test="delFlag != null">
+                    del_flag = #{delFlag}
+                </if>
+            </set>
+            where
+                id = #{id}
+        </update>
+    <!--
+        @author zhuxinyu 2023-10-30
+        分页获取用户数据集合
+    -->
+        <select id="orgPagingToGetData" resultType="com.gsxy.core.pojo.Org"
+            parameterType="com.gsxy.core.pojo.bo.OrgPagingToGetDataBo">
+            select
+            *
+            from
+            org
+            <where>
+                <if test="name != null and name != ''">
+                    name like concat('%',#{name},'%') and
+                </if>
+            </where>
+            status = #{status} and
+            del_flag = #{delFlag}
+            limit
+            #{start},#{size}
+        </select>
+</mapper>

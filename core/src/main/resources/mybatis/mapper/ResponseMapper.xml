@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gsxy.core.mapper.ResponseMapper">
+
+    <!--
+          @author Oh… Yeah!!!, 2023-10-28
+          根据id查询数据.
+    -->
+    <select id="selectByIdResponse" resultType="com.gsxy.core.pojo.Response" parameterType="java.lang.Long">
+        select
+            *
+        from
+            response
+        where
+            id = #{id}
+        limit 1
+    </select>
+
+    <!--
+         @author Oh… Yeah!!! 2023-10-23
+         根据Id删除
+    -->
+    <delete id="deleteByIdResponse" parameterType="java.lang.Long">
+        delete from
+            response
+        where
+            id = #{id}
+    </delete>
+
+    <!--
+         @author Oh… Yeah!!! 2023-10-23
+         增加新数据
+    -->
+    <insert id="addResponse" parameterType="com.gsxy.core.pojo.Response">
+        insert into
+            response
+        values
+            (null,#{context},#{noticeId},#{userId},#{createBy},
+             #{createTime},#{updateBy},#{updateTime},
+             #{status},#{delFlag});
+    </insert>
+
+
+    <!--
+       @author Oh… Yeah!!! 2023-10-23
+       更新数据
+     -->
+    <update id="updateByIdResponse" parameterType="com.gsxy.core.pojo.Response">
+        update response
+        <set>
+            <if test="context != null and context != '' ">
+                context = #{context},
+            </if>
+            <if test="noticeId != null ">
+                notice_id = #{noticeId},
+            </if>
+            <if test="userId != null ">
+                user_id = #{userId},
+            </if>
+            <if test="createBy != null ">
+                create_by = #{createBy},
+            </if>
+            <if test="createTime != null ">
+                create_time = #{createTime},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag}
+            </if>
+        </set>
+        where
+        id = #{id}
+    </update>
+
+</mapper>
+
+

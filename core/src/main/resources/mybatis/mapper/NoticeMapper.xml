@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gsxy.core.mapper.NoticeMapper">
+
+
+    <!--
+         @author Oh… Yeah!!! 2023-10-27
+         用户查看通知
+    -->
+
+    <select id="selectByIdNotice" resultType="com.gsxy.core.pojo.Notice" parameterType="java.lang.Long">
+        select
+            *
+        from
+            notice
+        where
+            user_email_id = #{userId}
+    </select>
+
+
+    <!--
+          @author Oh… Yeah!!! 2023-10-24
+          根据Id删除数据
+    -->
+    <delete id="deleteByIdNotice" parameterType="java.lang.Long">
+        delete from
+            notice
+        where
+            id = #{id}
+    </delete>
+
+
+    <!--
+         @author Oh… Yeah!!! 2023-10-27
+         增加新数据
+    -->
+    <insert id="addNotice" parameterType="com.gsxy.core.pojo.Notice">
+        insert into
+            notice
+        ()
+        values
+            (null,#{userEmailId},#{context},#{uuid},#{imgId},#{name},
+             #{read},#{dealt},#{kinds},#{createBy},#{createTime},#{updateBy},
+             #{updateTime},#{status},#{delFlag});
+    </insert>
+
+    <!-- 社长（管理员）向社团成员发起签到通知 -->
+    <insert id="insertNotice">
+        insert into
+            notice
+            (user_email_id,context,create_by,create_time,name,kinds,uuid)
+        values
+            (#{userId},#{context},#{createBy},#{createTime},#{name},#{kinds},#{uuid})
+    </insert>
+
+    <!--
+         @author Oh… Yeah!!! 2023-10-27
+         更新数据
+    -->
+    <update id="updateByIdNotice" parameterType="com.gsxy.core.pojo.Notice">
+        update notice
+        <set>
+            <if test="userEmailId != null ">
+                user_email_id = #{userEmailId},
+            </if>
+            <if test="context != null and context != ''">
+                context = #{context},
+            </if>
+            <if test="uuid != null and uuid != ''">
+                uuid = #{uuid},
+            </if>
+            <if test="imgId != null ">
+                img_id = #{imgId},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="read != null ">
+                read = #{read},
+            </if>
+            <if test="dealt != null ">
+                dealt = #{dealt},
+            </if>
+            <if test="kinds != null ">
+                kinds = #{kinds},
+            </if>
+            <if test="createBy != null ">
+                create_by = #{createBy},
+            </if>
+            <if test="createTime != null ">
+                create_time = #{createTime},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag}
+            </if>
+        </set>
+        where
+        id = #{id}
+    </update>
+
+
+    <!--
+      @author Oh...Yeah!!! 2023-10-28
+      分页获取用户数据集合
+    -->
+    <select id="noticePagingToGetData" resultType="com.gsxy.core.pojo.Notice"
+            parameterType="com.gsxy.core.pojo.bo.NoticePagingToGetDataBo">
+        select
+            *
+        from
+            notice
+        <where>
+            <if test="name != null and name != ''">
+                name like concat('%',#{name},'%') and
+            </if>
+        </where>
+            status = #{status} and
+            del_flag = #{delFlag}
+        limit
+            #{start},#{size}
+    </select>
+
+       <!--
+            @author Oh… Yeah!!! 2023-10-27
+            根据UUID查找通知.
+       -->
+    <select id="seleByUUID" resultType="com.gsxy.core.pojo.Notice">
+        select
+            *
+        from
+            notice
+        where
+            uuid = #{string}
+        limit 1
+    </select>
+
+    <!--
+     @author Oh… Yeah!!! 2023-10-27
+     查找所有未阅读的通知的数量.
+    -->
+    <select id="selectReadNotice" resultType="java.lang.Long" parameterType="java.lang.Long">
+        SELECT
+            count(*)
+        FROM
+            notice
+        WHERE
+            `read` = 0
+        and
+            user_email_id = #{userId}
+    </select>
+
+
+    <!--
+     @author Oh… Yeah!!! 2023-10-27
+     根据id查询通知数据.
+    -->
+    <select id="noticeSelectByNoticeId" resultType="com.gsxy.core.pojo.Notice" parameterType="java.lang.Long">
+        select
+            *
+        from
+            notice
+        where
+            id = #{id}
+        limit 1
+    </select>
+
+    <!-- 根据userId查询通知数据 -->
+    <select id="selectByUserIdNotice" resultType="java.lang.Long">
+        SELECT
+            t1.id
+        FROM
+            notice t1
+                INNER JOIN
+            community_user t2
+        inner join
+            sign_in_admin_websocket t3
+        ON
+            t1.uuid = t3.uuid
+        where
+            t1.create_by = t3.admin_id
+        order by
+            release_time desc
+        LIMIT 1;
+    </select>
+
+    <!-- 获取指定id的uuid -->
+    <select id="selectToGetUUID" resultType="java.lang.String" parameterType="java.lang.Long">
+        select
+            uuid
+        from
+            notice
+        where
+            id = #{id}
+        limit 1
+    </select>
+
+    <!-- 根据指定uuid获取社团中的对象 -->
+    <select id="selectToGetUser" resultType="java.lang.Long" parameterType="java.lang.String">
+        select
+            t2.name
+        from
+            user t2
+        inner join
+            notice t1
+        on
+            t1.user_email_id = t2.id
+        and
+            t1.uuid = #{uuid}
+    </select>
+
+    <!-- 根据指定noticeId获取社团中的所有对象 -->
+
+
+    <!-- 根据指定id查找noticeid -->
+    <select id="selectByAdminSignIdNotice" resultType="java.lang.Long" parameterType="java.lang.Long">
+        select
+            id
+        from
+            notice
+        where
+            create_by = #{id}
+          and
+            create_time > now() - INTERVAL 5 MINUTE
+    </select>
+
+    <select id="selectToUser" resultType="java.lang.String" parameterType="java.lang.String">
+        select
+            t2.name
+        from
+            notice t1
+        inner join
+            user t2
+        on
+            t1.user_email_id = t2.id
+        and
+            t1.uuid = #{uuid}
+
+    </select>
+
+    <!--
+         @author Oh… Yeah!!! 2023-10-27
+         更改通知阅读状态.
+    -->
+    <update id="updateByIdToRead" parameterType="java.lang.Long">
+        update
+            notice
+        set
+            `read` = 1
+        where
+            id = #{id};
+    </update>
+
+
+    <update id="updateByIdToDealt" parameterType="java.lang.Long">
+        update
+            notice
+        set
+            dealt = 1
+        where
+            user_email_id = #{userId}
+        and
+            create_time > DATE_SUB(NOW(), INTERVAL 1 MINUTE)
+    </update>
+
+    <!-- 修改用户确认通知状态 -->
+    <update id="updateNoticeStatus">
+        update
+            notice
+        set
+            `read` = 1,
+            dealt = 1
+        where
+            id = #{id}
+    </update>
+
+    <!-- 根据id和uuid修改处理状态 -->
+    <update id="updateByIdDealt">
+        update
+            notice
+        set
+            dealt = 1
+        where
+            user_email_id = #{userId}
+          and
+            uuid = #{uuid}
+    </update>
+
+    <!-- 根据id和uuid修改阅读状态 -->
+    <update id="updateByIdRead">
+        update
+            notice
+        set
+            `read` = 1
+        where
+            user_email_id = #{userId}
+          and
+            uuid = #{uuid}
+    </update>
+
+    <!-- 根据指定id插入id -->
+    <update id="updateByUUIDAddAdminSignId">
+        update
+            notice
+        set
+            create_by = #{id}
+        where
+            uuid = #{uuid1}
+    </update>
+
+</mapper>

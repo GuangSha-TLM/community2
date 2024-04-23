@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gsxy.core.mapper.UserAdminMapper">
+
+    <!--
+          @author Oh… Yeah!!! 2023-10-24
+          根据Id删除UserAdmin
+    -->
+    <delete id="deleteByIdUserAdmin" parameterType="java.lang.Long">
+        delete from
+            user_admin
+        where
+            id = #{id}
+    </delete>
+
+    <!-- 删除实体类中的不全信息 -->
+    <delete id="deleteBYIdToStatus" parameterType="com.gsxy.core.pojo.bo.UserSignInStatusBo">
+        delete from
+            sign_in_user_status
+        where
+            id = #{id}
+    </delete>
+
+    <!-- 插入所有的实体类信息 -->
+    <delete id="deleteByIdSignIn" parameterType="com.gsxy.core.pojo.SignInAdmin">
+        delete
+        from
+            sign_in_admin
+        where
+            id = #{id}
+    </delete>
+
+    <!--
+         @author Oh… Yeah!!! 2023-10-24
+         根据Id查询UserAdmin
+    -->
+    <select id="selectByIdUserAdmin" resultType="com.gsxy.core.pojo.UserAdmin" parameterType="java.lang.Long">
+        select
+            *
+        from
+            user_admin
+        where
+            id = #{id}
+        limit 1
+    </select>
+
+    <!--
+         @author Oh… Yeah!!! 2023-10-24
+         增加新数据
+    -->
+    <insert id="addUserAdmin" parameterType="com.gsxy.core.pojo.UserAdmin">
+        insert into
+            user_admin
+        values
+            (null,#{userId},#{role},#{communityId},#{name},
+             #{createBy},#{createTime},#{updateBy},
+             #{updateTime},#{status},#{delFlag});
+    </insert>
+
+    <!-- 插入发起签到信息到sign_in_admin表中 -->
+    <insert id="insertSignInAdmin" parameterType="com.gsxy.core.pojo.SignInAdmin">
+        insert into
+            sign_in_admin
+            (admin_id,community_id,create_time)
+        values
+            (#{adminId},#{communityId},#{createTime})
+    </insert>
+
+    <!-- 将sign_in_admin中查找出的字段放到sign_in_user_status表中 -->
+    <insert id="insertSignInUserStatus" parameterType="com.gsxy.core.pojo.bo.UserSignInStatusBo">
+        insert into
+            sign_in_user_status
+            (admin_id,community_id,status,create_time)
+        values
+            (#{adminId},#{communityId},#{status},#{createTime})
+    </insert>
+
+    <!-- 插入所有的实体类信息 -->
+    <insert id="insertSignInUserStatusAll" parameterType="com.gsxy.core.pojo.bo.UserSignInStatusBo">
+        insert into
+            sign_in_user_status
+            (admin_id,user_id,community_id,name,college,grade,professional,org,student_id,status,create_time)
+        values
+            (#{adminId},#{userId},#{communityId},#{name},#{college},#{grade},#{professional},#{org},#{studentId},#{status},#{createTime})
+    </insert>
+
+    <!--  插入所有的实体类SignInAdminWebSocket的信息到sign_in_admin_websocket -->
+    <insert id="insertSignInAdminWebSocket">
+        insert into
+            sign_in_admin_websocket
+            (admin_id,community_id,content,release_time)
+        values
+            (#{adminId},#{communityId},#{content},#{releaseTime})
+    </insert>
+
+    <!-- 插入管理员发起的签到功能 -->
+    <insert id="insertPutSignIn" parameterType="com.gsxy.core.pojo.SignInAdminWebSocket">
+        insert into
+            sign_in_admin_websocket
+            (admin_id,community_id,content,release_time,sign_in_time,uuid)
+        values
+            (#{adminId},#{communityId},#{content},#{releaseTime},#{signInTime},#{uuid})
+    </insert>
+
+    <!-- 插入管理员发起的签到功能 -->
+    <insert id="insertPutSignInNew" parameterType="com.gsxy.core.pojo.SignInAdminWebSocket">
+        insert into
+            sign_in_admin_websocket
+            (admin_id,community_id,content,release_time,sign_in_time,uuid)
+        values
+            (#{adminId},#{communityId},#{content},#{releaseTime},#{signInTime},#{uuid})
+    </insert>
+
+    <!--
+         @author Oh… Yeah!!! 2023-10-24
+         更新UserAdmin数据
+   -->
+    <update id="updateByIdUserAdmin" parameterType="com.gsxy.core.pojo.UserAdmin">
+            update user_admin
+            <set>
+                <if test="userId != null ">
+                    user_id = #{userId},
+                </if>
+                <if test="role != null ">
+                    role = #{role},
+                </if>
+                <if test="communityId != null ">
+                    community_id = #{communityId},
+                </if>
+                <if test="name != null and name != ''">
+                    name = #{name},
+                </if>
+                <if test="createBy != null ">
+                    create_by = #{createBy},
+                </if>
+                <if test="createTime != null ">
+                    create_time = #{createTime},
+                </if>
+                <if test="updateBy != null">
+                    update_by = #{updateBy},
+                </if>
+                <if test="updateTime != null">
+                    update_time = #{updateTime},
+                </if>
+                <if test="status != null">
+                    status = #{status},
+                </if>
+                <if test="delFlag != null">
+                    del_flag = #{delFlag}
+                </if>
+            </set>
+            where
+            id = #{id}
+    </update>
+
+
+    <!--
+          @author Oh...Yeah!!! 2023-10-28
+          分页获取用户数据集合
+    -->
+    <select id="userAdminPagingToGetData" resultType="com.gsxy.core.pojo.UserAdmin"
+            parameterType="com.gsxy.core.pojo.bo.UserAdminPagingToGetDataBo">
+        select
+            *
+        from
+            img
+        <where>
+            <if test="name != null and name != ''">
+                  user_admin like concat('%',#{name},'%') and
+            </if>
+        </where>
+            status = #{status} and
+            del_flag = #{delFlag}
+        limit
+            #{start},#{size}
+
+    </select>
+
+    <!-- 根据admin_id查询sign_in_admin表中相应数据 -->
+    <select id="selectToGetByAdminId" resultType="java.lang.Long"
+            parameterType="com.gsxy.core.pojo.SignInAdmin">
+        select
+            id
+        from
+            sign_in_admin
+        where
+            admin_id = #{adminId}
+        limit 1
+    </select>
+
+    <!-- 管理员查看所有签到状态 -->
+    <select id="findAllSignInStatus" resultType="com.gsxy.core.pojo.bo.UserSignInStatusBo">
+        select
+            *
+        from
+            sign_in_user_status_web
+    </select>
+
+    <!-- 查找社团id -->
+    <select id="selectToGetCommunityId" resultType="com.gsxy.core.pojo.SignInAdmin"
+            parameterType="com.gsxy.core.pojo.SignInAdmin">
+        select
+            t1.id,t1.admin_id,t2.community_id,t1.status,t1.create_time
+        from
+            sign_in_admin t1
+        inner join
+            community_user t2
+        on
+            t1.admin_id = t2.create_by
+        limit 1
+    </select>
+
+<!--    &lt;!&ndash; 获取所需的所有字段 &ndash;&gt;-->
+<!--    <select id="selectToGetUserBo" resultType="com.gsxy.core.pojo.bo.UserSignInStatusBo"-->
+<!--            parameterType="com.gsxy.core.pojo.bo.UserSignInStatusBo">-->
+<!--        select-->
+<!--            t1.id,t5.admin_id,t3.user_id,t1.community_id,t2.name,t2.college,t2.grade,t2.professional-->
+<!--             ,t2.org,t2.student_id,t4.status,t1.create_time-->
+<!--        from-->
+<!--            sign_in_user_status t1-->
+<!--        inner join-->
+<!--            user t2-->
+<!--        inner join-->
+<!--            community_user t3-->
+<!--        inner join-->
+<!--            sign_in t4-->
+<!--        inner join-->
+<!--            sign_in_admin t5-->
+<!--        on-->
+<!--            t3.community_id = t1.community_id-->
+<!--        and-->
+<!--            t2.id = t3.user_id-->
+<!--        and-->
+<!--            t4.status = t5.status-->
+<!--        and-->
+<!--            t4.create_time > t5.create_time-->
+<!--        and-->
+<!--            t5.create_time > t4.create_time - INTERVAL 1 HOUR-->
+<!--        limit 1-->
+<!--    </select>-->
+
+    <!-- 查询所有的实体类SignInAdminWebSocket的信息到sign_in_admin_websocket -->
+    <select id="selectToGetWebByAdminId" resultType="com.gsxy.core.pojo.bo.SignInAdminWebSocketBo">
+        select
+            id,admin_id,community_id,content,release_time
+        from
+            sign_in_admin_websocket
+        where
+            admin_id = #{adminId}
+        limit 1
+    </select>
+
+    <!-- 查找当前的id对应用户的姓名 -->
+    <select id="selectToGetName" resultType="java.lang.String" parameterType="java.lang.Long">
+        select
+            t1.name
+        from
+            user t1
+        where
+            t1.id = (select id from user where id = #{userId})
+        limit 1
+    </select>
+
+    <!-- 查找当前的id对应用户的姓名 -->
+    <select id="selectToGetNameNew" resultType="java.lang.String" parameterType="java.lang.Long">
+        select
+            t1.name
+        from
+            user t1
+        inner join
+            notice t2
+        inner join
+            sign_in_user_status_web t3
+        on
+            t1.id = (select id from user where id = #{userId})
+        and
+            t2.dealt = 1
+        and
+            t2.`read` = 1
+        where
+            t3.uuid = t2.uuid
+        order by
+            t2.create_time
+        desc
+        limit 1
+    </select>
+
+    <!-- 封装该社团所有用户id到List集合中 -->
+    <select id="selectToGetUserIdByAdminId" resultType="java.lang.Long" parameterType="java.lang.Long">
+        select
+            user_id
+        from
+            community_user
+        where
+            create_by = #{adminId}
+    </select>
+
+    <!-- 封装所有用户签到状态表中的用户id -->
+    <select id="selectToGetIdByAdminId" resultType="java.lang.Long">
+        select
+            t1.user_id
+        from
+            sign_in_user_status_web t1
+        inner join
+            notice t2
+        on
+            t1.admin_id = #{adminId}
+        and
+            t1.uuid = #{uuid}
+        where
+            t2.dealt = 1
+    </select>
+
+    <!-- 根据userId查找签到内容 -->
+    <select id="selectToGetContent" resultType="java.lang.String">
+        select
+            t1.content
+        from
+            sign_in_admin_websocket t1
+                inner join
+            notice t2
+            on
+                        t2.uuid = t1.uuid
+                    and
+                        t1.admin_id = t2.create_by
+        order by
+            release_time
+                desc
+            limit 1
+    </select>
+
+    <!-- 查找最新发布签到的id -->
+    <select id="selectToGetId" resultType="java.lang.Long">
+        select
+            id
+        from
+            sign_in_admin_websocket
+        order by
+            release_time
+        desc
+        limit 1
+    </select>
+
+    <!-- 返回最新签到信息 -->
+    <select id="selectToGetSignInReal" resultType="com.gsxy.core.pojo.vo.SignInAdminWebVo"
+            parameterType="java.lang.Long">
+        select
+            id,community_id,content,release_time,sign_in_time
+        from
+            sign_in_admin_websocket
+        where
+            admin_id = #{adminId}
+
+    </select>
+
+    <!-- 根据id找该社团中签到的人 -->
+    <select id="selectToIdByAdminId" resultType="java.lang.String" parameterType="java.lang.Long">
+        select
+            DISTINCT t2.name
+        from
+            sign_in_user_status_web t1
+        inner join
+            user t2
+        inner join
+            notice t3
+        on
+            t3.id = #{noticeId}
+        and
+            t3.user_email_id = t2.id
+        where
+            t3.dealt = 1
+        order by
+            t1.create_time
+        desc
+    </select>
+
+    <!-- 查找最新签到发布内容 -->
+    <select id="selectToGetContentNew" resultType="java.lang.String">
+        select
+            t1.content
+        from
+            sign_in_admin_websocket t1
+        inner join
+            notice t2
+        on
+            t2.uuid = t1.uuid
+        and
+            t1.admin_id = t2.create_by
+        order by
+            release_time
+        desc
+        limit 1
+    </select>
+
+</mapper>

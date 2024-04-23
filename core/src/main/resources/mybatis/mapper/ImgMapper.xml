@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gsxy.core.mapper.ImgMapper">
+
+    <!--
+         @author Oh… Yeah!!! 2023-10-23
+         根据Id查询Img
+    -->
+    <select id="selectByIdImg" resultType="com.gsxy.core.pojo.Img">
+        select
+            *
+        from
+            img
+        where
+            id = #{id}
+        limit 1
+    </select>
+
+    <!--
+         @author Oh… Yeah!!! 2023-10-23
+         根据Id删除img
+    -->
+    <delete id="deleteByIdImg" parameterType="java.lang.Long">
+        delete from
+            img
+        where
+            id = #{id}
+    </delete>
+
+
+    <!--
+         @author Oh… Yeah!!! 2023-10-23
+         增加新数据
+    -->
+    <insert id="addImg" parameterType="com.gsxy.core.pojo.Img">
+        insert into
+            img
+        values
+            (null,#{url},#{name},#{createBy},
+             #{createTime},#{updateBy},#{updateTime},
+             #{status},#{delFlag});
+    </insert>
+
+    <!--
+          @author Oh… Yeah!!! 2023-10-23
+          更新Img数据
+    -->
+    <update id="updateByIdImg" parameterType="com.gsxy.core.pojo.Img">
+            update img
+            <set>
+                <if test="url != null and url != '' ">
+                    url = #{url},
+                </if>
+                <if test="name != null and name != '' ">
+                    name = #{name},
+                </if>
+                <if test="createBy != null ">
+                    create_by = #{createBy},
+                </if>
+                <if test="createTime != null ">
+                    create_time = #{createTime},
+                </if>
+                <if test="updateBy != null">
+                    update_by = #{updateBy},
+                </if>
+                <if test="updateTime != null">
+                    update_time = #{updateTime},
+                </if>
+                <if test="status != null">
+                    status = #{status},
+                </if>
+                <if test="delFlag != null">
+                    del_flag = #{delFlag}
+                </if>
+            </set>
+            where
+            id = #{id}
+    </update>
+
+    <!--
+          @author Oh...Yeah!!! 2023-10-28
+          分页获取用户数据集合
+    -->
+    <select id="imgPagingToGetData" resultType="com.gsxy.core.pojo.Img"
+            parameterType="com.gsxy.core.pojo.bo.ImgPagingToGetDataBo">
+        select
+            *
+        from
+            img
+        <where>
+            <if test="name != null and name != ''">
+                name like concat('%',#{name},'%') and
+            </if>
+        </where>
+            status = #{status} and
+            del_flag = #{delFlag}
+        limit
+            #{start},#{size}
+    </select>
+
+
+
+</mapper>

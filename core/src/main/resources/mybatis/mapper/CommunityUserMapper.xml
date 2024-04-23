@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gsxy.core.mapper.CommunityUserMapper">
+    <insert id="communityUseAdd">
+        insert into
+            community_user
+        values
+            (null, #{communityId},
+             #{userId},#{createBy}, #{createTime},
+             #{updateBy}, #{updateTime},
+             #{status}, #{delFlag})
+    </insert>
+
+
+    <delete id="communityUserDeleteById">
+        delete from community_user where user_id = #{userId}
+    </delete>
+
+    <select id="communityUserSelectById" resultType="com.gsxy.core.pojo.CommunityUser">
+        select * from community_user where id = #{id}
+    </select>
+
+    <select id="communityUserAndUser" resultType="com.gsxy.core.pojo.bo.CommunityUserAndUserBo">
+        SELECT
+            t1.name,
+            t1.student_id,
+            t1.college,
+            t1.professional,
+            t1.org,
+            t1.grade,
+            t1.create_time,
+            t1.update_time
+        FROM
+            community_user t2
+                LEFT JOIN user t1 ON t1.id = t2.user_id
+                LEFT JOIN community t3 ON t2.community_id = t3.community_id;
+    </select>
+
+    <update id="communityUserUpdateById">
+        update community_user
+        <set>
+            <if test="communityId != null ">
+                community_id = #{communityId},
+            </if>
+            <if test="userId != null ">
+                user_id = #{userId},
+            </if>
+            <if test="createBy != null ">
+                create_by = #{createBy},
+            </if>
+            <if test="createTime != null ">
+                create_time = #{createTime},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--
+        @author Oh...Yeah!!! 2023-10-30
+        查看该用户是否已经在这个社团
+    -->
+    <select id="communityUserSelectByUserId" resultType="com.gsxy.core.pojo.CommunityUser">
+        select
+            *
+        from
+            community_user
+        where
+            user_id = #{id}
+        and
+            community_id = #{communityId}
+        limit 1
+    </select>
+    <!--
+        @author zhuxinyu 2023-11-03
+            删除社员
+    -->
+    <delete id="communityUserdeleteUser" >
+        delete from community_user where community_id=#{communityId} AND user_id=#{userId}
+    </delete>
+
+</mapper>
