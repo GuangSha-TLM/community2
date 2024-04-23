@@ -1,13 +1,25 @@
 /*
  * @Author: tianleiyu 
  * @Date: 2024-04-22 16:21:40
- * @LastEditTime: 2024-04-22 16:39:05
+ * @LastEditTime: 2024-04-23 14:27:29
  * @LastEditors: tianleiyu
  * @Description: 
- * @FilePath: /organization/src/utils/request.ts
+ * @FilePath: /organization1/src/utils/request.ts
  * 可以输入预定的版权声明、个性签名、空行等
  */
 import axios from 'axios'
+
+//处理 类型“AxiosResponse<any, any>”上不存在属性 的问题
+declare module "axios" {
+    interface AxiosResponse<T = any> {
+      code: string
+      data: T
+      message: string
+      // 这里追加你的参数
+    }
+    export function create(config?: AxiosRequestConfig): AxiosInstance;
+}
+
 const request = axios.create({
     baseURL:'/api',
     timeout:20000,
@@ -22,8 +34,10 @@ request.interceptors.request.use(
 
 request.interceptors.response.use(
     (response)=>{
-        if (response.data.code === 200) {
-            return response.data.data
+        console.log(response);
+        
+        if (response.status === 200) {
+            return response.data
         }else{
 
             return Promise.reject(response.data)

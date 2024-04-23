@@ -1,13 +1,13 @@
 /*
  * @Author: tianleiyu 
  * @Date: 2024-04-22 15:36:51
- * @LastEditTime: 2024-04-22 16:55:09
+ * @LastEditTime: 2024-04-23 13:23:21
  * @LastEditors: tianleiyu
  * @Description: 
- * @FilePath: /organization/src/router/index.ts
+ * @FilePath: /organization1/src/router/index.ts
  * 可以输入预定的版权声明、个性签名、空行等
  */
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHistory, createWebHashHistory,RouteRecordRaw } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 
 const routes: Array<RouteRecordRaw> = [
@@ -46,7 +46,7 @@ const routes: Array<RouteRecordRaw> = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHashHistory(),
   routes
 })
 
