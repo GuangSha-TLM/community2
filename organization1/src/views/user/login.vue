@@ -1,7 +1,7 @@
 <!--
  * @Author: tianleiyu 
  * @Date: 2024-04-22 16:54:57
- * @LastEditTime: 2024-04-23 14:28:19
+ * @LastEditTime: 2024-04-23 15:10:45
  * @LastEditors: tianleiyu
  * @Description: 
  * @FilePath: /organization1/src/views/user/login.vue
@@ -66,20 +66,19 @@ const { cookies } = useCookies();
 import { ElMessage } from 'element-plus'
 import type { FormInstance, FormRules } from 'element-plus'
 //引用类型
-import { IUser } from '@/model/userData';
+import { IUserLogin } from '@/model/userData';
 //引用接口
 import { userLogin } from '@/api/user'
-import { el } from 'element-plus/es/locale';
 
 
-const userLoginBo: IUser = reactive({
+const userLoginBo: IUserLogin = reactive({
   username: '',
   password: ''
 })
 
 const switchbutton = ref(false)
 
-const rules = reactive<FormRules<IUser>>({
+const rules = reactive<FormRules<IUserLogin>>({
   username: [
     { required: true, message: '请输入你的用户名', trigger: 'blur' },
     { min: 3, max: 20, message: '长度在3-20个字符', trigger: 'blur' },

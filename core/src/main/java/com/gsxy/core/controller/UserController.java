@@ -34,7 +34,7 @@ public class UserController {
      * @param user
      * @return
      */
-    @PostMapping("/userReg")
+    @PostMapping("/register")
     @ApiOperation("用户注册")
     public String userReg(@RequestBody User user){
         if(user == null){
