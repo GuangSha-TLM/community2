@@ -188,7 +188,7 @@ public class UserAdminController {
             adminSignInNoticeBo.setNoticeContext("您有新的签到, 签到时长为 " + adminSignInNoticeBo.getDuration() + " 分钟");
             userAdminMapper.insertNotice(adminSignInNoticeBo);
 
-            return JSONArray.toJSONString(new ResponseVo<>("签到已发起",null,"0x200"));
+            return JSONArray.toJSONString(new ResponseVo<>("签到已发起",userId,"0x200"));
         } catch (Exception e){
             e.printStackTrace();
             return JSONArray.toJSONString(new ResponseVo<>("管理员发起签到失败",null,"0x500"));
