@@ -329,6 +329,7 @@
             user
         where
             id=#{userId}
+        limit 1
     </select>
 
     <select id="selectToUserId" resultType="com.gsxy.core.pojo.vo.SelectUserVo">
