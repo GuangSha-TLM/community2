@@ -1,9 +1,6 @@
 package com.gsxy.core.mapper;
 
-import com.gsxy.core.pojo.SignInUser;
-import com.gsxy.core.pojo.SignInUserStatusWeb;
-import com.gsxy.core.pojo.SignInWebSocket;
-import com.gsxy.core.pojo.User;
+import com.gsxy.core.pojo.*;
 import com.gsxy.core.pojo.bo.*;
 import com.gsxy.core.pojo.vo.FindAllVo;
 import com.gsxy.core.pojo.vo.SelectUserVo;
@@ -244,11 +241,11 @@ public interface UserMapper {
     Long queryCommunityId(Long userId);
 
     /**
-     * @author hln 2024-4-26
-     *      获取签到通知信息
      * @return
+     * @author hln 2024-4-26
+     * 获取签到通知信息
      */
-    List<String> NoticeUserSignIn(Long userId);
+    List<SignInAdminNotice> NoticeUserSignIn(Long userId);
 
     /**
      * @author hln 2024-4-26

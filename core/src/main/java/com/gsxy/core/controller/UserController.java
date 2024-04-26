@@ -219,11 +219,13 @@ public class UserController {
             //判断键是否在redis存在
             if (adminSignInKey != null) {
                 String adminContext = adminSignInKey.split("_")[2]; // 从键名中解析管理员发起签到时设置的 context
+                Long communityIdR = Long.valueOf(adminSignInKey.split("-")[1]);
                 User user = userMapper.selectByUserId(userId);
                 String userSignInKey = adminSignInKey;//用于核对管理员签到的key
                 SignInUser signInUser = new SignInUser();
                 signInUser.setSignInTime(new Date());
                 signInUser.setName(user.getName());
+                signInUser.setCommunityId(communityIdR);
 
                 Boolean exists = redisTemplate.hasKey(userSignInKey);
                 if ((exists && exists != null) && adminContext.equals(userSignInRequestBo.getContext())) {

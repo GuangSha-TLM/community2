@@ -411,10 +411,9 @@
         limit 1
     </select>
 
-    <!-- 获取签到通知信息 -->
-    <select id="NoticeUserSignIn" resultType="java.lang.String">
+    <select id="NoticeUserSignIn" resultType="com.gsxy.core.pojo.SignInAdminNotice">
         select
-            notice_context
+            id,notice_context,sign_key,community_id
         from
             sign_in_admin_notice sian
         inner join
@@ -424,6 +423,9 @@
         and
             cu.community_id = sian.community_id
     </select>
+
+    <!-- 获取签到通知信息 -->
+
 
     <!--    &lt;!&ndash; 插入用户签到状态 &ndash;&gt;-->
 <!--    <insert id="userSignIn" parameterType="com.gsxy.core.pojo.bo.UserSignInBo">-->
