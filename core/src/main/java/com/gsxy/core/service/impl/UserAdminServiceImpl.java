@@ -204,7 +204,6 @@ public class UserAdminServiceImpl implements UserAdminService {
             }
         }
 
-
         return new ResponseVo("查询成功", returnList, "0x200");
     }
 
