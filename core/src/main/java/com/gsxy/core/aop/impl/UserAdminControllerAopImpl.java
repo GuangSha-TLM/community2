@@ -149,6 +149,15 @@ public class UserAdminControllerAopImpl implements UserAdminControllerAop {
         systemService.isAdmin(token,2);
     }
 
+    @Override
+    @Before("execution(* com.gsxy.core.controller.UserAdminController.querySignInUser(..))")
+    public void querySignInUser(JoinPoint joinPoint) {
+        Object[] args = joinPoint.getArgs();
+        TokenBo tokenBo = (TokenBo) args[0];
+        String token = tokenBo.getToken();
+        systemService.isAdmin(token,2);
+    }
+
 //    @Override
 //    @Before("execution(* com.gsxy.core.controller.UserAdminController.querySignInUser(..))")
 //    public void querySignInUser(JoinPoint joinPoint) {

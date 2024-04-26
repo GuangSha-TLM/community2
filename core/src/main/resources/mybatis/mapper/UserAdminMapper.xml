@@ -444,7 +444,8 @@
         from
             sign_in_admin_notice
         where
-            id=#{id}
+            sign_user_id=#{id}
+        order by create_time desc
         limit 1
     </select>
 
@@ -464,6 +465,15 @@
             sign_in_user
         where
             redis_key = #{key}
+    </select>
+    <select id="querySignInNoticeList" resultType="com.gsxy.core.pojo.SignInAdminR">
+        select
+            *
+        from
+            sign_in_admin_notice
+        where
+            sign_user_id=#{id}
+        order by create_time desc
     </select>
 
 </mapper>

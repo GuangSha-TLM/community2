@@ -206,19 +206,19 @@ public class UserAdminController {
     }
 
     /**
-     * @param id
+     * @param tokenBo
      * @return
      * @author hln 2024-4-26
      * 实时查看签到信息
      */
     @PostMapping("/querySignInUser")
-    public String querySignInUser(@RequestParam Long id) {
-        return JSONArray.toJSONString(userAdminService.queryAll(id));
+    public String querySignInUser(@RequestBody TokenBo tokenBo) {
+        return JSONArray.toJSONString(userAdminService.queryAll(tokenBo.getToken()));
     }
 
     @PostMapping("/findAll")
-    public String findAll(@RequestParam Long id){
-        return JSONArray.toJSONString(userAdminService.querySignInAdmin(id));
+    public String findAll(@RequestBody TokenBo tokenBo){
+        return JSONArray.toJSONString(userAdminService.querySignInAdmin(tokenBo.getToken()));
     }
 
     /**

@@ -3,7 +3,6 @@ package com.gsxy.core.service.impl;
 import com.gsxy.core.mapper.NoticeMapper;
 import com.gsxy.core.mapper.UserAdminMapper;
 import com.gsxy.core.mapper.UserMapper;
-import com.gsxy.core.pojo.CommunityUser;
 import com.gsxy.core.pojo.SignInAdminR;
 import com.gsxy.core.pojo.User;
 import com.gsxy.core.pojo.UserAdmin;
@@ -171,9 +170,11 @@ public class UserAdminServiceImpl implements UserAdminService {
      * 管理员查看实时签到信息
      */
     @Override
-    public ResponseVo queryAll(Long id) {
+    public ResponseVo queryAll(String id) {
+
+        Long userId = Long.valueOf((String) ThreadLocalUtil.mapThreadLocalOfJWT.get().get("userinfo").get("id"));
         //获取通知对应的id编号
-        SignInAdminR signInAdminR = userAdminMapper.querySignInNotice(id);
+        SignInAdminR signInAdminR = userAdminMapper.querySignInNotice(userId);
 
         //判断通知是否收到
         if (signInAdminR == null) {
@@ -206,8 +207,9 @@ public class UserAdminServiceImpl implements UserAdminService {
     }
 
     @Override
-    public ResponseVo querySignInAdmin(Long id) {
-        SignInAdminR signInAdminR = userAdminMapper.querySignInNotice(id);
+    public ResponseVo querySignInAdmin(String token) {
+        Long userId = Long.valueOf((String) ThreadLocalUtil.mapThreadLocalOfJWT.get().get("userinfo").get("id"));
+        List<SignInAdminR> signInAdminR = userAdminMapper.querySignInNoticeList(userId);
         return new ResponseVo("查询成功", signInAdminR, "0x200");
     }
 

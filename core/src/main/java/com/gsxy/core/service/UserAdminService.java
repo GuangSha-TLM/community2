@@ -66,9 +66,9 @@ public interface UserAdminService {
      */
     ResponseVo adminToGetSignInReal(String token);
 
-    ResponseVo queryAll(Long id);
+    ResponseVo queryAll(String id);
 
-    ResponseVo querySignInAdmin(Long id);
+    ResponseVo querySignInAdmin(String id);
 
 //    /**
 //     * @author hln 2024-4-26
