@@ -211,10 +211,8 @@ public class UserAdminController {
         SignInUser signInUser = new SignInUser();
         signInUser.setCommunityId(userId);
         List<SignInUser> list = userAdminMapper.queryByCommunityId(userId);
-//        LocalDate dateToCompare = LocalDate.of(new Date());
 
         for (SignInUser inUser : list) {
-//            inUser.getSignInTime()
         }
 
 

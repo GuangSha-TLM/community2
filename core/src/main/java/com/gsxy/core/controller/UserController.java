@@ -21,6 +21,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -224,7 +225,7 @@ public class UserController {
                 String adminContext = adminSignInKey.split("_")[2]; // 从键名中解析管理员发起签到时设置的 context
                 Long communityIdR = Long.valueOf(adminSignInKey.split("_")[1]);
                 String date = adminSignInKey.split("_")[3];
-                DateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                DateFormat dateTimeFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
                 Date dateTime = null;
 
                 try {

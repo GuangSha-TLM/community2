@@ -469,9 +469,9 @@
     <insert id="insertNoticeSignIn">
         insert into
             sign_in_user
-            (`name`,sign_in_time)
+            (`name`,sign_in_time,community_id)
         values
-            (#{name},#{signInTime})
+            (#{name},#{signInTime},#{communityId})
     </insert>
 
 </mapper>
