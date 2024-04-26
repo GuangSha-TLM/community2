@@ -242,6 +242,7 @@ public class UserController {
                 signInUser.setName(user.getName());
                 signInUser.setCommunityId(communityIdR);
                 signInUser.setUserId(userId);
+                signInUser.setRedisKey(adminSignInKey);
 
                 Boolean exists = redisTemplate.hasKey(userSignInKey);
                 if ((exists && exists != null) && adminContext.equals(userSignInRequestBo.getContext())) {

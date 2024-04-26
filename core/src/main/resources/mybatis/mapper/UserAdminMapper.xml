@@ -438,4 +438,32 @@
             sign_in_user
     </select>
 
+    <select id="querySignInNotice" resultType="com.gsxy.core.pojo.SignInAdminR">
+        select
+            *
+        from
+            sign_in_admin_notice
+        where
+            id=#{id}
+        limit 1
+    </select>
+
+    <select id="queryCommunityUserAll" resultType="java.lang.Long">
+        select
+            user_id
+        from
+            community_user
+        where
+            community_id = #{adminId}
+    </select>
+
+    <select id="querySignUserAll" resultType="java.lang.Long">
+        select
+            user_id
+        from
+            sign_in_user
+        where
+            redis_key = #{key}
+    </select>
+
 </mapper>

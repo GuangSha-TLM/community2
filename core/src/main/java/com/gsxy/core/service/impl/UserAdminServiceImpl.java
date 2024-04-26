@@ -3,8 +3,8 @@ package com.gsxy.core.service.impl;
 import com.gsxy.core.mapper.NoticeMapper;
 import com.gsxy.core.mapper.UserAdminMapper;
 import com.gsxy.core.mapper.UserMapper;
-import com.gsxy.core.pojo.SignInAdmin;
-import com.gsxy.core.pojo.SignInAdminWebSocket;
+import com.gsxy.core.pojo.CommunityUser;
+import com.gsxy.core.pojo.SignInAdminR;
 import com.gsxy.core.pojo.User;
 import com.gsxy.core.pojo.UserAdmin;
 import com.gsxy.core.pojo.bo.*;
@@ -19,8 +19,8 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 /**
- *  @author Oh...Yeah!!! 2023-10-28
- *  管理员业务接口实现类
+ * @author Oh...Yeah!!! 2023-10-28
+ * 管理员业务接口实现类
  */
 @Service
 public class UserAdminServiceImpl implements UserAdminService {
@@ -34,10 +34,10 @@ public class UserAdminServiceImpl implements UserAdminService {
     private NoticeMapper noticeMapper;
 
     /**
-     * @author Oh… Yeah!!!, 2023-10-24
-     *      根据id查询数据.
      * @param userAdminSelectByIdBo
      * @return ResponseVo.class
+     * @author Oh… Yeah!!!, 2023-10-24
+     * 根据id查询数据.
      */
     @Override
     public ResponseVo userAdminSelectById(UserAdminSelectByIdBo userAdminSelectByIdBo) {
@@ -51,10 +51,10 @@ public class UserAdminServiceImpl implements UserAdminService {
     }
 
     /**
-     * @author Oh… Yeah!!!, 2023-10-24
-     *      通过id删除UserAdmin数据.
      * @param userAdminDeleteByIdBo
      * @return ResponseVo.class
+     * @author Oh… Yeah!!!, 2023-10-24
+     * 通过id删除UserAdmin数据.
      */
     @Override
     public ResponseVo userAdminDeleteById(UserAdminDeleteByIdBo userAdminDeleteByIdBo) {
@@ -64,40 +64,40 @@ public class UserAdminServiceImpl implements UserAdminService {
         if (numbersOfOpetion.longValue() == 0L) {
             return new ResponseVo("删除失败", null, "0x500");
         }
-        return new ResponseVo("删除成功",null, "0x200");
+        return new ResponseVo("删除成功", null, "0x200");
 
     }
 
 
     /**
-     * @author Oh… Yeah!!!, 2023-10-24
-     *      增加新数据.
      * @param userAdminAddByBo
      * @return ResponseVo.class
+     * @author Oh… Yeah!!!, 2023-10-24
+     * 增加新数据.
      */
     @Override
     public ResponseVo userAdminAdd(UserAdminAddByBo userAdminAddByBo) {
 
         Long aLong = userAdminMapper.addUserAdmin(userAdminAddByBo.getUserAdmin());
-        if (aLong.longValue() == 0){
-            return new ResponseVo("增加失败",  null, "0x500");
+        if (aLong.longValue() == 0) {
+            return new ResponseVo("增加失败", null, "0x500");
         }
         return new ResponseVo("增加成功", null, "0x200");
     }
 
 
     /**
-     * @author Oh… Yeah!!!, 2023-10-24
-     *      通过id更新userAdmin数据.
      * @param userAdminUpdateByIdBo
      * @return ResponseVo.class
+     * @author Oh… Yeah!!!, 2023-10-24
+     * 通过id更新userAdmin数据.
      */
     @Override
     public ResponseVo userAdminUpdateById(UserAdminUpdateByIdBo userAdminUpdateByIdBo) {
 
         UserAdmin userAdmin = userAdminUpdateByIdBo.getUserAdmin();
         Long numbersOfOpertion = userAdminMapper.updateByIdUserAdmin(userAdmin);
-        if (numbersOfOpertion.longValue() == 0L){
+        if (numbersOfOpertion.longValue() == 0L) {
             return new ResponseVo("更新失败", null, "0x500");
         }
 
@@ -106,10 +106,10 @@ public class UserAdminServiceImpl implements UserAdminService {
     }
 
     /**
-     * @author Oh...Yeah!!! 2023-10-28
-     *    分页获取数据
      * @param userAdminPagingToGetDataBo
      * @return String.class
+     * @author Oh...Yeah!!! 2023-10-28
+     * 分页获取数据
      */
     @Override
     public Object pagingToGetUserAdminData(UserAdminPagingToGetDataBo userAdminPagingToGetDataBo) {
@@ -119,30 +119,30 @@ public class UserAdminServiceImpl implements UserAdminService {
         userAdminPagingToGetDataVo.setCount(list.size());
         userAdminPagingToGetDataVo.setList(list);
 
-        return new ResponseVo<>(null,userAdminPagingToGetDataVo,"0x200");
+        return new ResponseVo<>(null, userAdminPagingToGetDataVo, "0x200");
 
     }
 
     /**
-     * @author hln 2023-11-01
-     *      管理员查看所有签到状态
      * @return
+     * @author hln 2023-11-01
+     * 管理员查看所有签到状态
      */
     @Override
     public ResponseVo findAllSignInStatus() {
         List<UserSignInStatusBo> list = userAdminMapper.findAllSignInStatus();
 
-        if(list == null){
-            return new ResponseVo("查询失败",null,"0x500");
+        if (list == null) {
+            return new ResponseVo("查询失败", null, "0x500");
         }
 
-        return new ResponseVo("查询成功",list,"0x200");
+        return new ResponseVo("查询成功", list, "0x200");
     }
 
     /**
-     * @author hln 2023-12-03
-     *      管理员查看新发起的签到信息
      * @return
+     * @author hln 2023-12-03
+     * 管理员查看新发起的签到信息
      */
     @Override
     public ResponseVo adminToGetSignInReal(String token) {
@@ -150,17 +150,65 @@ public class UserAdminServiceImpl implements UserAdminService {
         String adminIdOfStr = (String) ThreadLocalUtil.mapThreadLocalOfJWT.get().get("userinfo").get("id");
         Long adminId = Long.valueOf(adminIdOfStr);
 
-        if(adminId == null || adminId == 0L){
-            return new ResponseVo("token解析失败",null,"0x501");
+        if (adminId == null || adminId == 0L) {
+            return new ResponseVo("token解析失败", null, "0x501");
         }
 
-        List<SignInAdminWebVo> list =userAdminMapper.selectToGetSignInReal(adminId);
+        List<SignInAdminWebVo> list = userAdminMapper.selectToGetSignInReal(adminId);
 
         if (list == null) {
-            return new ResponseVo("查询失败",null,"0x500");
+            return new ResponseVo("查询失败", null, "0x500");
         }
 
-        return new ResponseVo("查询成功",list,"0x200");
+        return new ResponseVo("查询成功", list, "0x200");
+    }
+
+    /**
+     * @param
+     * @param id
+     * @return
+     * @author hln 2023-12-02
+     * 管理员查看实时签到信息
+     */
+    @Override
+    public ResponseVo queryAll(Long id) {
+        //获取通知对应的id编号
+        SignInAdminR signInAdminR = userAdminMapper.querySignInNotice(id);
+
+        //判断通知是否收到
+        if (signInAdminR == null) {
+            return new ResponseVo("未接受到签到通知", null, "0x500");
+        }
+
+        Long adminId = signInAdminR.getSignUserId();
+        Set<Long> set = new HashSet<>();
+        List<String> returnList = new ArrayList<>();
+
+        //社团内所有用户id
+        List<Long> listUserAll = userAdminMapper.queryCommunityUserAll(adminId);
+        //该社团内签到了的用户
+        List<Long> listSignUser = userAdminMapper.querySignUserAll(signInAdminR.getKey());
+
+        for (Long i : listSignUser) {
+            set.add(i);
+        }
+
+        for (Long i : listUserAll) {
+            User user = userMapper.selectByUserId(i);
+            if (!set.add(i)) {
+                returnList.add(user.getName() + "已签到");
+            } else {
+                returnList.add(user.getName() + "未签到");
+            }
+        }
+
+        return new ResponseVo("查询成功", returnList, "0x200");
+    }
+
+    @Override
+    public ResponseVo querySignInAdmin(Long id) {
+        SignInAdminR signInAdminR = userAdminMapper.querySignInNotice(id);
+        return new ResponseVo("查询成功", signInAdminR, "0x200");
     }
 
 //    /**

@@ -69,7 +69,7 @@ public interface UserAdminControllerAop {
      */
     void adminSignInNotice(JoinPoint joinPoint);
 
-    void querySignInUser(JoinPoint joinPoint);
+//    void querySignInUser(JoinPoint joinPoint);
 
     void findAll(JoinPoint joinPoint);
 

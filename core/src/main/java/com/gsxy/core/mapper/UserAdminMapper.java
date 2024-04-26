@@ -273,4 +273,11 @@ public interface UserAdminMapper {
 
 
     List<SignInUser> queryAll();
+
+    SignInAdminR querySignInNotice(Long id);
+
+    List<Long> queryCommunityUserAll(Long adminId);
+
+    List<Long> querySignUserAll(String key);
+
 }

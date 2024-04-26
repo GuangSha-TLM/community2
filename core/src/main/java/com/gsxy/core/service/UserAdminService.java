@@ -66,6 +66,10 @@ public interface UserAdminService {
      */
     ResponseVo adminToGetSignInReal(String token);
 
+    ResponseVo queryAll(Long id);
+
+    ResponseVo querySignInAdmin(Long id);
+
 //    /**
 //     * @author hln 2024-4-26
 //     *      管理员发起签到通知相关社团成员

@@ -206,45 +206,19 @@ public class UserAdminController {
     }
 
     /**
-     * @param tokenBo
+     * @param id
      * @return
      * @author hln 2024-4-26
      * 实时查看签到信息
      */
     @PostMapping("/querySignInUser")
-    public String querySignInUser(@RequestBody TokenBo tokenBo) {
-
-        Long userId = Long.valueOf((String) ThreadLocalUtil.mapThreadLocalOfJWT.get().get("userinfo").get("id"));
-        SignInUser signInUser = new SignInUser();
-        signInUser.setCommunityId(userId);
-        List<SignInUser> list = userAdminMapper.queryByCommunityId(userId);
-        ArrayList<String> list3 = new ArrayList<>();
-        List<CommunityUser> list1 =  userAdminMapper.queryUser(userId);
-        HashSet<Long> set = new HashSet<>();
-        ArrayList<String> list2 = new ArrayList<>();
-
-        for (SignInUser signInUser1 : list) {
-            set.add(signInUser1.getUserId());
-        }
-
-        for (CommunityUser inUser : list1) {
-            if(set.add(inUser.getUserId())){
-                User user = userMapper.selectByUserId(inUser.getUserId());
-                if (user != null) {
-                    list2.add(user.getName() + "未签到");
-                }
-            }
-        }
-
-        for (SignInUser inUser : list) {
-            list3.add(inUser.getName() + "已签到");
-        }
-        return JSONArray.toJSONString(new ResponseVo<>("签到人员列表", new SignInListVo(list3,list2), "0x200"));
+    public String querySignInUser(@RequestParam Long id) {
+        return JSONArray.toJSONString(userAdminService.queryAll(id));
     }
 
     @PostMapping("/findAll")
-    public String findAll(@RequestBody TokenBo tokenBo){
-        return JSONArray.toJSONString(new ResponseVo<>("查询成功",userAdminMapper.queryAll(),"0x200"));
+    public String findAll(@RequestParam Long id){
+        return JSONArray.toJSONString(userAdminService.querySignInAdmin(id));
     }
 
     /**

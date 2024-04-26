@@ -10,15 +10,17 @@ public class SignInUser implements Serializable {
     private Date signInTime;//签到时间
     private Long communityId;//社团id
     private Long userId;
+    private String redisKey;
 
     public SignInUser(){}
 
-    public SignInUser(Long id, String name, Date signInTime, Long communityId, Long userId) {
+    public SignInUser(Long id, String name, Date signInTime, Long communityId, Long userId, String redisKey) {
         this.id = id;
         this.name = name;
         this.signInTime = signInTime;
         this.communityId = communityId;
         this.userId = userId;
+        this.redisKey = redisKey;
     }
 
     public Long getId() {
@@ -61,6 +63,14 @@ public class SignInUser implements Serializable {
         this.userId = userId;
     }
 
+    public String getRedisKey() {
+        return redisKey;
+    }
+
+    public void setRedisKey(String redisKey) {
+        this.redisKey = redisKey;
+    }
+
     @Override
     public String toString() {
         return "SignInUser{" +
@@ -69,6 +79,7 @@ public class SignInUser implements Serializable {
                 ", signInTime=" + signInTime +
                 ", communityId=" + communityId +
                 ", userId=" + userId +
+                ", redisKey='" + redisKey + '\'' +
                 '}';
     }
 }

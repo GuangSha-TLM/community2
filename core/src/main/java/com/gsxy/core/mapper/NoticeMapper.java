@@ -176,6 +176,7 @@ public interface NoticeMapper {
      * 根据指定noticeId获取社团中的所有对象
      */
     List<String> selectToUser(String uuid);
+
 }
 
 
