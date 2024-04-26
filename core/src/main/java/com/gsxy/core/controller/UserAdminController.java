@@ -195,20 +195,7 @@ public class UserAdminController {
         }
     }
 
-//    /**
-//     * @author hln 2024-4-26
-//     *      管理员发起签到通知相关社团成员
-//     * @param token
-//     * @return
-//     */
-//    @PostMapping("/adminSignInNotice")
-//    @ApiOperation("管理员发起签到通知相关社团成员")
-//    public String adminSignInNotice(@RequestParam String token){
-//        AdminSignInNoticeBo adminSignInNoticeBo = new AdminSignInNoticeBo();
-//        adminSignInNoticeBo.setSignKey(signKey);
-//        adminSignInNoticeBo.setDuration(duration);
-//        return JSONArray.toJSONString(userAdminService.adminSignInNotice(adminSignInNoticeBo));
-//    }
+//    public String
 
 }
 
