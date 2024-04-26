@@ -411,4 +411,14 @@
         limit 1
     </select>
 
+    <!-- 实时查看签到信息 -->
+    <select id="queryByCommunityId" resultType="com.gsxy.core.pojo.SignInUser">
+        select
+            id,name,sign_in_time,community_id
+        from
+            sign_in_user
+        where
+            community_id=#{userId}
+    </select>
+
 </mapper>

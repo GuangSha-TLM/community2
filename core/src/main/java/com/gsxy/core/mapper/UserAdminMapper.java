@@ -1,9 +1,6 @@
 package com.gsxy.core.mapper;
 
-import com.gsxy.core.pojo.SignInAdmin;
-import com.gsxy.core.pojo.SignInAdminR;
-import com.gsxy.core.pojo.SignInAdminWebSocket;
-import com.gsxy.core.pojo.UserAdmin;
+import com.gsxy.core.pojo.*;
 import com.gsxy.core.pojo.bo.AdminSignInNoticeBo;
 import com.gsxy.core.pojo.bo.SignInAdminWebSocketBo;
 import com.gsxy.core.pojo.bo.UserAdminPagingToGetDataBo;
@@ -257,4 +254,12 @@ public interface UserAdminMapper {
      * @param adminSignInNoticeBo
      */
     void insertNotice(AdminSignInNoticeBo adminSignInNoticeBo);
+
+    /**
+     * @param userId
+     * @return
+     * @author hln 2024-4-26
+     * 实时查看签到信息
+     */
+    List<SignInUser> queryByCommunityId(Long userId);
 }

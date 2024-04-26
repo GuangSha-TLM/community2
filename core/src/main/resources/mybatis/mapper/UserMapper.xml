@@ -413,7 +413,7 @@
 
     <select id="NoticeUserSignIn" resultType="com.gsxy.core.pojo.SignInAdminNotice">
         select
-            sian.id,sian.notice_context,sian.sign_key,sian.community_id
+            sian.id,sian.notice_context,sian.sign_key,sian.community_id,sian.sign_in_time
         from
             sign_in_admin_notice sian
         inner join

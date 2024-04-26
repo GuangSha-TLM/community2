@@ -3,6 +3,7 @@ package com.gsxy.core.controller;
 import com.alibaba.fastjson2.JSONArray;
 import com.gsxy.core.mapper.UserAdminMapper;
 import com.gsxy.core.pojo.SignInAdminR;
+import com.gsxy.core.pojo.SignInUser;
 import com.gsxy.core.pojo.bo.*;
 import com.gsxy.core.pojo.vo.ResponseVo;
 import com.gsxy.core.service.UserAdminService;
@@ -15,17 +16,19 @@ import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
+import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 
 /**
- *  @author Oh...Yeah!!! 2023-10-28
- *  管理员板块接口
+ * @author Oh...Yeah!!! 2023-10-28
+ * 管理员板块接口
  */
 @CrossOrigin
-@Api(value = "管理员版块接口",tags = {"管理员版块接口"})
+@Api(value = "管理员版块接口", tags = {"管理员版块接口"})
 @RestController
 @RequestMapping("/userAdmin")
 public class UserAdminController {
@@ -40,116 +43,115 @@ public class UserAdminController {
     private RedisTemplate redisTemplate;
 
     /**
-     * @author Oh… Yeah!!!, 2023-10-24
-     *      根据id查询数据.
      * @param userAdminSelectByIdBo
      * @return String.class
+     * @author Oh… Yeah!!!, 2023-10-24
+     * 根据id查询数据.
      */
     @PostMapping("/select")
     @ApiOperation("根据id查询UserAdmin数据")
-    public String userAdminSelect(@RequestBody UserAdminSelectByIdBo userAdminSelectByIdBo){
-        Map<String , String> map = ThreadLocalUtil.mapThreadLocal.get();
+    public String userAdminSelect(@RequestBody UserAdminSelectByIdBo userAdminSelectByIdBo) {
+        Map<String, String> map = ThreadLocalUtil.mapThreadLocal.get();
         if (map.get("error") != null) {
-            return JSONArray.toJSONString(new ResponseVo<>(map.get("error"),null,map.get("code")));
+            return JSONArray.toJSONString(new ResponseVo<>(map.get("error"), null, map.get("code")));
         }
-
 
 
         return JSONArray.toJSONString(userAdminService.userAdminSelectById(userAdminSelectByIdBo));
     }
 
     /**
-     * @author Oh… Yeah!!!, 2023-10-24
-     *      通过id删除UserAdmin数据.
      * @param userAdminDeleteByIdBo
      * @return String.class
+     * @author Oh… Yeah!!!, 2023-10-24
+     * 通过id删除UserAdmin数据.
      */
     @PostMapping("/delete")
     @ApiOperation("通过id删除UserAdmin数据")
-    public String userAdminDeleteById(@RequestBody UserAdminDeleteByIdBo userAdminDeleteByIdBo){
-        Map<String , String> map = ThreadLocalUtil.mapThreadLocal.get();
+    public String userAdminDeleteById(@RequestBody UserAdminDeleteByIdBo userAdminDeleteByIdBo) {
+        Map<String, String> map = ThreadLocalUtil.mapThreadLocal.get();
         if (map.get("error") != null) {
-            return JSONArray.toJSONString(new ResponseVo<>(map.get("error"),null,map.get("code")));
+            return JSONArray.toJSONString(new ResponseVo<>(map.get("error"), null, map.get("code")));
         }
 
         return JSONArray.toJSONString(userAdminService.userAdminDeleteById(userAdminDeleteByIdBo));
     }
 
     /**
-     * @author Oh… Yeah!!!, 2023-10-24
-     *      增加新数据.
      * @param userAdminAddByBo
      * @return String.class
+     * @author Oh… Yeah!!!, 2023-10-24
+     * 增加新数据.
      */
     @PostMapping("/add")
     @ApiOperation("增加UserAdmin数据")
-    public String userAdminAdd(@RequestBody UserAdminAddByBo userAdminAddByBo){
-        Map<String , String> map = ThreadLocalUtil.mapThreadLocal.get();
+    public String userAdminAdd(@RequestBody UserAdminAddByBo userAdminAddByBo) {
+        Map<String, String> map = ThreadLocalUtil.mapThreadLocal.get();
         if (map.get("error") != null) {
-            return JSONArray.toJSONString(new ResponseVo<>(map.get("error"),null,map.get("code")));
+            return JSONArray.toJSONString(new ResponseVo<>(map.get("error"), null, map.get("code")));
         }
         return JSONArray.toJSONString(userAdminService.userAdminAdd(userAdminAddByBo));
     }
 
     /**
-     * @author Oh… Yeah!!!, 2023-10-24
-     *      通过id更新userAdmin数据.
      * @param userAdminUpdateByIdBo
      * @return String.class
+     * @author Oh… Yeah!!!, 2023-10-24
+     * 通过id更新userAdmin数据.
      */
     @ApiOperation("通过id修改UserAdmin数据")
     @PostMapping("/update")
-    public String userAdminUpdateById(@RequestBody UserAdminUpdateByIdBo userAdminUpdateByIdBo){
-        Map<String , String> map = ThreadLocalUtil.mapThreadLocal.get();
+    public String userAdminUpdateById(@RequestBody UserAdminUpdateByIdBo userAdminUpdateByIdBo) {
+        Map<String, String> map = ThreadLocalUtil.mapThreadLocal.get();
         if (map.get("error") != null) {
-            return JSONArray.toJSONString(new ResponseVo<>(map.get("error"),null,map.get("code")));
+            return JSONArray.toJSONString(new ResponseVo<>(map.get("error"), null, map.get("code")));
         }
         return JSONArray.toJSONString(userAdminService.userAdminUpdateById(userAdminUpdateByIdBo));
     }
 
 
     /**
-     * @author Oh...Yeah!!! 2023-10-28
-     *    分页获取数据
      * @param userAdminPagingToGetDataBo
      * @return String.class
+     * @author Oh...Yeah!!! 2023-10-28
+     * 分页获取数据
      */
     @ApiOperation("分页获取数据")
     @PostMapping("/pagingToGetData")
-    public String userAdminPagingToGetData(@RequestBody UserAdminPagingToGetDataBo userAdminPagingToGetDataBo){
-        Map<String , String> map = ThreadLocalUtil.mapThreadLocal.get();
+    public String userAdminPagingToGetData(@RequestBody UserAdminPagingToGetDataBo userAdminPagingToGetDataBo) {
+        Map<String, String> map = ThreadLocalUtil.mapThreadLocal.get();
         if (map.get("error") != null) {
-            return JSONArray.toJSONString(new ResponseVo<>(map.get("error"),null,map.get("code")));
+            return JSONArray.toJSONString(new ResponseVo<>(map.get("error"), null, map.get("code")));
         }
         return JSONArray.toJSONString(userAdminService.pagingToGetUserAdminData(userAdminPagingToGetDataBo));
     }
 
     /**
-     * @author hln 2023-12-03
-     *      管理员查看新发起的签到信息
      * @param token
      * @return
+     * @author hln 2023-12-03
+     * 管理员查看新发起的签到信息
      */
     @PostMapping("/adminToGetSignInReal")
     @ApiOperation("管理员查看新发起的签到信息")
-    public String adminToGetSignInReal(@RequestParam String token){
-        Map<String,String> map = ThreadLocalUtil.mapThreadLocal.get();
-        if(map.get("error") != null){
-            return JSONArray.toJSONString(new ResponseVo<>(map.get("error"),null,map.get("code")));
+    public String adminToGetSignInReal(@RequestParam String token) {
+        Map<String, String> map = ThreadLocalUtil.mapThreadLocal.get();
+        if (map.get("error") != null) {
+            return JSONArray.toJSONString(new ResponseVo<>(map.get("error"), null, map.get("code")));
         }
 
         return JSONArray.toJSONString(userAdminService.adminToGetSignInReal(token));
     }
 
     /**
-     * @author hln 2024-4-24
-     *      管理员发起签到
      * @param adminSignInRequestBo
      * @return
+     * @author hln 2024-4-24
+     * 管理员发起签到
      */
     @PostMapping("/adminSignInRedis")
     @ApiOperation("管理员发起签到")
-    public String adminSignInRedis(@RequestBody AdminSignInRequestBo adminSignInRequestBo){
+    public String adminSignInRedis(@RequestBody AdminSignInRequestBo adminSignInRequestBo) {
 
         //管理员的id <=> community_id
         Long userId = Long.valueOf((String) ThreadLocalUtil.mapThreadLocalOfJWT.get().get("userinfo").get("id"));
@@ -157,20 +159,21 @@ public class UserAdminController {
         try {
             //获取当前时间戳
             long currentTime = System.currentTimeMillis();
+            Date date = new Date();
 
             //设置管理员发起签到的键名
-            String adminSignInKey = "admin:signIn" + "_" + userId  + "_" + adminSignInRequestBo.getContext();
+            String adminSignInKey = "admin:signIn" + "_" + userId + "_" + adminSignInRequestBo.getContext() + "_" + date;
 
             //设置标识
             String fixedKey = "fixed_key" + userId;
-            redisTemplate.opsForValue().set(fixedKey,adminSignInKey);
+            redisTemplate.opsForValue().set(fixedKey, adminSignInKey);
 
             //将当前信息打入redis
-            ZSetOperations<String,String> zSetOperations = redisTemplate.opsForZSet();
-            zSetOperations.add(adminSignInKey,Long.toString(currentTime),currentTime);
+            ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
+            zSetOperations.add(adminSignInKey, Long.toString(currentTime), currentTime);
 
             //设置签到缓存
-            redisTemplate.expire(adminSignInKey,adminSignInRequestBo.getDuration(), TimeUnit.MINUTES);
+            redisTemplate.expire(adminSignInKey, adminSignInRequestBo.getDuration(), TimeUnit.MINUTES);
             System.out.println(adminSignInKey);
 
             //将签到信息存入mysql
@@ -179,7 +182,7 @@ public class UserAdminController {
             signInAdminR.setDuration(adminSignInRequestBo.getDuration());
             signInAdminR.setKey(adminSignInKey);
             signInAdminR.setSignUserId(userId);
-            signInAdminR.setSignInTime(new Date());
+            signInAdminR.setSignInTime(date);
             userAdminMapper.insertSignInAdminR(signInAdminR);
             AdminSignInNoticeBo adminSignInNoticeBo = new AdminSignInNoticeBo();
             adminSignInNoticeBo.setSignKey(adminSignInKey);
@@ -188,14 +191,33 @@ public class UserAdminController {
             adminSignInNoticeBo.setNoticeContext("您有新的签到, 签到时长为 " + adminSignInNoticeBo.getDuration() + " 分钟");
             userAdminMapper.insertNotice(adminSignInNoticeBo);
 
-            return JSONArray.toJSONString(new ResponseVo<>("签到已发起",userId,"0x200"));
-        } catch (Exception e){
+            return JSONArray.toJSONString(new ResponseVo<>("签到已发起", userId, "0x200"));
+        } catch (Exception e) {
             e.printStackTrace();
-            return JSONArray.toJSONString(new ResponseVo<>("管理员发起签到失败",null,"0x500"));
+            return JSONArray.toJSONString(new ResponseVo<>("管理员发起签到失败", null, "0x500"));
         }
     }
 
-//    public String
+    /**
+     * @param tokenBo
+     * @return
+     * @author hln 2024-4-26
+     * 实时查看签到信息
+     */
+    public void querySignInUser(@RequestBody TokenBo tokenBo) {
+
+        Long userId = Long.valueOf((String) ThreadLocalUtil.mapThreadLocalOfJWT.get().get("userinfo").get("id"));
+        SignInUser signInUser = new SignInUser();
+        signInUser.setCommunityId(userId);
+        List<SignInUser> list = userAdminMapper.queryByCommunityId(userId);
+//        LocalDate dateToCompare = LocalDate.of(new Date());
+
+        for (SignInUser inUser : list) {
+//            inUser.getSignInTime()
+        }
+
+
+    }
 
 }
 
