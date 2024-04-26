@@ -16,6 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -221,11 +224,20 @@ public class UserController {
                 String adminContext = adminSignInKey.split("_")[2]; // 从键名中解析管理员发起签到时设置的 context
                 Long communityIdR = Long.valueOf(adminSignInKey.split("_")[1]);
                 String date = adminSignInKey.split("_")[3];
+                DateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date dateTime = null;
+
+                try {
+                    dateTime = dateTimeFormat.parse(date); // 将字符串转换为日期对象
+                    System.out.println("日期时间对象：" + dateTime);
+                } catch (ParseException e) {
+                    System.out.println("日期时间格式不正确：" + e.getMessage());
+                }
 
                 User user = userMapper.selectByUserId(userId);
                 String userSignInKey = adminSignInKey;//用于核对管理员签到的key
                 SignInUser signInUser = new SignInUser();
-                signInUser.setSignInTime(new Date());
+                signInUser.setSignInTime(dateTime);
                 signInUser.setName(user.getName());
                 signInUser.setCommunityId(communityIdR);
 
