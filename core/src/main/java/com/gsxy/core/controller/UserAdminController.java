@@ -228,7 +228,7 @@ public class UserAdminController {
         }
 
         for (CommunityUser inUser : list1) {
-            if(set.add(inUser.getUserId()) && inUser != null){
+            if(set.add(inUser.getUserId())){
                 User user = userMapper.selectByUserId(inUser.getUserId());
                 list2.add(user.getName() + "未签到");
             }
