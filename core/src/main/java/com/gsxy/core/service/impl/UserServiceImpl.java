@@ -475,8 +475,6 @@ public class UserServiceImpl implements UserService {
         Long userId = Long.valueOf((String) ThreadLocalUtil.mapThreadLocalOfJWT.get().get("userinfo").get("id"));
         List<SignInAdminNotice> list = userMapper.NoticeUserSignIn(userId);
 
-        System.out.println(list);
-
         return new ResponseVo("查询成功",list,"0x200");
     }
 

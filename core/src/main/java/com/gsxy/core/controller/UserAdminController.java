@@ -212,9 +212,10 @@ public class UserAdminController {
         signInUser.setCommunityId(userId);
         List<SignInUser> list = userAdminMapper.queryByCommunityId(userId);
 
+
+
         for (SignInUser inUser : list) {
         }
-
 
     }
 
