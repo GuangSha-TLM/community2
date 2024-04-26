@@ -189,6 +189,7 @@ public class UserAdminController {
             adminSignInNoticeBo.setDuration(adminSignInRequestBo.getDuration());
             adminSignInNoticeBo.setCommunityId(userId);
             adminSignInNoticeBo.setNoticeContext("您有新的签到, 签到时长为 " + adminSignInNoticeBo.getDuration() + " 分钟");
+            adminSignInNoticeBo.setSignInTime(date);
             userAdminMapper.insertNotice(adminSignInNoticeBo);
 
             return JSONArray.toJSONString(new ResponseVo<>("签到已发起", userId, "0x200"));
