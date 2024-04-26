@@ -30,9 +30,9 @@ public class TestWebSocketController {
     @OnOpen
     public void onOpen(Session session, @PathParam("id") Long id) throws IOException {
 //        sessions.add(session);
-        String s = this.serviceFunction(id, session);
-//        broadcastMessage(s);
-        session.getBasicRemote().sendText(s);
+//        String s = this.serviceFunction(id, session);
+////        broadcastMessage(s);
+//        session.getBasicRemote().sendText(s);
     }
 
     // 其他方法...
@@ -41,9 +41,9 @@ public class TestWebSocketController {
 
 //        System.out.println(id);
         //实现用户签到信息的实时查看
-        String s = this.serviceFunction(id, session);
-//        broadcastMessage(s);
-        session.getBasicRemote().sendText(s);
+//        String s = this.serviceFunction(id, session);
+////        broadcastMessage(s);
+//        session.getBasicRemote().sendText(s);
 
     }
 
@@ -58,12 +58,12 @@ public class TestWebSocketController {
     }
 
 
-    public String serviceFunction(Long id, Session session) throws IOException {
-        //转换格式
-        String str = userAdminController.adminCheckInStatusInRealTimeLast(id);
-
-        return str;
-    }
+//    public String serviceFunction(Long id, Session session) throws IOException {
+//        //转换格式
+//        String str = userAdminController.adminCheckInStatusInRealTimeLast(id);
+//
+//        return str;
+//    }
 //    private static void broadcastMessage(String message) {
 //        for (Session session : sessions) {
 //            if (session.isOpen()) {

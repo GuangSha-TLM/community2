@@ -10,6 +10,7 @@ import com.gsxy.core.pojo.vo.UserSelectToGetVo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Mapper
@@ -215,4 +216,12 @@ public interface UserMapper {
      * @return
      */
     SelectUserVo selectToUserId(Long id);
+
+    /**
+     * @author hln 2024-4-23
+     * 插入权限
+     * @param id
+     * @param role
+     */
+    void userRegRole(Long id, Integer role);
 }

@@ -8,10 +8,13 @@ import com.gsxy.core.util.ThreadLocalUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -27,6 +30,8 @@ public class UserAdminController {
     @Autowired
     private UserAdminService userAdminService;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     /**
      * @author Oh… Yeah!!!, 2023-10-24
@@ -113,118 +118,6 @@ public class UserAdminController {
         return JSONArray.toJSONString(userAdminService.pagingToGetUserAdminData(userAdminPagingToGetDataBo));
     }
 
-//    /**
-//     * @author hln 2023-10-31
-//     *      管理员发起签到
-//     * @param signInAdminBo
-//     * @return
-//     */
-//    @PostMapping("/userAdminSignIn")
-//    @ApiOperation("管理员发起签到")
-//    public String userAdminSignIn(@RequestBody SignInAdminBo signInAdminBo){
-//        Map<String , String> map = ThreadLocalUtil.mapThreadLocal.get();
-//        if (map.get("error") != null) {
-//            return JSONArray.toJSONString(new ResponseVo<>(map.get("error"),null,map.get("code")));
-//        }
-//
-//        return JSONArray.toJSONString(userAdminService.userAdminSignIn(signInAdminBo));
-//    }
-
-    /**
-     * @param signInAdminWebSocketBo
-     * @param uuid1
-     * @return
-     * @author hln 2023-11-07
-     * 管理员发起签到-WebSocket
-     */
-    @PostMapping("/adminsigninweb")
-    @ApiOperation("管理员发起签到")
-    public String userAdminSignInWebSocket(@RequestBody SignInAdminWebSocketBo signInAdminWebSocketBo, String uuid1){
-        Map<String,String> map = ThreadLocalUtil.mapThreadLocal.get();
-        if(map.get("error") != null){
-            return JSONArray.toJSONString(new ResponseVo<>(map.get("error"),null,map.get("code")));
-        }
-
-        return JSONArray.toJSONString(userAdminService.adminSignInWeb(signInAdminWebSocketBo,uuid1));
-    }
-
-    /**
-     * @param signInAdminWebSocketBo
-     * @param uuid1
-     * @return
-     * @author hln 2023-11-07
-     * 管理员发起签到-WebSocket
-     */
-    @PostMapping("/adminSignInWebSocketNew")
-    @ApiOperation("管理员发起签到")
-    public String userAdminSignInWebSocketNew(@RequestBody SignInAdminWebSocketBo signInAdminWebSocketBo, String uuid1){
-        Map<String,String> map = ThreadLocalUtil.mapThreadLocal.get();
-        if(map.get("error") != null){
-            return JSONArray.toJSONString(new ResponseVo<>(map.get("error"),null,map.get("code")));
-        }
-
-        return JSONArray.toJSONString(userAdminService.adminSignInWebNew(signInAdminWebSocketBo,uuid1));
-    }
-
-//    /**
-//     * @author hln 2023-11-01
-//     *      管理员查看所有签到状态
-//     * @return
-//     */
-//    @PostMapping("/userAdminFindAllSignInStatus")
-//    @ApiOperation("管理员显示所有签到信息")
-//    public String userAdminFindAllSignInStatus(){
-//
-//        return JSONArray.toJSONString(userAdminService.findAllSignInStatus());
-//    }
-
-    /**
-     * @author hln 2023-11-22
-     *      管理员查看实时签到信息
-     * @param token
-     * @return
-     */
-    @PostMapping("/findAllStatusInRealTime")
-    @ApiOperation("管理员查看实时签到信息")
-    public String adminCheckInStatusInRealTime(@RequestParam String token){
-        Map<String,String> map = ThreadLocalUtil.mapThreadLocal.get();
-        if(map.get("error") != null){
-            return JSONArray.toJSONString(new ResponseVo<>(map.get("error"),null,map.get("code")));
-        }
-
-        return JSONArray.toJSONString(userAdminService.adminCheckInStatusInRealTime(token));
-    }
-
-    /**
-     * @author hln 2023-12-02
-     *      管理员查看实时签到信息
-     * @param token
-     * @return
-     */
-    @PostMapping("/findAllStatusInRealTimeNew")
-    @ApiOperation("管理员查看实时签到信息")
-    public String adminCheckInStatusInRealTimeNew(@RequestParam String token){
-        Map<String,String> map = ThreadLocalUtil.mapThreadLocal.get();
-        if(map.get("error") != null){
-            return JSONArray.toJSONString(new ResponseVo<>(map.get("error"),null,map.get("code")));
-        }
-
-        return JSONArray.toJSONString(userAdminService.adminCheckInStatusInRealTimeNew(token));
-    }
-
-    /**
-     * @author hln 2023-12-02
-     *      管理员查看实时签到信息
-     * @param id
-     * @return
-     */
-    @PostMapping("/findAllStatusInRealTimeLast")
-    @ApiOperation("管理员查看实时签到信息")
-    public String adminCheckInStatusInRealTimeLast(@RequestParam Long id){
-
-        return JSONArray.toJSONString(userAdminService.adminCheckInStatusInRealTimeLast(id));
-    }
-
     /**
      * @author hln 2023-12-03
      *      管理员查看新发起的签到信息
@@ -240,6 +133,41 @@ public class UserAdminController {
         }
 
         return JSONArray.toJSONString(userAdminService.adminToGetSignInReal(token));
+    }
+
+    /**
+     * @author hln 2024-4-24
+     *      管理员发起签到
+     * @param adminSignInRequestBo
+     * @return
+     */
+    @PostMapping("/adminSignInRedis")
+    @ApiOperation("管理员发起签到")
+    public String adminSignInRedis(@RequestBody AdminSignInRequestBo adminSignInRequestBo){
+
+        try {
+            //获取当前时间戳
+            long currentTime = System.currentTimeMillis();
+
+            //设置管理员发起签到的键名
+            String adminSignInKey = "admin:sign_in" + "_" + adminSignInRequestBo.getCommunityId()  + "_" + adminSignInRequestBo.getContext();
+
+            //设置标识
+            String fixedKey = "fixed_key";
+            redisTemplate.opsForValue().set(fixedKey,adminSignInKey);
+
+            //将当前信息打入redis
+            ZSetOperations<String,String> zSetOperations = redisTemplate.opsForZSet();
+            zSetOperations.add(adminSignInKey,Long.toString(currentTime),currentTime);
+
+            //设置签到缓存
+            redisTemplate.expire(adminSignInKey,adminSignInRequestBo.getDuration(), TimeUnit.MINUTES);
+            System.out.println(adminSignInKey);
+            return JSONArray.toJSONString(new ResponseVo<>("签到已发起",null,"0x200"));
+        } catch (Exception e){
+            e.printStackTrace();
+            return JSONArray.toJSONString(new ResponseVo<>("管理员发起签到失败",null,"0x500"));
+        }
     }
 
 }

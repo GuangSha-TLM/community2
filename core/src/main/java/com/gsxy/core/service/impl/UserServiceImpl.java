@@ -86,6 +86,8 @@ public class UserServiceImpl implements UserService {
             role = 0;
         }
 
+        userMapper.userRegRole(user.getId(),0);
+
         UserAndUserAdminBo userAndUserAdminBo = new UserAndUserAdminBo();
         BeanUtils.copyProperties(user,userAndUserAdminBo);
         userAndUserAdminBo.setRole(role);
@@ -205,7 +207,7 @@ public class UserServiceImpl implements UserService {
         pagingToGetUserDataVo.setCount(count);
         pagingToGetUserDataVo.setList(userList);
 
-        return new ResponseVo(null,pagingToGetUserDataVo,"0x200");
+        return new ResponseVo("查询成功",pagingToGetUserDataVo,"0x200");
     }
 
 //    /**

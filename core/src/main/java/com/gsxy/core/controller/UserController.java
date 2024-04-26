@@ -11,9 +11,11 @@ import com.gsxy.core.util.ThreadLocalUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 2023-10-23
@@ -28,13 +30,16 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     /**
      * @author hln 2024-4-22
      *      用户注册
      * @param user
      * @return
      */
-    @PostMapping("/register")
+    @PostMapping("/userReg")
     @ApiOperation("用户注册")
     public String userReg(@RequestBody User user){
         if(user == null){
@@ -148,79 +153,6 @@ public class UserController {
         return JSONArray.toJSONString(userService.userFindAll());
     }
 
-//    /**
-//     * @quthor hln 2023-10-30
-//     *      用户签到
-//     * @param userSignInBo
-//     * @return
-//     */
-//    @PostMapping("/userSignIn")
-//    @ApiOperation("用户签到")
-//    public String userSignIn(@RequestBody UserSignInBo userSignInBo){
-//
-//        Map<String,String> map = ThreadLocalUtil.mapThreadLocal.get();
-//        ThreadLocalUtil.mapThreadLocal.remove();
-//        if(map.get("error") != null){
-//            return JSONArray.toJSONString(new ResponseVo<>(map.get("error"),null,map.get("code")));
-//        }
-//
-//        return JSONArray.toJSONString(userService.userSignIn(userSignInBo));
-//    }
-
-    /**
-     * @quthor hln 2023-10-30
-     *      用户签到-WebSocket
-     * @param signInWebSocketBo
-     * @return
-     */
-    @PostMapping("/usersignweb")
-    @ApiOperation("用户签到")
-    public String userSignInWebSocket(@RequestBody SignInWebSocketBo signInWebSocketBo){
-        Map<String,String> map = ThreadLocalUtil.mapThreadLocal.get();
-        ThreadLocalUtil.mapThreadLocal.remove();
-        if(map.get("error") != null){
-            return JSONArray.toJSONString(new ResponseVo<>(map.get("error"),null,map.get("code")));
-        }
-
-        return JSONArray.toJSONString(userService.userSignInWebSocket(signInWebSocketBo));
-    }
-
-    /**
-     * @quthor hln 2023-10-30
-     *      用户签到-WebSocket
-     * @param signInWebSocketBo
-     * @return
-     */
-    @PostMapping("/userSignInWebSocketNew")
-    @ApiOperation("用户签到")
-    public String userSignInWebSocketNew(@RequestBody SignInWebSocketBo signInWebSocketBo){
-        Map<String,String> map = ThreadLocalUtil.mapThreadLocal.get();
-        ThreadLocalUtil.mapThreadLocal.remove();
-        if(map.get("error") != null){
-            return JSONArray.toJSONString(new ResponseVo<>(map.get("error"),null,map.get("code")));
-        }
-
-        return JSONArray.toJSONString(userService.userSignInWebSocketNew(signInWebSocketBo));
-    }
-
-//    /**
-//     * @quthor hln 2023-12-03
-//     *      用户签到-WebSocket
-//     * @param signInWebSocketBo
-//     * @return
-//     */
-//    @PostMapping("/userSignInWebSocketLast")
-//    @ApiOperation("用户签到")
-//    public String userSignInWebSocketLast(@RequestBody SignInWebSocketBo signInWebSocketBo){
-//        Map<String,String> map = ThreadLocalUtil.mapThreadLocal.get();
-//        ThreadLocalUtil.mapThreadLocal.remove();
-//        if(map.get("error") != null){
-//            return JSONArray.toJSONString(new ResponseVo<>(map.get("error"),null,map.get("code")));
-//        }
-//
-//        return JSONArray.toJSONString(userService.userSignInWebSocketNew(signInWebSocketBo));
-//    }
-
     /**
      * @author hln 2023-11-03
      *      根据前端指定字段返回User信息
@@ -256,6 +188,43 @@ public class UserController {
         }
 
         return JSONArray.toJSONString(userService.findAll(findAllBo));
+    }
+
+    /**
+     * @author hln 2024-4-26
+     *      用户签到
+     * @param userSignInRequestBo
+     * @return
+     */
+    @PostMapping("/userSignIn")
+    @ApiOperation("用户签到")
+    public String userSignIn(@RequestBody UserSignInRequestBo userSignInRequestBo){
+        try {
+            //获取固定键名，用于查询管理员发起签到而设置的标识
+            String fixedKey = "fixed_key";
+            String adminSignInKey = (String) redisTemplate.opsForValue().get(fixedKey);
+
+            //dasads
+            //判断键是否在redis存在
+            if (adminSignInKey != null) {
+                String adminContext = adminSignInKey.split("_")[2]; // 从键名中解析管理员发起签到时设置的 context
+                String adminCommunityId = adminSignInKey.split("_")[1]; // 从键名中解析管理员发起签到时设置的 community_id
+                String userSignInKey = adminSignInKey;
+
+                Boolean exists = redisTemplate.hasKey(userSignInKey);
+                if (exists && exists != null) {
+                    return JSONArray.toJSONString(new ResponseVo<>("签到失败：您已经签过到了",null,"0x404"));
+                } else {
+                    redisTemplate.opsForValue().set(userSignInKey,"signed",1, TimeUnit.DAYS);
+                    return JSONArray.toJSONString(new ResponseVo<>("签到成功",null,"0x200"));
+                }
+            } else {
+                return JSONArray.toJSONString(new ResponseVo<>("签到失败：当前没有签到活动",null,"0x404"));
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            return JSONArray.toJSONString(new ResponseVo<>("获取签到信息失败",null,"0x500"));
+        }
     }
 
 }

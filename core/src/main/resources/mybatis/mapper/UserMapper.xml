@@ -8,9 +8,9 @@
     <insert id="userReg" parameterType="com.gsxy.core.pojo.User">
         insert into
             user
-            (username,password,name,college,student_id,org,grade,professional,create_by,create_time,update_by,update_time,status,del_flag)
+            (username,password,name,college,student_id,org,grade,professional,create_by,create_time)
         values
-            (#{username},#{password},#{name},#{college},#{studentId},#{org},#{grade},#{professional},#{createBy},#{createTime},#{updateBy},#{updateTime},#{status},#{delFlag})
+            (#{username},#{password},#{name},#{college},#{studentId},#{org},#{grade},#{professional},#{createBy},#{createTime})
     </insert>
 
     <!-- 通过id修改用户 -->
@@ -57,11 +57,13 @@
 
     <!-- 根据id删除用户 -->
     <delete id="deleteByUserId" parameterType="java.lang.Long">
-        delete
-        from
+        update
             user
+        set
+            del_flag = 1
         where
             id=#{id}
+        limit 1
     </delete>
 
     <!-- 用户登录 -->
@@ -418,6 +420,15 @@
         values
             (#{userId},#{adminId},#{communityId},#{name},#{college},#{grade}
             ,#{professional},#{org},#{studentId},1,#{releaseTime},#{createTime},#{signInTime},#{uuid})
+    </insert>
+
+    <!-- 插入权限 -->
+    <insert id="userRegRole">
+        insert into
+            user_admin
+            (user_id,role)
+        values
+            (#{id},#{role})
     </insert>
 
 </mapper>

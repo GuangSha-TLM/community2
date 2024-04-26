@@ -116,6 +116,7 @@ public class NoticeServiceImpl implements NoticeService {
     @Override
     public ResponseVo noticeAdd(NoticeAddByBo noticeAddByBo) {
 
+        noticeAddByBo.getNotice().setCreateTime(new Date());
         Long aLong = noticeMapper.addNotice(noticeAddByBo.getNotice());
 
         if (aLong.longValue() == 0){
@@ -134,7 +135,12 @@ public class NoticeServiceImpl implements NoticeService {
     @Override
     public ResponseVo userAdminUpdateById(NoticeUpdateByIdBo noticeUpdateByIdBo) {
 
+        String userIdOfStr = (String) ThreadLocalUtil.mapThreadLocalOfJWT.get().get("userinfo").get("id");
+        Long userId = Long.valueOf(userIdOfStr);
+
         Notice notice = noticeUpdateByIdBo.getNotice();
+        notice.setUpdateBy(userId);
+        notice.setUpdateTime(new Date());
         Long numbersOfOpertion = noticeMapper.updateByIdNotice(notice);
 
         if (numbersOfOpertion.longValue() == 0L){

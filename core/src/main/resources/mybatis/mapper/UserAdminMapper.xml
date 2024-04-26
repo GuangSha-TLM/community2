@@ -170,12 +170,11 @@
             <if test="name != null and name != ''">
                   user_admin like concat('%',#{name},'%') and
             </if>
-        </where>
             status = #{status} and
             del_flag = #{delFlag}
+        </where>
         limit
             #{start},#{size}
-
     </select>
 
     <!-- 根据admin_id查询sign_in_admin表中相应数据 -->

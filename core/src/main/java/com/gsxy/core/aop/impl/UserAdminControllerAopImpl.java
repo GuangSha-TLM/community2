@@ -107,83 +107,6 @@ public class UserAdminControllerAopImpl implements UserAdminControllerAop {
 
     }
 
-//    /**
-//     * @author hln 2023-10-31
-//     *      管理员发起签到鉴权
-//     * @param joinPoint
-//     * @return
-//     */
-//    @Override
-//    @Before("execution(* com.gsxy.core.controller.UserAdminController.userAdminSignIn(..))")
-//    public String userAdminSignIn(JoinPoint joinPoint) {
-//        Object[] args = joinPoint.getArgs();
-//        SignInAdminBo arg = (SignInAdminBo) args[0];
-//        String token = arg.getToken();
-//        systemService.isAdmin(token,2);
-//
-//        return null;
-//    }
-//
-//    /**
-//     * @author hln 2023-11-07
-//     *      管理员发起签到
-//     * @param joinPoint
-//     * @return
-//     */
-//    @Override
-//    @Before("execution(* com.gsxy.core.controller.UserAdminController.userAdminSignInWebSocket(..))")
-//    public String userAdminSignInWebSocket(JoinPoint joinPoint) {
-//        Object[] args = joinPoint.getArgs();
-//        SignInAdminWebSocketBo arg = (SignInAdminWebSocketBo) args[0];
-//        String token = arg.getToken();
-//        systemService.isAdmin(token,2);
-//
-//        return null;
-//    }
-
-    /**
-     * @author hln 2023-11-22
-     *      管理员查看实时签到信息
-     * @param joinPoint
-     */
-    @Override
-    @Before("execution(* com.gsxy.core.controller.UserAdminController.adminCheckInStatusInRealTime(..))")
-    public void adminCheckInStatusInRealTime(JoinPoint joinPoint) {
-        Object[] args = joinPoint.getArgs();
-        String token = (String) args[0];
-        systemService.isAdmin(token,2);
-    }
-
-    /**
-     * @author hln 2023-11-07
-     *      管理员发起签到
-     * @param joinPoint
-     * @return
-     */
-    @Override
-    @Before("execution(* com.gsxy.core.controller.UserAdminController.userAdminSignInWebSocketNew(..))")
-    public String userAdminSignInWebSocketNew(JoinPoint joinPoint) {
-        Object[] args = joinPoint.getArgs();
-        SignInAdminWebSocketBo arg = (SignInAdminWebSocketBo) args[0];
-        String token = arg.getToken();
-        systemService.isAdmin(token,2);
-
-        return null;
-    }
-
-    /**
-     * @author hln 2023-11-22
-     *      管理员查看实时签到信息
-     * @param joinPoint
-     */
-    @Override
-    @Before("execution(* com.gsxy.core.controller.UserAdminController.adminCheckInStatusInRealTimeNew(..))")
-    public void adminCheckInStatusInRealTimeNew(JoinPoint joinPoint) {
-        Object[] args = joinPoint.getArgs();
-        String token = (String) args[0];
-        systemService.isAdmin(token,2);
-    }
-
     /**
      * @author hln 2023-12-03
      *      管理员查看新发起的签到信息
@@ -192,6 +115,19 @@ public class UserAdminControllerAopImpl implements UserAdminControllerAop {
     @Override
     @Before("execution(* com.gsxy.core.controller.UserAdminController.adminToGetSignInReal(..))")
     public void adminToGetSignInReal(JoinPoint joinPoint) {
+        Object[] args = joinPoint.getArgs();
+        String token = (String) args[0];
+        systemService.isAdmin(token,2);
+    }
+
+    /**
+     * @author hln 2024-4-26
+     *      管理员发起签到鉴权
+     * @param joinPoint
+     */
+    @Override
+    @Before("execution(* com.gsxy.core.controller.UserAdminController.adminSignInRedis(..))")
+    public void adminSignInRedis(JoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();
         String token = (String) args[0];
         systemService.isAdmin(token,2);

@@ -13,9 +13,9 @@ public class Org implements Serializable {
     private String professional;//专业
     private String grade;//年级
     private Integer name; //班级
-    private String createBy; //创建人
+    private Long createBy; //创建人
     private Date createTime; //创建时间
-    private String updateBy; //修改人
+    private Long updateBy; //修改人
     private Date updateTime; //修改时间
     private Integer status;  //状态
     private Integer delFlag;//逻辑删除
@@ -23,7 +23,7 @@ public class Org implements Serializable {
 
     }
 
-    public Org(Long id, Integer college, String professional, String grade, Integer name, String createBy, Date createTime, String updateBy, Date updateTime, Integer status, Integer delFlag) {
+    public Org(Long id, Integer college, String professional, String grade, Integer name, Long createBy, Date createTime, Long updateBy, Date updateTime, Integer status, Integer delFlag) {
         this.id = id;
         this.college = college;
         this.professional = professional;
@@ -77,11 +77,11 @@ public class Org implements Serializable {
         this.name = name;
     }
 
-    public String getCreateBy() {
+    public Long getCreateBy() {
         return createBy;
     }
 
-    public void setCreateBy(String createBy) {
+    public void setCreateBy(Long createBy) {
         this.createBy = createBy;
     }
 
@@ -93,11 +93,11 @@ public class Org implements Serializable {
         this.createTime = createTime;
     }
 
-    public String getUpdateBy() {
+    public Long getUpdateBy() {
         return updateBy;
     }
 
-    public void setUpdateBy(String updateBy) {
+    public void setUpdateBy(Long updateBy) {
         this.updateBy = updateBy;
     }
 
@@ -133,19 +133,13 @@ public class Org implements Serializable {
                 ", professional='" + professional + '\'' +
                 ", grade='" + grade + '\'' +
                 ", name=" + name +
-                ", createBy='" + createBy + '\'' +
+                ", createBy=" + createBy +
                 ", createTime=" + createTime +
-                ", updateBy='" + updateBy + '\'' +
+                ", updateBy=" + updateBy +
                 ", updateTime=" + updateTime +
                 ", status=" + status +
                 ", delFlag=" + delFlag +
                 '}';
-    }
-
-    public void setCreateBy(Long userId) {
-    }
-
-    public void setUpdateBy(Long userId) {
     }
 }
 

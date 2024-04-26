@@ -53,61 +53,11 @@ public interface UserAdminService {
     public Object pagingToGetUserAdminData(UserAdminPagingToGetDataBo userAdminPagingToGetDataBo);
 
     /**
-     * @author hln 2023-10-31
-     *      管理员发起签到
-     * @param signInAdminBo
-     * @return
-     */
-    ResponseVo userAdminSignIn(SignInAdminBo signInAdminBo);
-
-    /**
      * @author hln 2023-11-01
      *      管理员查看所有签到状态
      * @return
      */
     ResponseVo findAllSignInStatus();
-
-    /**
-     * @param signInAdminWebSocketBo
-     * @param uuid1
-     * @return
-     * @author hln 2023-11-07
-     * 管理员发起签到-WebSocket
-     */
-    ResponseVo adminSignInWeb(SignInAdminWebSocketBo signInAdminWebSocketBo, String uuid1);
-
-    /**
-     * @param signInAdminWebSocketBo
-     * @param uuid1
-     * @return
-     * @author hln 2023-12-02
-     * 管理员发起签到-WebSocket
-     */
-    ResponseVo adminSignInWebNew(SignInAdminWebSocketBo signInAdminWebSocketBo, String uuid1);
-
-    /**
-     * @author hln 2023-11-22
-     *      管理员查看实时签到信息
-     * @param token
-     * @return
-     */
-    ResponseVo adminCheckInStatusInRealTime(String token);
-
-    /**
-     * @author hln 2023-11-22
-     *      管理员查看实时签到信息
-     * @param token
-     * @return
-     */
-    ResponseVo adminCheckInStatusInRealTimeNew(String token);
-
-    /**
-     * @author hln 2023-12-03
-     *      管理员查看实时签到信息
-     * @param id
-     * @return
-     */
-    ResponseVo adminCheckInStatusInRealTimeLast(Long id);
 
     /**
      * @author hln 2023-12-03

@@ -91,11 +91,11 @@
             img
         <where>
             <if test="name != null and name != ''">
-                name like concat('%',#{name},'%') and
+                and name like concat('%',#{name},'%') and
             </if>
-        </where>
             status = #{status} and
             del_flag = #{delFlag}
+        </where>
         limit
             #{start},#{size}
     </select>

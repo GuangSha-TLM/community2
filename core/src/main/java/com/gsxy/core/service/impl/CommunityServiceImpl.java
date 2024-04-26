@@ -229,8 +229,6 @@ public class CommunityServiceImpl implements CommunityService {
         signInAdminWebSocketBo.setContent(sendNotificationBo.getContent());
         signInAdminWebSocketBo.setSignInTime(sendNotificationBo.getSignInTime());
 
-        userAdminController.userAdminSignInWebSocket(signInAdminWebSocketBo,uuid1);
-
         return new ResponseVo("通知已发起",null,"0x200");
     }
 
@@ -285,125 +283,10 @@ public class CommunityServiceImpl implements CommunityService {
         signInAdminWebSocketBo.setContent(sendNotificationBo.getContent());
         signInAdminWebSocketBo.setSignInTime(sendNotificationBo.getSignInTime());
 
-        userAdminController.userAdminSignInWebSocketNew(signInAdminWebSocketBo,uuid1);
-
         Long id = userAdminMapper.selectToGetId();
         noticeMapper.updateByUUIDAddAdminSignId(uuid1,id);
 
         return new ResponseVo("通知已发起",id,"0x200");
-    }
-
-    /**
-     * @author hln 2023-11-14
-     *      社团成员接受签到通知
-     * @param receiveNotificationsBo
-     * @return
-     */
-    @Override
-    public ResponseVo userReceiveNotifications(ReceiveNotificationsBo receiveNotificationsBo) {
-//        String userIdOfStr = (String) ThreadLocalUtil.mapThreadLocalOfJWT.get().get("userinfo").get("id");
-//        Long userId = Long.valueOf(userIdOfStr);
-//
-//        if(userId == 0L || userId == null){
-//            return new ResponseVo("token解析失败",null,"0x501");
-//        }
-//
-//        //通过社团id找数据
-//        Long id = noticeMapper.selectByUserIdNotice(userId);
-//
-//        //判断通知是否收到
-//        if(id == null || id == 0L){
-//            return new ResponseVo("未接受到签到通知",null,"0x500");
-//        }
-//
-//        String uuid2 = noticeMapper.selectToGetUUID(id);
-//
-//        //修改通知状态
-//        receiveNotificationsBo.setUuid(uuid2);
-//        String uuid = receiveNotificationsBo.getUuid();
-//        noticeMapper.updateByIdRead(userId,uuid);
-//
-//        SignInWebSocketBo signInWebSocketBo = new SignInWebSocketBo();
-//        signInWebSocketBo.setContent(receiveNotificationsBo.getContent());
-//        signInWebSocketBo.setToken(receiveNotificationsBo.getToken());
-//        signInWebSocketBo.setUuid(receiveNotificationsBo.getUuid());
-//
-//        userController.userSignInWebSocket(signInWebSocketBo);
-
-//        Long communityId = userMapper.selectToGetCommunityId(userId);
-//
-//        if(communityId == null || communityId == 0L){
-//            return new ResponseVo<>("该社团内找不到此用户",null,"0x500");
-//        }
-//        SignInWebSocket signInWebSocket = new SignInWebSocket();
-//        signInWebSocket.setUserId(userId);
-//        signInWebSocket.setCreateTime(new Date());
-//        signInWebSocket.setContent(signInWebSocketBo.getContent());
-//        signInWebSocket.setCommunityId(communityId);
-//
-//        userMapper.insertSignInWeb(signInWebSocket);
-//
-//        SignInUserStatusWeb signInUserStatusWeb = userMapper.selectToGetUserAndAdminSignIn(userId);
-//
-        //修改通知状态
-//        noticeMapper.updateNoticeStatus(id);
-//
-//        if (signInUserStatusWeb == null){
-//            return new ResponseVo("签到失败",null,"0x500");
-//        }
-//
-//        Long id2 = userMapper.insertSignInUserWithAdmin(signInUserStatusWeb);
-//
-//        if(id2 == 0L){
-//            return new ResponseVo("签到失败",null,"0x502");
-//        }
-
-        return new ResponseVo("收到签到通知",null,"0x200");
-    }
-
-    /**
-     * @author hln 2023-11-14
-     *      社团成员接受签到通知
-     * @param receiveNotificationsBo
-     * @return
-     */
-    @Override
-    public ResponseVo userReceiveNotificationsNew(ReceiveNotificationsBo receiveNotificationsBo) {
-        String userIdOfStr = (String) ThreadLocalUtil.mapThreadLocalOfJWT.get().get("userinfo").get("id");
-        Long userId = Long.valueOf(userIdOfStr);
-
-        if(userId == 0L || userId == null){
-            return new ResponseVo("token解析失败",null,"0x501");
-        }
-
-        //通过社团id找数据
-        Long id = noticeMapper.selectByUserIdNotice(userId);
-
-        //判断通知是否收到
-        if(id == null || id == 0L){
-            return new ResponseVo("未接受到签到通知",null,"0x500");
-        }
-
-        //获取notice对应的uuid
-        String uuid2 = noticeMapper.selectToGetUUID(id);
-
-        //修改通知状态
-        noticeMapper.updateByIdRead(userId,uuid2);
-
-        SignInWebSocketBo signInWebSocketBo = new SignInWebSocketBo();
-        signInWebSocketBo.setContent(receiveNotificationsBo.getContent());
-        signInWebSocketBo.setToken(receiveNotificationsBo.getToken());
-        signInWebSocketBo.setUuid(uuid2);
-
-        String content = userAdminMapper.selectToGetContentNew();
-
-        if (!content.equals(receiveNotificationsBo.getContent())) {
-            return new ResponseVo("签到失败",null,"0x500");
-        }
-
-        userController.userSignInWebSocketNew(signInWebSocketBo);
-
-        return new ResponseVo("收到签到通知",null,"0x200");
     }
 
     /**

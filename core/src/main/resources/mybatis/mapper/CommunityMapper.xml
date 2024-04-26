@@ -29,7 +29,7 @@
            查找社团
     -->
     <select id="selectByIdcommunity" resultType="com.gsxy.core.pojo.Community">
-        select * from Community where id = #{id} 
+        select * from Community where id = #{id}
     </select>
     <!--
         @author zhuxinyu 2023-10-30
@@ -133,9 +133,9 @@
             <if test="name != null and name != ''">
                 name like concat('%',#{name},'%') and
             </if>
+            status = #{status} and
+            del_flag = #{delFlag}
         </where>
-        status = #{status} and
-        del_flag = #{delFlag}
         limit
         #{start},#{size}
     </select>

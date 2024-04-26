@@ -119,7 +119,10 @@
         inner join
             user
         on
-            community.create_by = (select create_by from community where create_by = #{createBy})
+            community.create_by =
+            (select create_by from community where create_by = #{createBy} limit 1)
+        and
+            user.id = #{createBy}
         limit 1
     </select>
 

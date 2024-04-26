@@ -101,9 +101,9 @@
             <if test="name != null and name != ''">
                 name like concat('%',#{name},'%') and
             </if>
+            status = #{status} and
+            del_flag = #{delFlag}
         </where>
-        status = #{status} and
-        del_flag = #{delFlag}
         limit
         #{start},#{size}
     </select>

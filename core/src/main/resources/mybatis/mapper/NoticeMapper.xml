@@ -75,10 +75,10 @@
                 img_id = #{imgId},
             </if>
             <if test="name != null and name != ''">
-                name = #{name},
+                `name` = #{name},
             </if>
             <if test="read != null ">
-                read = #{read},
+                `read` = #{read},
             </if>
             <if test="dealt != null ">
                 dealt = #{dealt},
@@ -124,9 +124,9 @@
             <if test="name != null and name != ''">
                 name like concat('%',#{name},'%') and
             </if>
-        </where>
             status = #{status} and
             del_flag = #{delFlag}
+        </where>
         limit
             #{start},#{size}
     </select>

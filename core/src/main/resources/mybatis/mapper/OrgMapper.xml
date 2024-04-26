@@ -3,20 +3,19 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gsxy.core.mapper.OrgMapper">
-        
+
         <!--
             @author zhuxinyu 2023-10-23
                 添加班级
         -->
         <insert id="addOrg">
             insert into
-                Org
+                org
+                (grade,professional,name,college,create_by,create_time)
             values
-                (null, #{grade}, #{professional},
+                (#{grade}, #{professional},
                  #{name},#{college},
-                 #{createBy}, #{createTime},
-                 #{updateBy}, #{updateTime}, 
-                 #{status}, #{delFlag} )
+                 #{createBy}, #{createTime})
         </insert>
 
         <!--
@@ -73,6 +72,26 @@
             @author zhuxinyu 2023-10-23
                 更新班级
         -->
+    <select id="orgPagingToGetData" resultType="com.gsxy.core.pojo.Org"
+            parameterType="com.gsxy.core.pojo.bo.OrgPagingToGetDataBo">
+        select
+        *
+        from
+        org
+        <where>
+            <if test="name != null and name != ''">
+                and name like concat('%',#{name},'%') and
+            </if>
+            status = #{status} and
+            del_flag = #{delFlag}
+        </where>
+        limit
+        #{start},#{size}
+    </select>
+    <!--
+        @author zhuxinyu 2023-10-30
+        分页获取用户数据集合
+    -->
         <update id="updateByIdOrg">
             update Org
             <set>
@@ -104,24 +123,4 @@
             where
                 id = #{id}
         </update>
-    <!--
-        @author zhuxinyu 2023-10-30
-        分页获取用户数据集合
-    -->
-        <select id="orgPagingToGetData" resultType="com.gsxy.core.pojo.Org"
-            parameterType="com.gsxy.core.pojo.bo.OrgPagingToGetDataBo">
-            select
-            *
-            from
-            org
-            <where>
-                <if test="name != null and name != ''">
-                    name like concat('%',#{name},'%') and
-                </if>
-            </where>
-            status = #{status} and
-            del_flag = #{delFlag}
-            limit
-            #{start},#{size}
-        </select>
 </mapper>

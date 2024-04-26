@@ -104,22 +104,6 @@ public interface CommunityService {
      */
     ResponseVo adminSendNotificationNew(SendNotificationBo sendNotificationBo);
 
-    /**
-     * @author hln 2023-11-14
-     *      社团成员接受签到通知
-     * @param receiveNotificationsBo
-     * @return
-     */
-    ResponseVo userReceiveNotifications(ReceiveNotificationsBo receiveNotificationsBo);
-
-    /**
-     * @author hln 2023-11-14
-     *      社团成员接受签到通知
-     * @param receiveNotificationsBo
-     * @return
-     */
-    ResponseVo userReceiveNotificationsNew(ReceiveNotificationsBo receiveNotificationsBo);
-
 }
 
 
