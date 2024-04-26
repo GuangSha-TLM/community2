@@ -162,7 +162,7 @@ public class UserAdminController {
             String adminSignInKey = "admin:signIn" + "_" + userId  + "_" + adminSignInRequestBo.getContext();
 
             //设置标识
-            String fixedKey = "fixed_key";
+            String fixedKey = "fixed_key" + userId;
             redisTemplate.opsForValue().set(fixedKey,adminSignInKey);
 
             //将当前信息打入redis

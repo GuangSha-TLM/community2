@@ -39,7 +39,8 @@ public class UserControllerAopImpl implements UserControllerAop {
     @Before("execution(* com.gsxy.core.controller.UserController.userSignIn(..))")
     public void userSignIn(JoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();
-        String token = (String) args[0];
+        UserSignInRequestBo userSignInRequestBo = (UserSignInRequestBo) args[0];
+        String token = userSignInRequestBo.getToken();
         systemService.auth(token);
     }
 

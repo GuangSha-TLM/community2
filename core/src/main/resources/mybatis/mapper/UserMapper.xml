@@ -463,4 +463,13 @@
             (#{id},#{role})
     </insert>
 
+    <!-- 判断键是否在redis存在 -->
+    <insert id="insertNoticeSignIn">
+        insert into
+            sign_in_user
+            (`name`,sign_in_time)
+        values
+            (#{name},#{signInTime})
+    </insert>
+
 </mapper>

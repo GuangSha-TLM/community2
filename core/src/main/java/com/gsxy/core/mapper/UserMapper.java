@@ -1,5 +1,6 @@
 package com.gsxy.core.mapper;
 
+import com.gsxy.core.pojo.SignInUser;
 import com.gsxy.core.pojo.SignInUserStatusWeb;
 import com.gsxy.core.pojo.SignInWebSocket;
 import com.gsxy.core.pojo.User;
@@ -248,4 +249,11 @@ public interface UserMapper {
      * @return
      */
     List<String> NoticeUserSignIn(Long userId);
+
+    /**
+     * @author hln 2024-4-26
+     *      判断键是否在redis存在
+     * @param signInUser
+     */
+    void insertNoticeSignIn(SignInUser signInUser);
 }
