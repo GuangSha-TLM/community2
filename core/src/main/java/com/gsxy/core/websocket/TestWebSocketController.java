@@ -41,8 +41,8 @@ public class TestWebSocketController {
 
     @OnClose
     public void onClose(Session session) {
-        sessions.remove(session);
-        System.out.println("WebSocket closed for session: " + session.getId());
+//        sessions.remove(session);
+//        System.out.println("WebSocket closed for session: " + session.getId());
     }
 
     public String serviceFunction(Long id, Session session) throws IOException {

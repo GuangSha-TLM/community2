@@ -173,34 +173,37 @@ public class UserAdminServiceImpl implements UserAdminService {
     public ResponseVo queryAll(Long id) {
 
         //获取通知对应的id编号
-        SignInAdminR signInAdminR = userAdminMapper.querySignInNotice(id);
+        List<SignInAdminR> signInAdminR = userAdminMapper.querySignInNoticeList(id);
+        List<String> returnList = new ArrayList<>();
 
         //判断通知是否收到
         if (signInAdminR == null) {
             return new ResponseVo("未接受到签到通知", null, "0x500");
         }
 
-        Long adminId = signInAdminR.getSignUserId();
-        Set<Long> set = new HashSet<>();
-        List<String> returnList = new ArrayList<>();
+        for (SignInAdminR inAdminR : signInAdminR) {
+            Long adminId = inAdminR.getSignUserId();
+            Set<Long> set = new HashSet<>();
 
-        //社团内所有用户id
-        List<Long> listUserAll = userAdminMapper.queryCommunityUserAll(adminId);
-        //该社团内签到了的用户
-        List<Long> listSignUser = userAdminMapper.querySignUserAll(signInAdminR.getKey());
+            //社团内所有用户id
+            List<Long> listUserAll = userAdminMapper.queryCommunityUserAll(adminId);
+            //该社团内签到了的用户
+            List<Long> listSignUser = userAdminMapper.querySignUserAll(inAdminR.getKey());
 
-        for (Long i : listSignUser) {
-            set.add(i);
-        }
+            for (Long i : listSignUser) {
+                set.add(i);
+            }
 
-        for (Long i : listUserAll) {
-            User user = userMapper.selectByUserId(i);
-            if (!set.add(i)) {
-                returnList.add(user.getName() + "已签到");
-            } else {
-                returnList.add(user.getName() + "未签到");
+            for (Long i : listUserAll) {
+                User user = userMapper.selectByUserId(i);
+                if (!set.add(i)) {
+                    returnList.add(user.getName() + "已签到");
+                } else {
+                    returnList.add(user.getName() + "未签到");
+                }
             }
         }
+
 
         return new ResponseVo("查询成功", returnList, "0x200");
     }
