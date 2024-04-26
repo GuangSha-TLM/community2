@@ -464,4 +464,18 @@ public class UserServiceImpl implements UserService {
         return new ResponseVo("查询成功",findAllVoNew,"0x200");
     }
 
+    /**
+     * @author hln 2024-4-26
+     *      获取签到通知信息
+     * @return
+     */
+    @Override
+    public ResponseVo NoticeUserSignIn() {
+
+        Long userId = Long.valueOf((String) ThreadLocalUtil.mapThreadLocalOfJWT.get().get("userinfo").get("id"));
+        List<String> list = userMapper.NoticeUserSignIn(userId);
+
+        return new ResponseVo("查询成功",list,"0x200");
+    }
+
 }

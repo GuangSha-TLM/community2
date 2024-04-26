@@ -411,8 +411,19 @@
         limit 1
     </select>
 
-    <!-- 查询前段指定字段查询用户信息 -->
-
+    <!-- 获取签到通知信息 -->
+    <select id="NoticeUserSignIn" resultType="java.lang.String">
+        select
+            notice_context
+        from
+            sign_in_admin_notice sian
+        inner join
+            community_user cu
+        on
+            cu.user_id = #{userId}
+        and
+            cu.community_id = sian.community_id
+    </select>
 
     <!--    &lt;!&ndash; 插入用户签到状态 &ndash;&gt;-->
 <!--    <insert id="userSignIn" parameterType="com.gsxy.core.pojo.bo.UserSignInBo">-->

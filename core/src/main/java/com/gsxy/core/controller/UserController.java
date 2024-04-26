@@ -221,8 +221,6 @@ public class UserController {
                 //查询当前用户的community_id and name
                 User user = userMapper.selectByUserId(userId);
                 List<Long> communityIdList = userMapper.queryListCommunityId(userId);
-//                Long communityId = userMapper.queryCommunityId(userId);
-
                 String userSignInKey = adminSignInKey;//用于核对管理员签到的key
 
                 Boolean exists = redisTemplate.hasKey(userSignInKey);
@@ -239,6 +237,18 @@ public class UserController {
             e.printStackTrace();
             return JSONArray.toJSONString(new ResponseVo<>("获取签到信息失败",null,"0x500"));
         }
+    }
+
+    /**
+     * @author hln 2024-4-26
+     *      获取签到通知信息
+     * @param token
+     * @return
+     */
+    @PostMapping("/noticeUserSignIn")
+    @ApiOperation("获取签到通知信息")
+    public String noticeUserSignIn(@RequestParam String token){
+        return JSONArray.toJSONString(userService.NoticeUserSignIn());
     }
 
 }

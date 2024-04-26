@@ -241,4 +241,11 @@ public interface UserMapper {
      * @return
      */
     Long queryCommunityId(Long userId);
+
+    /**
+     * @author hln 2024-4-26
+     *      获取签到通知信息
+     * @return
+     */
+    List<String> NoticeUserSignIn(Long userId);
 }

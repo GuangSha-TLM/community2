@@ -44,6 +44,19 @@ public class UserControllerAopImpl implements UserControllerAop {
     }
 
     /**
+     * @author hln 2024-4-26
+     *      获取签到通知信息
+     * @param joinPoint
+     */
+    @Override
+    @Before("execution(* com.gsxy.core.controller.UserController.noticeUserSignIn(..))")
+    public void noticeUserSignIn(JoinPoint joinPoint) {
+        Object[] args = joinPoint.getArgs();
+        String token = (String) args[0];
+        systemService.auth(token);
+    }
+
+    /**
      * @author hln 2023-10-31
      *      查找user鉴权
      * @param joinPoint

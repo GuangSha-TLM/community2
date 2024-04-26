@@ -67,4 +67,11 @@ public interface UserControllerAop {
      */
     void userSignIn(JoinPoint joinPoint);
 
+    /**
+     * @author hln 2024-4-26
+     *      获取签到通知信息
+     * @param joinPoint
+     */
+    void noticeUserSignIn(JoinPoint joinPoint);
+
 }

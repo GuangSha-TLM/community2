@@ -4,13 +4,14 @@ import java.io.Serializable;
 
 public class UserSignInRequestBo implements Serializable {
     private String context;//签到信息内容
-
+    private Long id;
     private String token;
 
     public UserSignInRequestBo(){}
 
-    public UserSignInRequestBo(String context, String token) {
+    public UserSignInRequestBo(String context, Long id, String token) {
         this.context = context;
+        this.id = id;
         this.token = token;
     }
 
@@ -20,6 +21,14 @@ public class UserSignInRequestBo implements Serializable {
 
     public void setContext(String context) {
         this.context = context;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getToken() {
@@ -34,6 +43,7 @@ public class UserSignInRequestBo implements Serializable {
     public String toString() {
         return "UserSignInRequestBo{" +
                 "context='" + context + '\'' +
+                ", id=" + id +
                 ", token='" + token + '\'' +
                 '}';
     }

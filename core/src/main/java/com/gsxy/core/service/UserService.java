@@ -103,4 +103,11 @@ public interface UserService {
      * 查询所有信息
      */
     ResponseVo findAll(FindAllBo findAllBo);
+
+    /**
+     * @author hln 2024-4-26
+     *      获取签到通知信息
+     * @return
+     */
+    ResponseVo NoticeUserSignIn();
 }
