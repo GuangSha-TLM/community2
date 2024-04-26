@@ -7,18 +7,18 @@ public class SignInAdminNotice implements Serializable {
 
     private Long id;
     private String noticeContext;//通知内容e
-    private String sign_key;// 签到key
-    private Long community_id;//社团id
+    private String signKey;// 签到key
+    private Long communityId;//社团id
     private Date signInTime;//签到发布时间
 
     public SignInAdminNotice() {
     }
 
-    public SignInAdminNotice(Long id, String noticeContext, String sign_key, Long community_id, Date signInTime) {
+    public SignInAdminNotice(Long id, String noticeContext, String signKey, Long communityId, Date signInTime) {
         this.id = id;
         this.noticeContext = noticeContext;
-        this.sign_key = sign_key;
-        this.community_id = community_id;
+        this.signKey = signKey;
+        this.communityId = communityId;
         this.signInTime = signInTime;
     }
 
@@ -38,20 +38,20 @@ public class SignInAdminNotice implements Serializable {
         this.noticeContext = noticeContext;
     }
 
-    public String getSign_key() {
-        return sign_key;
+    public String getSignKey() {
+        return signKey;
     }
 
-    public void setSign_key(String sign_key) {
-        this.sign_key = sign_key;
+    public void setSignKey(String signKey) {
+        this.signKey = signKey;
     }
 
-    public Long getCommunity_id() {
-        return community_id;
+    public Long getCommunityId() {
+        return communityId;
     }
 
-    public void setCommunity_id(Long community_id) {
-        this.community_id = community_id;
+    public void setCommunityId(Long communityId) {
+        this.communityId = communityId;
     }
 
     public Date getSignInTime() {
@@ -67,8 +67,8 @@ public class SignInAdminNotice implements Serializable {
         return "SignInAdminNotice{" +
                 "id=" + id +
                 ", noticeContext='" + noticeContext + '\'' +
-                ", sign_key='" + sign_key + '\'' +
-                ", community_id=" + community_id +
+                ", signKey='" + signKey + '\'' +
+                ", communityId=" + communityId +
                 ", signInTime=" + signInTime +
                 '}';
     }
