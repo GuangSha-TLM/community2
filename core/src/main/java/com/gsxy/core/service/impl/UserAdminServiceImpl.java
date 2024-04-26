@@ -170,11 +170,10 @@ public class UserAdminServiceImpl implements UserAdminService {
      * 管理员查看实时签到信息
      */
     @Override
-    public ResponseVo queryAll(String id) {
+    public ResponseVo queryAll(Long id) {
 
-        Long userId = Long.valueOf((String) ThreadLocalUtil.mapThreadLocalOfJWT.get().get("userinfo").get("id"));
         //获取通知对应的id编号
-        SignInAdminR signInAdminR = userAdminMapper.querySignInNotice(userId);
+        SignInAdminR signInAdminR = userAdminMapper.querySignInNotice(id);
 
         //判断通知是否收到
         if (signInAdminR == null) {

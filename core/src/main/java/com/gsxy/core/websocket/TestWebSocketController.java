@@ -26,16 +26,16 @@ public class TestWebSocketController {
     private static final Set<Session> sessions = new CopyOnWriteArraySet<>();
 
     @OnOpen
-    public void onOpen(Session session, @PathParam("token") String token) throws IOException {
+    public void onOpen(Session session, @PathParam("id") Long id) throws IOException {
         sessions.add(session);
-        String s = this.serviceFunction(token, session);
+        String s = this.serviceFunction(id, session);
         broadcastMessage(s);
         session.getBasicRemote().sendText(s);
     }
 
     @OnMessage
-    public void onMessage(String token, Session session) throws IOException {
-        String s = this.serviceFunction(token, session);
+    public void onMessage(Long id, Session session) throws IOException {
+        String s = this.serviceFunction(id, session);
         session.getBasicRemote().sendText(s);
     }
 
@@ -45,8 +45,8 @@ public class TestWebSocketController {
         System.out.println("WebSocket closed for session: " + session.getId());
     }
 
-    public String serviceFunction(String token, Session session) throws IOException {
-        return userAdminController.querySignInUser(new TokenBo(token));
+    public String serviceFunction(Long id, Session session) throws IOException {
+        return userAdminController.querySignInUser(id);
     }
 
     private static void broadcastMessage(String message) {
