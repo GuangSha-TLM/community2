@@ -4,6 +4,7 @@ import com.gsxy.core.pojo.SignInAdmin;
 import com.gsxy.core.pojo.SignInAdminR;
 import com.gsxy.core.pojo.SignInAdminWebSocket;
 import com.gsxy.core.pojo.UserAdmin;
+import com.gsxy.core.pojo.bo.AdminSignInNoticeBo;
 import com.gsxy.core.pojo.bo.SignInAdminWebSocketBo;
 import com.gsxy.core.pojo.bo.UserAdminPagingToGetDataBo;
 import com.gsxy.core.pojo.bo.UserSignInStatusBo;
@@ -249,4 +250,11 @@ public interface UserAdminMapper {
      * @param signInAdminR
      */
     void insertSignInAdminR(SignInAdminR signInAdminR);
+
+    /**
+     * @author hln 2024-4-26
+     *      将通知信息存入mysql
+     * @param adminSignInNoticeBo
+     */
+    void insertNotice(AdminSignInNoticeBo adminSignInNoticeBo);
 }

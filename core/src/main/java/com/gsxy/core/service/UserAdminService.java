@@ -66,13 +66,13 @@ public interface UserAdminService {
      */
     ResponseVo adminToGetSignInReal(String token);
 
-    /**
-     * @author hln 2024-4-26
-     *      管理员发起签到通知相关社团成员
-     * @param adminSignInNoticeBo
-     * @return
-     */
-    ResponseVo adminSignInNotice(AdminSignInNoticeBo adminSignInNoticeBo);
+//    /**
+//     * @author hln 2024-4-26
+//     *      管理员发起签到通知相关社团成员
+//     * @param adminSignInNoticeBo
+//     * @return
+//     */
+//    ResponseVo adminSignInNotice(AdminSignInNoticeBo adminSignInNoticeBo);
 }
 
 

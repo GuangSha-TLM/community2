@@ -116,14 +116,11 @@
             community.id,community.name,community.create_by,user.username
         from
             community
-        inner join
+                inner join
             user
         on
-            community.create_by =
-            (select create_by from community where create_by = #{createBy} limit 1)
-        and
-            user.id = #{createBy}
-        limit 1
+                community.create_by = (select create_by from community where create_by = #{createBy})
+            limit 1
     </select>
 
     <!-- 获取前端指定活动相关字段实体类 -->

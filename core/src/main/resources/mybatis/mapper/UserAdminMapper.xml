@@ -122,6 +122,15 @@
             (#{key},#{context},#{signUserId},#{duration},#{signInTime})
     </insert>
 
+    <!-- 将通知信息存入mysql -->
+    <insert id="insertNotice">
+        insert into
+            sign_in_admin_notice
+            (notice_context,sign_key)
+        values
+            (#{noticeContext},#{signKey})
+    </insert>
+
     <!--
          @author Oh… Yeah!!! 2023-10-24
          更新UserAdmin数据

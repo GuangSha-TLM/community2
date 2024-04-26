@@ -134,6 +134,20 @@ public class UserAdminControllerAopImpl implements UserAdminControllerAop {
         systemService.isAdmin(token,2);
     }
 
+    /**
+     * @author hln 2024-4-26
+     *      管理员发起签到通知相关社团成员 鉴权
+     * @param joinPoint
+     */
+    @Override
+    @Before("execution(* com.gsxy.core.controller.UserAdminController.adminSignInNotice(..))")
+    public void adminSignInNotice(JoinPoint joinPoint) {
+
+        Object[] args = joinPoint.getArgs();
+        String token = (String) args[0];
+        systemService.isAdmin(token,2);
+    }
+
 //    /**
 //     * @author hln 2023-11-01
 //     *      管理员查看所有用户签到鉴权(相应社团)

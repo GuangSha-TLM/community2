@@ -6,14 +6,16 @@ public class AdminSignInNoticeBo implements Serializable {
 
     private String token;
     private String noticeContext;//通知内容
-    private String duration;//签到时长
+    private Long duration;//签到时长
+    private String signKey;//签到key
 
     public AdminSignInNoticeBo (){}
 
-    public AdminSignInNoticeBo(String token, String noticeContext, String duration) {
+    public AdminSignInNoticeBo(String token, String noticeContext, Long duration, String signKey) {
         this.token = token;
         this.noticeContext = noticeContext;
         this.duration = duration;
+        this.signKey = signKey;
     }
 
     public String getToken() {
@@ -32,12 +34,20 @@ public class AdminSignInNoticeBo implements Serializable {
         this.noticeContext = noticeContext;
     }
 
-    public String getDuration() {
+    public Long getDuration() {
         return duration;
     }
 
-    public void setDuration(String duration) {
+    public void setDuration(Long duration) {
         this.duration = duration;
+    }
+
+    public String getSignKey() {
+        return signKey;
+    }
+
+    public void setSignKey(String signKey) {
+        this.signKey = signKey;
     }
 
     @Override
@@ -45,7 +55,8 @@ public class AdminSignInNoticeBo implements Serializable {
         return "AdminSignInNoticeBo{" +
                 "token='" + token + '\'' +
                 ", noticeContext='" + noticeContext + '\'' +
-                ", duration='" + duration + '\'' +
+                ", duration=" + duration +
+                ", signKey='" + signKey + '\'' +
                 '}';
     }
 }

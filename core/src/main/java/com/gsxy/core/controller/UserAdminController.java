@@ -182,6 +182,9 @@ public class UserAdminController {
             signInAdminR.setSignInTime(new Date());
             userAdminMapper.insertSignInAdminR(signInAdminR);
 
+            //赋值给静态变量
+//            userAdminMapper.
+
             return JSONArray.toJSONString(new ResponseVo<>("签到已发起",null,"0x200"));
         } catch (Exception e){
             e.printStackTrace();
@@ -189,15 +192,20 @@ public class UserAdminController {
         }
     }
 
-    /**
-     * @author hln 2024-4-26
-     *      管理员发起签到通知相关社团成员
-     * @param adminSignInNoticeBo
-     * @return
-     */
-    public String adminSignInNotice(@RequestBody AdminSignInNoticeBo adminSignInNoticeBo){
-        return JSONArray.toJSONString(userAdminService.adminSignInNotice(adminSignInNoticeBo));
-    }
+//    /**
+//     * @author hln 2024-4-26
+//     *      管理员发起签到通知相关社团成员
+//     * @param token
+//     * @return
+//     */
+//    @PostMapping("/adminSignInNotice")
+//    @ApiOperation("管理员发起签到通知相关社团成员")
+//    public String adminSignInNotice(@RequestParam String token){
+//        AdminSignInNoticeBo adminSignInNoticeBo = new AdminSignInNoticeBo();
+//        adminSignInNoticeBo.setSignKey(signKey);
+//        adminSignInNoticeBo.setDuration(duration);
+//        return JSONArray.toJSONString(userAdminService.adminSignInNotice(adminSignInNoticeBo));
+//    }
 
 }
 

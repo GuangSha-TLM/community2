@@ -62,4 +62,11 @@ public interface UserAdminControllerAop {
      */
     void adminSignInRedis(JoinPoint joinPoint);
 
+    /**
+     * @author hln 2024-4-26
+     *      管理员发起签到通知相关社团成员 鉴权
+     * @param joinPoint
+     */
+    void adminSignInNotice(JoinPoint joinPoint);
+
 }

@@ -5,6 +5,7 @@ import com.gsxy.core.mapper.UserAdminMapper;
 import com.gsxy.core.mapper.UserMapper;
 import com.gsxy.core.pojo.SignInAdmin;
 import com.gsxy.core.pojo.SignInAdminWebSocket;
+import com.gsxy.core.pojo.User;
 import com.gsxy.core.pojo.UserAdmin;
 import com.gsxy.core.pojo.bo.*;
 import com.gsxy.core.pojo.vo.ResponseVo;
@@ -162,20 +163,19 @@ public class UserAdminServiceImpl implements UserAdminService {
         return new ResponseVo("查询成功",list,"0x200");
     }
 
-    /**
-     * @author hln 2024-4-26
-     *      管理员发起签到通知相关社团成员
-     * @param adminSignInNoticeBo
-     * @return
-     */
-    @Override
-    public ResponseVo adminSignInNotice(AdminSignInNoticeBo adminSignInNoticeBo) {
-
-        Long userId = Long.valueOf((String) ThreadLocalUtil.mapThreadLocalOfJWT.get().get("userinfo").get("id"));
-
-
-
-        return new ResponseVo("已通知",null,"0x200");
-    }
+//    /**
+//     * @author hln 2024-4-26
+//     *      管理员发起签到通知相关社团成员
+//     * @param adminSignInNoticeBo
+//     * @return
+//     */
+//    @Override
+//    public ResponseVo adminSignInNotice(AdminSignInNoticeBo adminSignInNoticeBo) {
+//
+//        adminSignInNoticeBo.setNoticeContext("您有新的签到, 签到时长为 " + adminSignInNoticeBo.getDuration() + " 分钟");
+//        userAdminMapper.insertNotice(adminSignInNoticeBo);
+//
+//        return new ResponseVo("已通知",null,"0x200");
+//    }
 
 }
