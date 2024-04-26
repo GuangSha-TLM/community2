@@ -252,7 +252,7 @@ public class UserController {
      */
     @PostMapping("/noticeUserSignIn")
     @ApiOperation("获取签到通知信息")
-    public String noticeUserSignIn(@RequestBody String token){
+    public String noticeUserSignIn(@RequestBody TokenBo token){
         return JSONArray.toJSONString(userService.NoticeUserSignIn());
     }
 

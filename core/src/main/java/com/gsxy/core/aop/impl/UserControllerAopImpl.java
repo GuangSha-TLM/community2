@@ -3,6 +3,7 @@ package com.gsxy.core.aop.impl;
 import com.gsxy.core.aop.UserControllerAop;
 import com.gsxy.core.pojo.bo.*;
 import com.gsxy.core.service.SystemService;
+import org.apache.poi.ss.formula.functions.T;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -53,7 +54,8 @@ public class UserControllerAopImpl implements UserControllerAop {
     @Before("execution(* com.gsxy.core.controller.UserController.noticeUserSignIn(..))")
     public void noticeUserSignIn(JoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();
-        String token = (String) args[0];
+        TokenBo tokenBo = (TokenBo) args[0];
+        String token = tokenBo.getToken();
         systemService.auth(token);
     }
 
