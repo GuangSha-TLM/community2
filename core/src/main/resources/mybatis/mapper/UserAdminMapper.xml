@@ -126,9 +126,9 @@
     <insert id="insertNotice">
         insert into
             sign_in_admin_notice
-            (notice_context,sign_key)
+            (notice_context,sign_key,community_id)
         values
-            (#{noticeContext},#{signKey})
+            (#{noticeContext},#{signKey},#{communityId})
     </insert>
 
     <!--

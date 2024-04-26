@@ -181,9 +181,12 @@ public class UserAdminController {
             signInAdminR.setSignUserId(userId);
             signInAdminR.setSignInTime(new Date());
             userAdminMapper.insertSignInAdminR(signInAdminR);
-
-            //赋值给静态变量
-//            userAdminMapper.
+            AdminSignInNoticeBo adminSignInNoticeBo = new AdminSignInNoticeBo();
+            adminSignInNoticeBo.setSignKey(adminSignInKey);
+            adminSignInNoticeBo.setDuration(adminSignInRequestBo.getDuration());
+            adminSignInNoticeBo.setCommunityId(userId);
+            adminSignInNoticeBo.setNoticeContext("您有新的签到, 签到时长为 " + adminSignInNoticeBo.getDuration() + " 分钟");
+            userAdminMapper.insertNotice(adminSignInNoticeBo);
 
             return JSONArray.toJSONString(new ResponseVo<>("签到已发起",null,"0x200"));
         } catch (Exception e){
