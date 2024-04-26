@@ -220,7 +220,7 @@ public class UserController {
 
                 //查询当前用户的community_id and name
                 User user = userMapper.selectByUserId(userId);
-//                List<Long> communityIdList = userMapper.queryListCommunityId(userId);
+                List<Long> communityIdList = userMapper.queryListCommunityId(userId);
 //                Long communityId = userMapper.queryCommunityId(userId);
 
                 String userSignInKey = adminSignInKey;//用于核对管理员签到的key
