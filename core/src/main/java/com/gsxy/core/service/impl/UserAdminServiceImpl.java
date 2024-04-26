@@ -173,7 +173,7 @@ public class UserAdminServiceImpl implements UserAdminService {
     public ResponseVo queryAll(Long id) {
 
         //获取通知对应的id编号
-        List<SignInAdminR> signInAdminR = userAdminMapper.querySignInNoticeList(id);
+        List<SignInAdminR> signInAdminR = userAdminMapper.querySignInNoticeListById(id);
         List<String> returnList = new ArrayList<>();
 
         //判断通知是否收到

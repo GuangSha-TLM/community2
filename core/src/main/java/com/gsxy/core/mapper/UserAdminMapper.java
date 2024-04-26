@@ -281,4 +281,6 @@ public interface UserAdminMapper {
     List<Long> querySignUserAll(String key);
 
     List<SignInAdminR> querySignInNoticeList(Long userId);
+
+    List<SignInAdminR> querySignInNoticeListById(Long id);
 }

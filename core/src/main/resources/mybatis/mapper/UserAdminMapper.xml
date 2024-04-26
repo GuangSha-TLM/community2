@@ -476,4 +476,14 @@
         order by sign_in_time desc
     </select>
 
+    <select id="querySignInNoticeListById" resultType="com.gsxy.core.pojo.SignInAdminR">
+        select
+            *
+        from
+            sign_in_admin
+        where
+            id = #{userId}
+        order by sign_in_time desc
+    </select>
+
 </mapper>
