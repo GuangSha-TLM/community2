@@ -9,14 +9,16 @@ public class SignInUser implements Serializable {
     private String name;//人名
     private Date signInTime;//签到时间
     private Long communityId;//社团id
+    private Long userId;
 
     public SignInUser(){}
 
-    public SignInUser(Long id, String name, Date signInTime, Long communityId) {
+    public SignInUser(Long id, String name, Date signInTime, Long communityId, Long userId) {
         this.id = id;
         this.name = name;
         this.signInTime = signInTime;
         this.communityId = communityId;
+        this.userId = userId;
     }
 
     public Long getId() {
@@ -51,6 +53,14 @@ public class SignInUser implements Serializable {
         this.communityId = communityId;
     }
 
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
     @Override
     public String toString() {
         return "SignInUser{" +
@@ -58,6 +68,7 @@ public class SignInUser implements Serializable {
                 ", name='" + name + '\'' +
                 ", signInTime=" + signInTime +
                 ", communityId=" + communityId +
+                ", userId=" + userId +
                 '}';
     }
 }

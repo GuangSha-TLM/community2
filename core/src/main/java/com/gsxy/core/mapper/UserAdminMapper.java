@@ -262,4 +262,12 @@ public interface UserAdminMapper {
      * 实时查看签到信息
      */
     List<SignInUser> queryByCommunityId(Long userId);
+
+    /**
+     * @author hln 2024-4-26
+     * 查看该社团所有成员信息
+     * @param userId
+     * @return
+     */
+    List<CommunityUser> queryUser(Long userId);
 }

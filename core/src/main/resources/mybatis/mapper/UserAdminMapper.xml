@@ -421,4 +421,14 @@
             community_id=#{userId}
     </select>
 
+    <!-- 查看该社团所有成员信息 -->
+    <select id="queryUser" resultType="com.gsxy.core.pojo.CommunityUser">
+        select
+            *
+        from
+            community_user
+        where
+            community_id = #{userId}
+    </select>
+
 </mapper>

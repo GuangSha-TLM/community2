@@ -1,11 +1,17 @@
 package com.gsxy.core.controller;
 
+import java.util.*;
+
 import com.alibaba.fastjson2.JSONArray;
 import com.gsxy.core.mapper.UserAdminMapper;
+import com.gsxy.core.mapper.UserMapper;
+import com.gsxy.core.pojo.CommunityUser;
 import com.gsxy.core.pojo.SignInAdminR;
 import com.gsxy.core.pojo.SignInUser;
+import com.gsxy.core.pojo.User;
 import com.gsxy.core.pojo.bo.*;
 import com.gsxy.core.pojo.vo.ResponseVo;
+import com.gsxy.core.pojo.vo.SignInListVo;
 import com.gsxy.core.service.UserAdminService;
 import com.gsxy.core.util.ThreadLocalUtil;
 import io.swagger.annotations.Api;
@@ -17,9 +23,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 
@@ -32,6 +35,9 @@ import java.util.concurrent.TimeUnit;
 @RestController
 @RequestMapping("/userAdmin")
 public class UserAdminController {
+
+    @Autowired
+    private UserMapper userMapper;
 
     @Autowired
     private UserAdminMapper userAdminMapper;
@@ -205,18 +211,61 @@ public class UserAdminController {
      * @author hln 2024-4-26
      * 实时查看签到信息
      */
-    public void querySignInUser(@RequestBody TokenBo tokenBo) {
+    public String querySignInUser(@RequestBody TokenBo tokenBo) {
 
         Long userId = Long.valueOf((String) ThreadLocalUtil.mapThreadLocalOfJWT.get().get("userinfo").get("id"));
         SignInUser signInUser = new SignInUser();
         signInUser.setCommunityId(userId);
         List<SignInUser> list = userAdminMapper.queryByCommunityId(userId);
+        ArrayList<String> list3 = new ArrayList<>();
+        List<CommunityUser> list1 =  userAdminMapper.queryUser(userId);
+        HashSet<Long> set = new HashSet<>();
+        ArrayList<String> list2 = new ArrayList<>();
 
-
-
-        for (SignInUser inUser : list) {
+        for (SignInUser signInUser1 : list) {
+            set.add(signInUser1.getUserId());
         }
 
+        for (CommunityUser inUser : list1) {
+            if(set.add(inUser.getUserId())){
+                User user = userMapper.selectByUserId(inUser.getUserId());
+                list2.add(user.getName() + "未签到");
+            }
+        }
+
+        for (SignInUser inUser : list) {
+            list3.add(inUser.getName() + "已签到");
+        }
+        return JSONArray.toJSONString(new ResponseVo<>("签到人员列表", new SignInListVo(list3,list2), "0x200"));
+    }
+
+    /**
+     * @param tokenBo
+     * @return
+     * @author hln 2024-4-26
+     * 实时查看签到信息（没签到的）
+     */
+    public String querySignInUserNo(@RequestBody TokenBo tokenBo) {
+
+        Long userId = Long.valueOf((String) ThreadLocalUtil.mapThreadLocalOfJWT.get().get("userinfo").get("id"));
+        SignInUser signInUser = new SignInUser();
+        signInUser.setCommunityId(userId);
+        List<SignInUser> list = userAdminMapper.queryByCommunityId(userId);
+        List<CommunityUser> list1 =  userAdminMapper.queryUser(userId);
+        HashSet<Long> set = new HashSet<>();
+        ArrayList<String> list2 = new ArrayList<>();
+
+        for (SignInUser signInUser1 : list) {
+            set.add(signInUser1.getUserId());
+        }
+
+        for (CommunityUser inUser : list1) {
+            if(set.add(inUser.getUserId())){
+                User user = userMapper.selectByUserId(inUser.getUserId());
+                list2.add(user.getName() + "未签到");
+            }
+        }
+        return JSONArray.toJSONString(new ResponseVo<>("未签到人员列表", list1, "0x200"));
     }
 
 }
