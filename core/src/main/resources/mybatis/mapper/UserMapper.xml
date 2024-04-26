@@ -390,6 +390,27 @@
         LIMIT #{page}, #{size}
     </select>
 
+    <!-- 查询当前的用户的所有所在社团id -->
+    <select id="queryListCommunityId" resultType="java.lang.Long">
+        select
+            community_id
+        from
+            community_user
+        where
+            user_id = #{userId}
+    </select>
+
+    <!-- 查询当前的用户的所在社团id（单个） (注意：仅作为测试使用) -->
+    <select id="queryCommunityId" resultType="java.lang.Long">
+        select
+            community_id
+        from
+            community_user
+        where
+            user_id = #{userId}
+        limit 1
+    </select>
+
     <!-- 查询前段指定字段查询用户信息 -->
 
 

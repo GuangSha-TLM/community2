@@ -113,6 +113,15 @@
             (#{adminId},#{communityId},#{content},#{releaseTime},#{signInTime},#{uuid})
     </insert>
 
+    <!-- 将签到信息存入mysql -->
+    <insert id="insertSignInAdminR">
+        insert into
+            sign_in_admin
+            (`key`,context,sign_user_id,duration,sign_in_time)
+        values
+            (#{key},#{context},#{signUserId},#{duration},#{signInTime})
+    </insert>
+
     <!--
          @author Oh… Yeah!!! 2023-10-24
          更新UserAdmin数据

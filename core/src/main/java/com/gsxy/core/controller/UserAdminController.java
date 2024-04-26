@@ -1,6 +1,8 @@
 package com.gsxy.core.controller;
 
 import com.alibaba.fastjson2.JSONArray;
+import com.gsxy.core.mapper.UserAdminMapper;
+import com.gsxy.core.pojo.SignInAdminR;
 import com.gsxy.core.pojo.bo.*;
 import com.gsxy.core.pojo.vo.ResponseVo;
 import com.gsxy.core.service.UserAdminService;
@@ -13,6 +15,7 @@ import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
+import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -26,6 +29,9 @@ import java.util.concurrent.TimeUnit;
 @RestController
 @RequestMapping("/userAdmin")
 public class UserAdminController {
+
+    @Autowired
+    private UserAdminMapper userAdminMapper;
 
     @Autowired
     private UserAdminService userAdminService;
@@ -145,12 +151,15 @@ public class UserAdminController {
     @ApiOperation("管理员发起签到")
     public String adminSignInRedis(@RequestBody AdminSignInRequestBo adminSignInRequestBo){
 
+        //管理员的id <=> community_id
+        Long userId = Long.valueOf((String) ThreadLocalUtil.mapThreadLocalOfJWT.get().get("userinfo").get("id"));
+
         try {
             //获取当前时间戳
             long currentTime = System.currentTimeMillis();
 
             //设置管理员发起签到的键名
-            String adminSignInKey = "admin:sign_in" + "_" + adminSignInRequestBo.getCommunityId()  + "_" + adminSignInRequestBo.getContext();
+            String adminSignInKey = "admin:signIn" + "_" + userId  + "_" + adminSignInRequestBo.getContext();
 
             //设置标识
             String fixedKey = "fixed_key";
@@ -163,11 +172,31 @@ public class UserAdminController {
             //设置签到缓存
             redisTemplate.expire(adminSignInKey,adminSignInRequestBo.getDuration(), TimeUnit.MINUTES);
             System.out.println(adminSignInKey);
+
+            //将签到信息存入mysql
+            SignInAdminR signInAdminR = new SignInAdminR();
+            signInAdminR.setContext(adminSignInRequestBo.getContext());
+            signInAdminR.setDuration(adminSignInRequestBo.getDuration());
+            signInAdminR.setKey(adminSignInKey);
+            signInAdminR.setSignUserId(userId);
+            signInAdminR.setSignInTime(new Date());
+            userAdminMapper.insertSignInAdminR(signInAdminR);
+
             return JSONArray.toJSONString(new ResponseVo<>("签到已发起",null,"0x200"));
         } catch (Exception e){
             e.printStackTrace();
             return JSONArray.toJSONString(new ResponseVo<>("管理员发起签到失败",null,"0x500"));
         }
+    }
+
+    /**
+     * @author hln 2024-4-26
+     *      管理员发起签到通知相关社团成员
+     * @param adminSignInNoticeBo
+     * @return
+     */
+    public String adminSignInNotice(@RequestBody AdminSignInNoticeBo adminSignInNoticeBo){
+        return JSONArray.toJSONString(userAdminService.adminSignInNotice(adminSignInNoticeBo));
     }
 
 }

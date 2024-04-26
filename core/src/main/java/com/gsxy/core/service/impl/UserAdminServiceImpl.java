@@ -162,4 +162,20 @@ public class UserAdminServiceImpl implements UserAdminService {
         return new ResponseVo("查询成功",list,"0x200");
     }
 
+    /**
+     * @author hln 2024-4-26
+     *      管理员发起签到通知相关社团成员
+     * @param adminSignInNoticeBo
+     * @return
+     */
+    @Override
+    public ResponseVo adminSignInNotice(AdminSignInNoticeBo adminSignInNoticeBo) {
+
+        Long userId = Long.valueOf((String) ThreadLocalUtil.mapThreadLocalOfJWT.get().get("userinfo").get("id"));
+
+
+
+        return new ResponseVo("已通知",null,"0x200");
+    }
+
 }

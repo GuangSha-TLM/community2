@@ -1,6 +1,7 @@
 package com.gsxy.core.controller;
 
 import com.alibaba.fastjson2.JSONArray;
+import com.gsxy.core.mapper.UserMapper;
 import com.gsxy.core.pojo.SignInWebSocket;
 import com.gsxy.core.pojo.User;
 import com.gsxy.core.pojo.bo.*;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -26,6 +28,9 @@ import java.util.concurrent.TimeUnit;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+
+    @Autowired
+    private UserMapper userMapper;
 
     @Autowired
     private UserService userService;
@@ -199,24 +204,33 @@ public class UserController {
     @PostMapping("/userSignIn")
     @ApiOperation("用户签到")
     public String userSignIn(@RequestBody UserSignInRequestBo userSignInRequestBo){
+
+        //获取当前用户id
+        Long userId = Long.valueOf((String) ThreadLocalUtil.mapThreadLocalOfJWT.get().get("userinfo").get("id"));
+
         try {
             //获取固定键名，用于查询管理员发起签到而设置的标识
             String fixedKey = "fixed_key";
             String adminSignInKey = (String) redisTemplate.opsForValue().get(fixedKey);
 
-            //dasads
             //判断键是否在redis存在
             if (adminSignInKey != null) {
                 String adminContext = adminSignInKey.split("_")[2]; // 从键名中解析管理员发起签到时设置的 context
                 String adminCommunityId = adminSignInKey.split("_")[1]; // 从键名中解析管理员发起签到时设置的 community_id
-                String userSignInKey = adminSignInKey;
+
+                //查询当前用户的community_id and name
+                User user = userMapper.selectByUserId(userId);
+//                List<Long> communityIdList = userMapper.queryListCommunityId(userId);
+//                Long communityId = userMapper.queryCommunityId(userId);
+
+                String userSignInKey = adminSignInKey;//用于核对管理员签到的key
 
                 Boolean exists = redisTemplate.hasKey(userSignInKey);
-                if (exists && exists != null) {
-                    return JSONArray.toJSONString(new ResponseVo<>("签到失败：您已经签过到了",null,"0x404"));
-                } else {
+                if ((!exists && exists == null) && adminContext.equals(userSignInRequestBo.getContext())) {
                     redisTemplate.opsForValue().set(userSignInKey,"signed",1, TimeUnit.DAYS);
                     return JSONArray.toJSONString(new ResponseVo<>("签到成功",null,"0x200"));
+                } else {
+                    return JSONArray.toJSONString(new ResponseVo<>("签到失败：您已经签过到了",null,"0x404"));
                 }
             } else {
                 return JSONArray.toJSONString(new ResponseVo<>("签到失败：当前没有签到活动",null,"0x404"));

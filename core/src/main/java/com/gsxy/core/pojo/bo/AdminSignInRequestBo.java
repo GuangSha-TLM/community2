@@ -7,15 +7,15 @@ import java.util.Date;
 public class AdminSignInRequestBo implements Serializable {
 
     private long duration;//时长
-    private String communityId;//社团id
     private String context;//签到内容
+    private String token;
 
     public AdminSignInRequestBo(){}
 
-    public AdminSignInRequestBo(long duration, String communityId, String context) {
+    public AdminSignInRequestBo(long duration, String context, String token) {
         this.duration = duration;
-        this.communityId = communityId;
         this.context = context;
+        this.token = token;
     }
 
     public long getDuration() {
@@ -26,14 +26,6 @@ public class AdminSignInRequestBo implements Serializable {
         this.duration = duration;
     }
 
-    public String getCommunityId() {
-        return communityId;
-    }
-
-    public void setCommunityId(String communityId) {
-        this.communityId = communityId;
-    }
-
     public String getContext() {
         return context;
     }
@@ -42,12 +34,20 @@ public class AdminSignInRequestBo implements Serializable {
         this.context = context;
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     @Override
     public String toString() {
         return "AdminSignInRequestBo{" +
                 "duration=" + duration +
-                ", communityId='" + communityId + '\'' +
                 ", context='" + context + '\'' +
+                ", token='" + token + '\'' +
                 '}';
     }
 }

@@ -10,7 +10,6 @@ import com.gsxy.core.pojo.vo.UserSelectToGetVo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Mapper
@@ -224,4 +223,22 @@ public interface UserMapper {
      * @param role
      */
     void userRegRole(Long id, Integer role);
+
+    /**
+     * @author hln 2024-4-23
+     * 查询当前的用户的所有所在社团id
+     * 注意：一个用户可能在多个社团中，我们要考虑这种业务
+     * @param userId
+     * @return
+     */
+    List<Long> queryListCommunityId(Long userId);
+
+    /**
+     * @author hln 2024-4-23
+     * 查询当前的用户的所在社团id（单个）
+     * 注意：仅作为测试使用
+     * @param userId
+     * @return
+     */
+    Long queryCommunityId(Long userId);
 }

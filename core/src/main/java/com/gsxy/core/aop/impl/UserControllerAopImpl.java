@@ -12,6 +12,10 @@ import org.springframework.stereotype.Component;
 @Component
 @Aspect
 public class UserControllerAopImpl implements UserControllerAop {
+
+    @Autowired
+    private SystemService systemService;
+
     /**
      * @author hln 2023-12-03
      *      查询所有信息
@@ -26,8 +30,18 @@ public class UserControllerAopImpl implements UserControllerAop {
         systemService.auth(token);
     }
 
-    @Autowired
-    private SystemService systemService;
+    /**
+     * @author hln 2024-4-26
+     *      用户签到
+     * @param joinPoint
+     */
+    @Override
+    @Before("execution(* com.gsxy.core.controller.UserController.userSignIn(..))")
+    public void userSignIn(JoinPoint joinPoint) {
+        Object[] args = joinPoint.getArgs();
+        String token = (String) args[0];
+        systemService.auth(token);
+    }
 
     /**
      * @author hln 2023-10-31
@@ -130,40 +144,4 @@ public class UserControllerAopImpl implements UserControllerAop {
 
         return null;
     }
-
-    /**
-     * @author hln 2023-11-07
-     *      用户签到-WebSocket鉴权
-     * @param joinPoint
-     * @return
-     */
-    @Override
-    @Before("execution(* com.gsxy.core.controller.UserController.userSignInWebSocket(..))")
-    public String userSignInWebSocket(JoinPoint joinPoint) {
-        Object[] args = joinPoint.getArgs();
-        SignInWebSocketBo arg = (SignInWebSocketBo) args[0];
-        String token = arg.getToken();
-        systemService.auth(token);
-
-        return null;
-    }
-
-    /**
-     * @author hln 2023-11-07
-     *      用户签到-WebSocket鉴权
-     * @param joinPoint
-     * @return
-     */
-    @Override
-    @Before("execution(* com.gsxy.core.controller.UserController.userSignInWebSocketNew(..))")
-    public String userSignInWebSocketNew(JoinPoint joinPoint) {
-        Object[] args = joinPoint.getArgs();
-        SignInWebSocketBo arg = (SignInWebSocketBo) args[0];
-        String token = arg.getToken();
-        systemService.auth(token);
-
-        return null;
-    }
-
-
 }

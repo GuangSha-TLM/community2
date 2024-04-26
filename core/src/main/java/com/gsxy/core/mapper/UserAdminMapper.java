@@ -1,6 +1,7 @@
 package com.gsxy.core.mapper;
 
 import com.gsxy.core.pojo.SignInAdmin;
+import com.gsxy.core.pojo.SignInAdminR;
 import com.gsxy.core.pojo.SignInAdminWebSocket;
 import com.gsxy.core.pojo.UserAdmin;
 import com.gsxy.core.pojo.bo.SignInAdminWebSocketBo;
@@ -241,4 +242,11 @@ public interface UserAdminMapper {
      * @return
      */
     String selectToGetContentNew();
+
+    /**
+     * @author hln 2024-4-26
+     *      将签到信息存入mysql
+     * @param signInAdminR
+     */
+    void insertSignInAdminR(SignInAdminR signInAdminR);
 }

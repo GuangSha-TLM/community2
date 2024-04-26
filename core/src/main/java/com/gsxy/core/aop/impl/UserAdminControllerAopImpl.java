@@ -129,7 +129,8 @@ public class UserAdminControllerAopImpl implements UserAdminControllerAop {
     @Before("execution(* com.gsxy.core.controller.UserAdminController.adminSignInRedis(..))")
     public void adminSignInRedis(JoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();
-        String token = (String) args[0];
+        AdminSignInRequestBo adminSignInRequestBo = (AdminSignInRequestBo) args[0];
+        String token = adminSignInRequestBo.getToken();
         systemService.isAdmin(token,2);
     }
 
