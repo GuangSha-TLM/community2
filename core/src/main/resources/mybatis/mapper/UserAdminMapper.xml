@@ -431,4 +431,11 @@
             community_id = #{userId}
     </select>
 
+    <select id="queryAll" resultType="com.gsxy.core.pojo.SignInUser">
+        select
+            *
+        from
+            sign_in_user
+    </select>
+
 </mapper>

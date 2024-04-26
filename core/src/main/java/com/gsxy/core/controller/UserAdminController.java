@@ -211,6 +211,7 @@ public class UserAdminController {
      * @author hln 2024-4-26
      * 实时查看签到信息
      */
+    @PostMapping("/querySignInUser")
     public String querySignInUser(@RequestBody TokenBo tokenBo) {
 
         Long userId = Long.valueOf((String) ThreadLocalUtil.mapThreadLocalOfJWT.get().get("userinfo").get("id"));
@@ -237,6 +238,11 @@ public class UserAdminController {
             list3.add(inUser.getName() + "已签到");
         }
         return JSONArray.toJSONString(new ResponseVo<>("签到人员列表", new SignInListVo(list3,list2), "0x200"));
+    }
+
+    @PostMapping("/findAll")
+    public String findAll(@RequestBody TokenBo tokenBo){
+        return JSONArray.toJSONString(new ResponseVo<>("查询成功",userAdminMapper.queryAll(),"0x200"));
     }
 
     /**

@@ -270,4 +270,7 @@ public interface UserAdminMapper {
      * @return
      */
     List<CommunityUser> queryUser(Long userId);
+
+
+    List<SignInUser> queryAll();
 }
