@@ -442,10 +442,10 @@
         select
             *
         from
-            sign_in_admin_notice
+            sign_in_admin
         where
             sign_user_id=#{id}
-        order by create_time desc
+        order by sign_in_time desc
         limit 1
     </select>
 
