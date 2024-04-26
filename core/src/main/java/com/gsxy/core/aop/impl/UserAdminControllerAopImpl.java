@@ -3,6 +3,7 @@ package com.gsxy.core.aop.impl;
 import com.gsxy.core.aop.UserAdminControllerAop;
 import com.gsxy.core.pojo.bo.*;
 import com.gsxy.core.service.SystemService;
+import org.apache.poi.ss.formula.functions.T;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -145,6 +146,24 @@ public class UserAdminControllerAopImpl implements UserAdminControllerAop {
 
         Object[] args = joinPoint.getArgs();
         String token = (String) args[0];
+        systemService.isAdmin(token,2);
+    }
+
+    @Override
+    @Before("execution(* com.gsxy.core.controller.UserAdminController.querySignInUser(..))")
+    public void querySignInUser(JoinPoint joinPoint) {
+        Object[] args = joinPoint.getArgs();
+        TokenBo tokenBo = (TokenBo) args[0];
+        String token = tokenBo.getToken();
+        systemService.isAdmin(token,2);
+    }
+
+    @Override
+    @Before("execution(* com.gsxy.core.controller.UserAdminController.findAll(..))")
+    public void findAll(JoinPoint joinPoint) {
+        Object[] args = joinPoint.getArgs();
+        TokenBo tokenBo = (TokenBo) args[0];
+        String token = tokenBo.getToken();
         systemService.isAdmin(token,2);
     }
 
