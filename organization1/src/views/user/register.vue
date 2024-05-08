@@ -1,7 +1,7 @@
 <!--
  * @Author: tianleiyu 
  * @Date: 2024-04-22 16:55:02
- * @LastEditTime: 2024-04-24 14:22:43
+ * @LastEditTime: 2024-05-08 13:52:08
  * @LastEditors: tianleiyu
  * @Description: 
  * @FilePath: /organization1/src/views/user/register.vue
@@ -99,7 +99,7 @@ const { cookies } = useCookies();
 import { ElMessage } from 'element-plus'
 import type { FormInstance, FormRules } from 'element-plus'
 import { IUserRegister } from '@/model/userData';
-import Top from '@/components/fream/LoginTop.vue';
+import Top from '@/components/fream/Top.vue';
 import Foot from '@/components/fream/Foot.vue';
 import { reactive, ref, toRefs, computed } from 'vue'
 

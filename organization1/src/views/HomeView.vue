@@ -1,10 +1,10 @@
 <!--
  * @Author: tianleiyu 
  * @Date: 2024-04-22 15:36:51
- * @LastEditTime: 2024-04-22 16:12:14
+ * @LastEditTime: 2024-05-08 13:51:13
  * @LastEditors: tianleiyu
  * @Description: 
- * @FilePath: /organization/src/views/HomeView.vue
+ * @FilePath: /organization1/src/views/HomeView.vue
  * 可以输入预定的版权声明、个性签名、空行等
 -->
 <template>
@@ -13,8 +13,8 @@
             <Top></Top>
         </div>
         <div class="content">
-            <!-- <div class="left">
-            </div> -->
+            <div class="left">
+            </div>
             <div class="rigth">
                 <router-view />
             </div>
@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts" setup>
-import Top from '@/components/fream/LoginTop.vue'
+import Top from '@/components/fream/Top.vue'
 import Foot from '@/components/fream/Foot.vue'
 
 </script>

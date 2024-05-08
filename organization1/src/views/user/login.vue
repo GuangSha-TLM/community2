@@ -1,7 +1,7 @@
 <!--
  * @Author: tianleiyu 
  * @Date: 2024-04-22 16:54:57
- * @LastEditTime: 2024-04-23 15:10:45
+ * @LastEditTime: 2024-05-08 13:52:01
  * @LastEditors: tianleiyu
  * @Description: 
  * @FilePath: /organization1/src/views/user/login.vue
@@ -55,7 +55,7 @@
 </template>
 
 <script lang="ts" setup>
-import Top from '@/components/fream/LoginTop.vue';
+import Top from '@/components/fream/Top.vue';
 import Foot from '@/components/fream/Foot.vue';
 import { reactive, ref, toRefs } from 'vue'
 //引入vue3-cookies
