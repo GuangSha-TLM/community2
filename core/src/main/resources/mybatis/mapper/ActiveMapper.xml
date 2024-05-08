@@ -181,7 +181,7 @@
         from
             community_user
         where
-            user_id = #{userId}
+            create_by = #{userId}
         limit 1
     </select>
 
