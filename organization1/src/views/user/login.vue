@@ -1,7 +1,7 @@
 <!--
  * @Author: tianleiyu 
  * @Date: 2024-04-22 16:54:57
- * @LastEditTime: 2024-05-08 13:52:01
+ * @LastEditTime: 2024-05-09 14:13:27
  * @LastEditors: tianleiyu
  * @Description: 
  * @FilePath: /organization1/src/views/user/login.vue
@@ -66,7 +66,7 @@ const { cookies } = useCookies();
 import { ElMessage } from 'element-plus'
 import type { FormInstance, FormRules } from 'element-plus'
 //引用类型
-import { IUserLogin } from '@/model/userData';
+import { IUserLogin,loginResponseData } from '@/model/userData';
 //引用接口
 import { userLogin } from '@/api/user'
 
@@ -92,44 +92,30 @@ const ruleFormRef = ref<FormInstance>()
 
 const login = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
-  await formEl.validate((valid, fields) => {
+  await formEl.validate(async (valid, fields) => {
     if (valid) {
       switchbutton.value = true
-      userLogin(userLoginBo)
-        .then(res => {
-          console.log(res)
-          if (res.code === '0x200') {
-            cookies.set('token', res.data.token)
-            cookies.set('user', res.data.userAndUserAdminBo)
+      const result:loginResponseData =  await userLogin(userLoginBo)
+      
+      if (result.code === '0x200') {
+        cookies.set('token', result.data.token)
+            cookies.set('user', JSON.stringify(result.data.userAndUserAdminBo) )
             userLoginBo.username = ''
             userLoginBo.password = ''
-            console.log(res);
             
             ElMessage({
-              message: res.message,
+              message: result.message,
               type: 'success',
             })
-          }else{
-            console.log(res);
-            
-            userLoginBo.username = ''
+      }else {
+        userLoginBo.username = ''
             userLoginBo.password = ''
             ElMessage({
-              message: res.message,
+              message: result.message,
               type: 'error',
             })
-          }
-        })
-        .catch(err => {
-          console.log(err);
-          
-          ElMessage({
-              message: err.message,
-              type: 'error',
-            })
-        })
-
-
+      }
+      
       switchbutton.value = false
     } else {
       console.log('error submit!', fields)

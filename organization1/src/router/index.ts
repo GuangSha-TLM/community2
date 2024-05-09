@@ -1,7 +1,7 @@
 /*
  * @Author: tianleiyu 
  * @Date: 2024-04-22 15:36:51
- * @LastEditTime: 2024-04-23 13:23:21
+ * @LastEditTime: 2024-05-08 15:37:57
  * @LastEditors: tianleiyu
  * @Description: 
  * @FilePath: /organization1/src/router/index.ts
@@ -16,11 +16,30 @@ const routes: Array<RouteRecordRaw> = [
     name: 'home',
     component: HomeView,
     children: [
-      // {
-      //   path: '/home',
-      //   name: 'home',
-      //   component: () => import(/* webpackChunkName: "about" */ '../views/ActivityManagement.vue')
-      // }
+      {
+        path: '/activityManagement',
+        name: 'activityManagement',
+        component: () => import(/* webpackChunkName: "about" */ '../views/activity/activityManagement.vue'),
+        meta: {
+          requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
+        }
+      },
+      {
+        path: '/activity/:id',
+        name: 'activity',
+        component: () => import(/* webpackChunkName: "about" */ '../views/activity/activity.vue'),
+        meta: {
+          requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
+        }
+      },
+      {
+        path: '/associationActivityManagement',
+        name: 'associationActivityManagement',
+        component: () => import(/* webpackChunkName: "about" */ '../views/activity/associationActivityManagement.vue'),
+        meta: {
+          requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
+        }
+      },
     ]
   },
   {
