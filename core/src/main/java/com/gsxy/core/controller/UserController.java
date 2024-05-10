@@ -252,7 +252,8 @@ public class UserController {
                 } else {
                     return JSONArray.toJSONString(new ResponseVo<>("签到失败：您已经签过到了",null,"0x404"));
                 }
-            } else {
+            }
+            else {
                 return JSONArray.toJSONString(new ResponseVo<>("签到失败：当前没有签到活动",null,"0x404"));
             }
         } catch (Exception e){

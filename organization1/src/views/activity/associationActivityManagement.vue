@@ -1,7 +1,7 @@
 <!--
  * @Author: tianleiyu 
  * @Date: 2024-05-08 15:38:30
- * @LastEditTime: 2024-05-09 15:32:45
+ * @LastEditTime: 2024-05-10 09:01:59
  * @LastEditors: tianleiyu
  * @Description: 
  * @FilePath: /organization1/src/views/activity/associationActivityManagement.vue
@@ -35,27 +35,26 @@
             </div>
 
 
-            <el-dialog title="新增活动" :visible.sync="dialogFormVisible" width="100%" top="0">
+            <div v-if="dialogFormVisible">
+                <EditorTinymce v-model="htmlContent" @editor="receiveEditor" placeholder="placeholder"/>
+
+            </div>
+
+
+            <!-- <el-dialog title="新增活动" v-model="dialogFormVisible" width="100%" top="0">
                 <el-form :model="activeAddBo">
                     <el-form-item label="活动标题" :label-width="formLabelWidth">
                         <el-input v-model="activeAddBo.title" autocomplete="off"></el-input>
                     </el-form-item>
                     <el-form-item label="活动详细" :label-width="formLabelWidth">
-                        <!-- <quill-editor v-model="context" ref="myTextEditor" :options="editorOptions" /> -->
-
-                        <!-- <el-upload class="upload-demo" action="#" drag :file-list="fileList" style="display: none;"
-                            :on-change="handleChange" :http-request="confirmUpload">
-                            <i class="el-icon-upload"></i>
-                            <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-                            <div class="el-upload__tip" slot="tip">上传Excel格式文件</div>
-                        </el-upload> -->
+                        <EditorTinymce v-model="htmlContent" @editor="receiveEditor" placeholder="placeholder"/>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
                     <el-button @click="close">取 消</el-button>
                     <el-button type="primary" @click="addActive">确 定</el-button>
                 </div>
-            </el-dialog>
+            </el-dialog> -->
         </div>
     </div>
 </template>
@@ -71,6 +70,25 @@ import { selectByToken, delectActivity } from '@/api/activity'
 
 import { IActivityList, activityResponseData, activeDeleteByIdBo } from '@/model/activityData'
 import { ElMessage } from 'element-plus';
+
+import EditorTinymce from '@/components/editor'
+
+//接收tinymce编辑器的editor,用来获取右下角字符统计
+let _editor = null
+const receiveEditor = (editor)=>{
+  _editor = editor
+}
+
+const htmlContent = ref('')
+
+/* 贴上的是代码片段，自己放在需要的位置去
+//获取右下角字符数
+  const elements = _editor.getContainer().getElementsByClassName('tox-statusbar__wordcount')
+  const wordcountButton = elements[0]
+  const wordcount = parseInt(wordcountButton.innerHTML)
+  */
+
+
 
 const token = cookies.get('token')
 let list = ref<IActivityList>([])
