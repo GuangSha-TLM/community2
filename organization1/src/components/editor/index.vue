@@ -1,7 +1,7 @@
 <!--
  * @Author: tianleiyu 
  * @Date: 2024-05-10 08:50:18
- * @LastEditTime: 2024-05-10 15:09:05
+ * @LastEditTime: 2024-05-10 16:32:44
  * @LastEditors: tianleiyu
  * @Description: 
  * @FilePath: /organization1/src/components/editor/index.vue
@@ -48,6 +48,15 @@
   
   import { ElMessage } from 'element-plus';
 
+  import {uploadImg} from '@/api/activity'
+
+
+  import { useCookies } from "vue3-cookies";
+//使用vue3-cookies
+const { cookies } = useCookies();
+const token = cookies.get('token')
+
+
   const props = defineProps({
     modelValue: String,
   })
@@ -60,7 +69,7 @@
     skin_url: '/tinymce/skins/ui/oxide', // 皮肤：这里引入的是public下的资源文件
     // skin_url: 'tinymce/skins/ui/oxide-dark',//黑色系
     content_css: '/tinymce/skins/content/default/content.css', //内容区域css样式
-    content_style: "p {margin: 5px 0;}",
+    content_style: "img {max-width:100%;height:auto}",
     plugins: 'save accordion lists advlist quickbars autolink link autosave charmap wordcount code codesample directionality emoticons fullscreen image insertdatetime nonbreaking pagebreak preview searchreplace table visualblocks formatpainter kityformula-editor',
     toolbar: `save undo redo restoredraft code pastetext formatpainter removeformat | forecolor backcolor styles blocks fontfamily fontsize bold italic underline strikethrough lineheight | alignleft alignright aligncenter alignjustify 
     outdent indent ltr rtl | bullist numlist | blockquote subscript superscript  | link table image charmap emoticons hr pagebreak insertdatetime | codesample kityformula-editor 
@@ -153,13 +162,19 @@
     //   })
     // },
     // 此处为自定义图片上传处理函数
-    images_upload_handler: (blobInfo: any) => new Promise((resolve: any, reject: any) => {
+    images_upload_handler: (blobInfo: any) => new Promise(async (resolve: any, reject: any) => {
       let file = blobInfo.blob()
       // 调接口
       console.log(file, resolve, reject, '==file')
-    //   let url = 'blob:http://127.0.0.1:8000/2c6c7bbe-cb9a-481d-acfe-adc00f2866d5'
-    //   resolve(url)
+      const formData = new FormData();
+      formData.append("file", file)
+      formData.append("token", token);
+      const result = await uploadImg(formData)
+      console.log(result.data);
+      let url = result.data
+      resolve(url)
     }),
+    image_dimensions: false, // 是否显示图片尺寸
     image_advtab: true, // 图片高级功能
     lists_indent_on_tab: true, // 是否按tab键进入新的子列表
     link_context_toolbar: true,

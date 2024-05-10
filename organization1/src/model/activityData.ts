@@ -1,14 +1,14 @@
 /*
  * @Author: tianleiyu 
  * @Date: 2024-05-08 16:19:35
- * @LastEditTime: 2024-05-09 15:21:30
+ * @LastEditTime: 2024-05-10 17:18:01
  * @LastEditors: tianleiyu
  * @Description: 
  * @FilePath: /organization1/src/model/activityData.ts
  * 可以输入预定的版权声明、个性签名、空行等
  */
 
-import { id } from "element-plus/es/locale"
+
 
 export interface ResponseData {
     code: string
@@ -21,6 +21,18 @@ export interface activityResponseData extends ResponseData {
 
 export interface delectActivityResponseData extends ResponseData {
     data: number
+}
+
+export interface imgUpDown extends ResponseData {
+    data:string
+}
+export interface addActivityResponseData extends ResponseData {
+    
+}
+export interface activeAdd{
+    title: string
+    context: string
+    token:string
 }
 
 export interface activeAddBo{

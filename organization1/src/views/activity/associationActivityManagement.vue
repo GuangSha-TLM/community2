@@ -1,7 +1,7 @@
 <!--
  * @Author: tianleiyu 
  * @Date: 2024-05-08 15:38:30
- * @LastEditTime: 2024-05-10 09:01:59
+ * @LastEditTime: 2024-05-10 17:18:38
  * @LastEditors: tianleiyu
  * @Description: 
  * @FilePath: /organization1/src/views/activity/associationActivityManagement.vue
@@ -35,26 +35,26 @@
             </div>
 
 
-            <div v-if="dialogFormVisible">
+            <!-- <div v-if="dialogFormVisible">
                 <EditorTinymce v-model="htmlContent" @editor="receiveEditor" placeholder="placeholder"/>
 
-            </div>
+            </div> -->
 
 
-            <!-- <el-dialog title="新增活动" v-model="dialogFormVisible" width="100%" top="0">
+            <el-dialog title="新增活动" v-model="dialogFormVisible" width="100%" top="0">
                 <el-form :model="activeAddBo">
                     <el-form-item label="活动标题" :label-width="formLabelWidth">
                         <el-input v-model="activeAddBo.title" autocomplete="off"></el-input>
                     </el-form-item>
                     <el-form-item label="活动详细" :label-width="formLabelWidth">
-                        <EditorTinymce v-model="htmlContent" @editor="receiveEditor" placeholder="placeholder"/>
+                        <EditorTinymce class="editor" v-model="activeAddBo.context" placeholder="placeholder"/>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
                     <el-button @click="close">取 消</el-button>
                     <el-button type="primary" @click="addActive">确 定</el-button>
                 </div>
-            </el-dialog> -->
+            </el-dialog>
         </div>
     </div>
 </template>
@@ -66,40 +66,22 @@ import { useCookies } from "vue3-cookies";
 //使用vue3-cookies
 const { cookies } = useCookies();
 import { ref, reactive, onMounted, toRefs, computed } from 'vue';
-import { selectByToken, delectActivity } from '@/api/activity'
+import { selectByToken, delectActivity ,addActivity} from '@/api/activity'
 
-import { IActivityList, activityResponseData, activeDeleteByIdBo } from '@/model/activityData'
+import { IActivityList, activityResponseData, activeDeleteByIdBo,activeAdd } from '@/model/activityData'
 import { ElMessage } from 'element-plus';
 
 import EditorTinymce from '@/components/editor'
 
-//接收tinymce编辑器的editor,用来获取右下角字符统计
-let _editor = null
-const receiveEditor = (editor)=>{
-  _editor = editor
-}
-
-const htmlContent = ref('')
-
-/* 贴上的是代码片段，自己放在需要的位置去
-//获取右下角字符数
-  const elements = _editor.getContainer().getElementsByClassName('tox-statusbar__wordcount')
-  const wordcountButton = elements[0]
-  const wordcount = parseInt(wordcountButton.innerHTML)
-  */
-
-
-
+// const htmlContent = ref('')
 const token = cookies.get('token')
 let list = ref<IActivityList>([])
 const dialogFormVisible = ref(false)
-const context = ref('')
 const formLabelWidth = '140px'
-const fileList = ref([])
-const activeAddBo = ref({
+const activeAddBo = ref<activeAdd>({
     title: '',
     context: '',
-    file: ''
+    token:token
 })
 const activeDeleteByIdBo = ref<activeDeleteByIdBo>({
     token: token,
@@ -140,7 +122,6 @@ const delActive = async (id: number) => {
             type: 'error',
         })
     }
-
 }
 const close = () => {
     dialogFormVisible.value = false
@@ -148,6 +129,25 @@ const close = () => {
     activeAddBo.value.context = ''
 }
 
+const addActive = async () => {
+    let result = await addActivity(activeAddBo.value)
+    if(result.code === '0x200'){
+        ElMessage({
+            message: result.message,
+            type: 'success',
+        })
+        activeAddBo.value.title = ''
+        activeAddBo.value.context = ''
+        getList()
+        close()
+    }else{
+        ElMessage({
+            message: result.message,
+            type: 'error',
+        })
+    }
+    
+}
 
 
 </script>
@@ -202,4 +202,11 @@ a {
 .item_del {
     color: #67C23A;
 }
+
+</style>
+<style lang="less">
+.tox-tinymce-aux {
+    z-index: 99999 !important ;
+}
+
 </style>
