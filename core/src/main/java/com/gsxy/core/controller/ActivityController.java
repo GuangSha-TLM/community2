@@ -29,14 +29,14 @@ public class ActivityController {
      */
     @PostMapping("/add")
     @ApiOperation("添加活动")
-    public String addActive(@RequestBody ActiveAddBo activeAddBo,@RequestParam String context){
+    public String addActive(@RequestBody ActiveAddBo activeAddBo){
         Map<String, String> map = ThreadLocalUtil.mapThreadLocal.get();
         ThreadLocalUtil.mapThreadLocal.remove();
         if ( map.get("error") != null) {
             return JSONArray.toJSONString(new ResponseVo<>(map.get("error"),null,map.get("code")));
         }
 
-        return JSONArray.toJSONString(activeService.addActive(activeAddBo,context));
+        return JSONArray.toJSONString(activeService.addActive(activeAddBo));
     }
 
     /**

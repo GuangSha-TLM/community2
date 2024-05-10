@@ -7,15 +7,24 @@ import java.io.Serializable;
 public class ActiveAddBo implements Serializable {
 
     private String token;
-
     private String title;
+    private String context;
 
-    public ActiveAddBo(String token, String title) {
+    public ActiveAddBo(String token, String title, String context) {
         this.token = token;
         this.title = title;
+        this.context = context;
     }
 
     public ActiveAddBo() {
+    }
+
+    public String getContext() {
+        return context;
+    }
+
+    public void setContext(String context) {
+        this.context = context;
     }
 
     public String getToken() {
@@ -39,6 +48,7 @@ public class ActiveAddBo implements Serializable {
         return "ActiveAddBo{" +
                 "token='" + token + '\'' +
                 ", title='" + title + '\'' +
+                ", context='" + context + '\'' +
                 '}';
     }
 }
