@@ -1,7 +1,7 @@
 <!--
  * @Author: tianleiyu 
  * @Date: 2024-04-26 08:33:35
- * @LastEditTime: 2024-05-08 14:04:09
+ * @LastEditTime: 2024-05-14 13:58:48
  * @LastEditors: tianleiyu
  * @Description: 
  * @FilePath: /organization1/src/components/fream/Top.vue
@@ -39,6 +39,8 @@
                 <div class="logo">
                     <a href="#">Web Creative</a>
                 </div>
+
+                
                 <ul class="links">
                     
                     <li><a href="Home">Home</a></li>

@@ -1,10 +1,10 @@
 <!--
  * @Author: tianleiyu 
  * @Date: 2024-04-02 16:37:35
- * @LastEditTime: 2024-04-02 16:39:25
+ * @LastEditTime: 2024-05-11 14:49:50
  * @LastEditors: tianleiyu
  * @Description: 
- * @FilePath: /guide-vue/src/components/fream/LoginTop.vue
+ * @FilePath: /organization1/src/components/fream/LoginTop.vue
  * 可以输入预定的版权声明、个性签名、空行等
 -->
 <!--
@@ -59,6 +59,9 @@
                         <img alt="Image placeholder" style="height:3.4rem" src="123123" id="navbar-logo">
                     </a> -->
           <!-- Toggler -->
+
+          
+
           <button
             class="navbar-toggler"
             type="button"

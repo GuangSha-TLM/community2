@@ -1,19 +1,19 @@
 <!--
  * @Author: tianleiyu 
  * @Date: 2024-04-22 15:36:51
- * @LastEditTime: 2024-05-09 15:07:26
+ * @LastEditTime: 2024-05-14 14:22:35
  * @LastEditors: tianleiyu
  * @Description: 
  * @FilePath: /organization1/src/views/HomeView.vue
  * 可以输入预定的版权声明、个性签名、空行等
 -->
 <template>
-   <div class="hello">
-        <div class="top">
-            <Top></Top>
-        </div>
-        <div class="content">
-      <div class="left_block">
+  <div class="hello">
+    <div class="top">
+      <Top></Top>
+    </div>
+    <div class="content" style="display: flex;">
+      <div class="left_block" style="width: 20%;">
         <div class="left_navbor">
           <div class="left_logo">
             <div class="left_toggle_btn" @click="updateLeftMenu">
@@ -36,10 +36,10 @@
       </div>
     </div>
 
-        <footer class="position-relative" id="footer-main">
-            <Foot></Foot>
-        </footer>
-    </div>
+    <footer class="position-relative" id="footer-main">
+      <Foot></Foot>
+    </footer>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -50,14 +50,14 @@ import { RouterLink } from 'vue-router'
 // 控制头部导航栏
 const top_btn = ref(false);
 function updateTopMenu() {
-    top_btn.value = !top_btn.value
-    console.log(top_btn);
+  top_btn.value = !top_btn.value
+  console.log(top_btn);
 }
 
 const left_btn = ref(false);
 function updateLeftMenu() {
-    left_btn.value = !left_btn.value
-    console.log(left_btn);
+  left_btn.value = !left_btn.value
+  console.log(left_btn);
 }
 
 </script>
@@ -172,6 +172,7 @@ header {
 
 /* 随页面的大小缩放显示面包板 */
 @media (max-width: 992px) {
+
   .navbor .links,
   .navbor .action_btn {
     display: none;
@@ -208,8 +209,9 @@ header {
   /* display: none; */
   display: flex;
   justify-content: center;
-  width: 7%;
-  margin-left: 47px;
+  width: 100%;
+  flex-direction: column;
+  // margin-left: 47px;
 }
 
 .left_navbor.open {
@@ -221,17 +223,20 @@ header {
 
 /* 侧边框的头栏目 */
 .left_navbor .left_logo {
-  text-align: left;
-  background-color: rgb(244, 247, 51);
-  height: 59px;
+  // text-align: left;
+  // background-color: rgb(244, 247, 51);
+  // height: 59px;
+  width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 /* 面包屑修饰 */
 .left_navbor .left_logo .left_toggle_btn {
 
   position: fixed;
-  top: 79px;
-  left: 70px;
+  // top: 79px;
+  // left: 70px;
   cursor: pointer;
 }
 
@@ -254,8 +259,8 @@ header {
 /* 修饰侧边框的Get Started */
 .left_navbor .action_btn {
   position: fixed;
-  top: 500px;
-  left: 92px;
+  // top: 500px;
+  // left: 92px;
 }
 
 /* 实现按钮功能js */
@@ -274,125 +279,107 @@ header {
 
   header {
     width: 100%;
+
     .navbor {
       width: 100%;
 
       .logo {
-        a {
-        }
+        a {}
       }
 
       .links {
         li {
-          a {
-          }
+          a {}
         }
 
         li {
-          a {
-          }
+          a {}
         }
 
         li {
-          a {
-          }
+          a {}
         }
 
         li {
-          a {
-          }
+          a {}
         }
       }
 
-      .action_btn {
-      }
+      .action_btn {}
 
       .toggle_btn {
-        .fa-solid {
-        }
+        .fa-solid {}
 
-        .fa-bars {
-        }
+        .fa-bars {}
 
-        .fa-beat {
-        }
+        .fa-beat {}
 
-        .fa-xl {
-        }
+        .fa-xl {}
       }
     }
 
     .dropdown_menu {
       li {
-        a {
-        }
+        a {}
       }
 
       li {
-        a {
-        }
+        a {}
       }
 
       li {
-        a {
-        }
+        a {}
       }
 
       li {
-        a {
-        }
+        a {}
       }
 
-      .action_btn {
-      }
+      .action_btn {}
     }
   }
 
   .content {
-    display: flex;
+    display: flex !important;
     width: 100%;
+
     .left_block {
-      width: 20%;
+      display: flex;
+      width: 20% !important;
+      justify-content: center;
+      align-items: center;
+
       .left_navbor {
         .left_logo {
           .left_toggle_btn {
-            .fa-solid {
-            }
+            .fa-solid {}
 
-            .fa-bars {
-            }
+            .fa-bars {}
 
-            .fa-beat {
-            }
+            .fa-beat {}
 
-            .fa-lg {
-            }
+            .fa-lg {}
           }
         }
 
         .left_links {
           li {
-            a {
-            }
+            a {}
           }
 
           li {
-            a {
-            }
+            a {}
           }
 
           li {
-            a {
-            }
+            a {}
           }
 
           li {
-            a {
-            }
+            a {}
           }
 
-          .action_btn {
-          }
+          .action_btn {}
         }
       }
     }

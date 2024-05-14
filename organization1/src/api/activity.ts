@@ -1,14 +1,14 @@
 /*
  * @Author: tianleiyu 
  * @Date: 2024-05-08 15:49:49
- * @LastEditTime: 2024-05-10 17:17:27
+ * @LastEditTime: 2024-05-11 08:58:30
  * @LastEditors: tianleiyu
  * @Description: 
  * @FilePath: /organization1/src/api/activity.ts
  * 可以输入预定的版权声明、个性签名、空行等
  */
 import  request from '@/utils/request'
-import { activityResponseData ,imgUpDown, addActivityResponseData,activeAdd,activeDeleteByIdBo ,delectActivityResponseData} from '@/model/activityData'
+import { activityResponseData ,imgUpDown,activityByIdResponseData,activeSelectByIdBo, addActivityResponseData,activeAdd,activeDeleteByIdBo ,delectActivityResponseData} from '@/model/activityData'
 
 
 //获取所属社团的活动列表
@@ -31,4 +31,9 @@ export const uploadImg = (formData:FormData)=>{
 //上传活动
 export const addActivity = (activeAdd:activeAdd)=>{
     return request.post<any,addActivityResponseData>('/activity/add',activeAdd)
+}
+
+//获取活动列表
+export const activitySelectById = (activeSelectByIdBo:activeSelectByIdBo)=>{
+    return request.post<any,activityByIdResponseData>('/activity/select',activeSelectByIdBo)
 }

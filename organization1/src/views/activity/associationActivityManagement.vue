@@ -1,7 +1,7 @@
 <!--
  * @Author: tianleiyu 
  * @Date: 2024-05-08 15:38:30
- * @LastEditTime: 2024-05-10 17:18:38
+ * @LastEditTime: 2024-05-14 14:23:38
  * @LastEditors: tianleiyu
  * @Description: 
  * @FilePath: /organization1/src/views/activity/associationActivityManagement.vue
@@ -41,7 +41,7 @@
             </div> -->
 
 
-            <el-dialog title="新增活动" v-model="dialogFormVisible" width="100%" top="0">
+            <el-dialog title="新增活动" v-model="dialogFormVisible" width="80%" top="0">
                 <el-form :model="activeAddBo">
                     <el-form-item label="活动标题" :label-width="formLabelWidth">
                         <el-input v-model="activeAddBo.title" autocomplete="off"></el-input>

@@ -1,7 +1,7 @@
 <!--
  * @Author: tianleiyu 
  * @Date: 2024-04-22 16:54:57
- * @LastEditTime: 2024-05-09 14:13:27
+ * @LastEditTime: 2024-05-11 08:11:47
  * @LastEditors: tianleiyu
  * @Description: 
  * @FilePath: /organization1/src/views/user/login.vue
@@ -69,8 +69,9 @@ import type { FormInstance, FormRules } from 'element-plus'
 import { IUserLogin,loginResponseData } from '@/model/userData';
 //引用接口
 import { userLogin } from '@/api/user'
+import { useRouter } from 'vue-router';
 
-
+let router = useRouter();
 const userLoginBo: IUserLogin = reactive({
   username: '',
   password: ''
@@ -107,6 +108,7 @@ const login = async (formEl: FormInstance | undefined) => {
               message: result.message,
               type: 'success',
             })
+            router.push('/')
       }else {
         userLoginBo.username = ''
             userLoginBo.password = ''

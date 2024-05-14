@@ -1,7 +1,7 @@
 /*
  * @Author: tianleiyu 
  * @Date: 2024-05-08 16:19:35
- * @LastEditTime: 2024-05-10 17:18:01
+ * @LastEditTime: 2024-05-11 09:10:06
  * @LastEditors: tianleiyu
  * @Description: 
  * @FilePath: /organization1/src/model/activityData.ts
@@ -24,47 +24,75 @@ export interface delectActivityResponseData extends ResponseData {
 }
 
 export interface imgUpDown extends ResponseData {
-    data:string
+    data: string
 }
 export interface addActivityResponseData extends ResponseData {
-    
+
 }
-export interface activeAdd{
+export interface activeAdd {
     title: string
     context: string
-    token:string
+    token: string
 }
 
-export interface activeAddBo{
-    community:number
-    context:string
-    startTime:string
-    title:string
+export interface activityByIdResponseData extends ResponseData {
+    data: activeToGetBoAndCommunityInActiveBo
 }
 
-export interface activeUpdateBo{
-    community:number
-    context:string
-    startTime:string
-    title:string
-    id:number
+export interface activeToGetBoAndCommunityInActiveBo {
+    activeToGetBo: activeToGetBo
+    communityInActiveBo: communityInActiveBo
 }
 
-export interface activeDeleteByIdBo{
-    id:number
-    token:string
+export interface activeToGetBo {
+    context: string
+    id: number
+    title: string
+    createTime: string
 }
 
-export type IActivityList= IActivityItem[]
+export interface communityInActiveBo {
+    createBy: number
+    id: number
+    name: string
+    username: string
+}
+
+export interface activeSelectByIdBo {
+    id: string | string[]
+    token: string
+}
+
+export interface activeAddBo {
+    community: number
+    context: string
+    startTime: string
+    title: string
+}
+
+export interface activeUpdateBo {
+    community: number
+    context: string
+    startTime: string
+    title: string
+    id: number
+}
+
+export interface activeDeleteByIdBo {
+    id: number
+    token: string
+}
+
+export type IActivityList = IActivityItem[]
 
 export interface IActivityItem {
-    community :number
-    communityList?:string
-    context:string
-    createBy:number
-    createTime?:string
-    id:number
-    startTime:string
-    status:number
-    title:string
+    community: number
+    communityList?: string
+    context: string
+    createBy: number
+    createTime?: string
+    id: number
+    startTime: string
+    status: number
+    title: string
 }
