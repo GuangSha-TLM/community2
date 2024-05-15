@@ -7,13 +7,14 @@
  * @FilePath: /organization1/src/router/index.ts
  * 可以输入预定的版权声明、个性签名、空行等
  */
-import { createRouter, createWebHistory, createWebHashHistory,RouteRecordRaw } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-
+import { createRouter, createWebHistory, createWebHashHistory, RouteRecordRaw } from 'vue-router'
+// import Home from '../views/home/Home.vue'
+import HomeView from './../views/HomeView.vue'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'home',
+    redirect: '/activityManagement',
     component: HomeView,
     children: [
       {
@@ -61,6 +62,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/register',
     name: 'register',
     component: () => import(/* webpackChunkName: "about" */ '../views/user/register.vue')
+  },
+  {
+    path: '/HelloWorld',
+    name: 'HelloWorld',
+    component: () => import(/* webpackChunkName: "about" */ '@/components/HelloWorld.vue')
   },
 ]
 

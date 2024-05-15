@@ -8,15 +8,28 @@
  * 可以输入预定的版权声明、个性签名、空行等
  */
 
-
+//务必写注释！！！！！！！！！！！！
 
 export interface ResponseData {
     code: string
     message: string
 }
+//activityManagement的接口ts类型
+export type IActivityList = IActivityItem[]
 
+export interface IActivityItem {
+    community: number
+    communityList?: string
+    context: string
+    createBy: number
+    createTime?: string
+    id: number
+    startTime: string
+    status: number
+    title: string
+}
 export interface activityResponseData extends ResponseData {
-    data: IActivityItem[]
+    data: IActivityList[]
 }
 
 export interface delectActivityResponseData extends ResponseData {
@@ -42,13 +55,6 @@ export interface activityByIdResponseData extends ResponseData {
 export interface activeToGetBoAndCommunityInActiveBo {
     activeToGetBo: activeToGetBo
     communityInActiveBo: communityInActiveBo
-}
-
-export interface activeToGetBo {
-    context: string
-    id: number
-    title: string
-    createTime: string
 }
 
 export interface communityInActiveBo {
@@ -83,16 +89,11 @@ export interface activeDeleteByIdBo {
     token: string
 }
 
-export type IActivityList = IActivityItem[]
-
-export interface IActivityItem {
-    community: number
-    communityList?: string
+export interface activeToGetBo {
     context: string
-    createBy: number
-    createTime?: string
     id: number
-    startTime: string
-    status: number
     title: string
+    createTime: string
 }
+
+

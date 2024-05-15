@@ -17,9 +17,18 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 //引用vue3-cookies
 import VueCookies from 'vue3-cookies'
-
+//引入中文的饿了么
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
+//引入全局图标
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 const app = createApp(App)
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+    app.component(key, component)
+}
 app.use(router)
-app.use(ElementPlus)
+app.use(ElementPlus, {
+    locale: zhCn
+})
+
 app.use(VueCookies)
 app.mount('#app')

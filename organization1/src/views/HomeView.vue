@@ -12,7 +12,7 @@
     <div class="top">
       <Top></Top>
     </div>
-    <div class="content" style="display: flex;">
+    <!-- <div class="content" style="display: flex;">
       <div class="left_block" style="width: 20%;">
         <div class="left_navbor">
           <div class="left_logo">
@@ -24,7 +24,7 @@
             <li><router-link to="/associationActivityManagement"> 活动管理 </router-link></li>
             <li><router-link to="/">社团管理</router-link></li>
             <li><router-link to="/">个人管理</router-link></li>
-            <!-- <li><router-link to="/disk">Countact</router-link></li> -->
+            <li><router-link to="/disk">Countact</router-link></li>
           </ul>
         </div>
       </div>
@@ -32,10 +32,10 @@
         <div class="hello">
           <router-view />
         </div>
-        <!-- <el-button type="primary" round>注册</el-button> -->
+        <el-button type="primary" round>注册</el-button>
       </div>
-    </div>
-
+    </div> -->
+    <Aside></Aside>
     <footer class="position-relative" id="footer-main">
       <Foot></Foot>
     </footer>
@@ -43,10 +43,10 @@
 </template>
 
 <script lang="ts" setup>
+import Aside from '@/components/fream/Aside.vue'
 import Top from '@/components/fream/Top.vue'
 import Foot from '@/components/fream/Foot.vue'
 import { ref, reactive, onMounted, toRefs, computed } from 'vue';
-import { RouterLink } from 'vue-router'
 // 控制头部导航栏
 const top_btn = ref(false);
 function updateTopMenu() {
@@ -59,6 +59,8 @@ function updateLeftMenu() {
   left_btn.value = !left_btn.value
   console.log(left_btn);
 }
+// let url: string = ref("https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg")
+// console.log(url);
 
 </script>
 <!-- 头部导航栏 -->
@@ -227,8 +229,8 @@ header {
   // background-color: rgb(244, 247, 51);
   // height: 59px;
   width: 100%;
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 /* 面包屑修饰 */
@@ -269,9 +271,6 @@ header {
   height: 439px;
 }
 </style>
-
-
-
 <style scoped lang="less">
 .box {
   width: 100%;
