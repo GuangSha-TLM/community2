@@ -15,12 +15,13 @@
     </el-table>
 </template>
 <script lang="ts" setup>
-import { selectByToken } from '@/api/activity'
-import { onMounted, ref } from 'vue';
+import { activitySelectById, selectByToken } from '@/api/activity'
+import { onMounted, ref, onUnmounted } from 'vue';
 import { useCookies } from 'vue3-cookies'
-import { activityResponseData } from '@/model/activityData'
+import { activityResponseData, } from '@/model/activityData'
+import bus from '@/utils/mitt'
 const { cookies } = useCookies()
-let tableData = ref<any>([]);
+let tableData = ref([]);
 let token: string = cookies.get('token')
 
 //请求活动数据的接口
@@ -28,13 +29,22 @@ const getActivityData = async () => {
     const result: activityResponseData = await selectByToken(token)
     if (result.code = "0x200") {
         tableData.value = result.data;
-        console.log(tableData.value);
-
+        // console.log('123', tableData);
     }
-
-
 }
+
 onMounted(() => {
+
+    //接收Top组件传递过来的查询后的数组
+    const changeTableData = bus.on('InputData', (data) => {
+        tableData.value = data
+        console.log('sdsdd', tableData.value);
+
+    })
+    onUnmounted(() => {
+        changeTableData
+    })
     getActivityData();
 })
+
 </script>

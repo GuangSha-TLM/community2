@@ -8,7 +8,6 @@
  * 可以输入预定的版权声明、个性签名、空行等
  */
 import { createRouter, createWebHistory, createWebHashHistory, RouteRecordRaw } from 'vue-router'
-// import Home from '../views/home/Home.vue'
 import HomeView from './../views/HomeView.vue'
 const routes: Array<RouteRecordRaw> = [
   {
@@ -23,6 +22,7 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import(/* webpackChunkName: "about" */ '../views/activity/activityManagement.vue'),
         meta: {
           requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
+          name: '活动页面'
         }
       },
       {

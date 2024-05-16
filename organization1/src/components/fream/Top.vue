@@ -31,7 +31,7 @@
 
     <a class="btn btn-block btn-dark text-truncate rounded-0 py-2 d-none d-lg-block"
       style="z-index: 1000; color: aliceblue" target="_blank">
-      <strong>哈尔滨广厦学院</strong> 向导系统 V0.1 By TLM Team
+      <strong>哈尔滨广厦学院</strong> 社团管理系统 V0.2 By TLM Team
     </a>
     <!-- 头栏目 -->
     <header>
@@ -39,11 +39,20 @@
         <div class="logo">
           <router-link to="/"><img src="../../assets/gs_xy_logo.png" alt=""></router-link>
         </div>
+        <!-- 活动面板的模糊查询 -->
+        <div v-if="shouInput" class="mt-4">
+          <el-input size="large" v-model="inputData.title" style="width: 460px" placeholder="Please input"
+            class="input-with-select">
+            <template #prepend>
+              <el-button @click="activeSelect" :icon="Search" />
+            </template>
+          </el-input>
+        </div>
         <ul class="links">
           <div v-if="token">
             <li><router-link to="/">Home</router-link></li>
-            <li><a><el-dropdown>
-                {{ user.username }}
+            <li><el-dropdown>
+                <span style="font-size: large;">{{ user.username }}</span>
                 <template #dropdown>
                   <el-dropdown-menu>
                     <el-dropdown-item><router-link to="/notice">消息</router-link></el-dropdown-item>
@@ -51,7 +60,7 @@
                     <el-dropdown-item><a @click="loginOut()">退出</a></el-dropdown-item>
                   </el-dropdown-menu>
                 </template>
-              </el-dropdown></a>
+              </el-dropdown>
             </li>
           </div>
           <div v-else>
@@ -81,6 +90,12 @@
 <script lang="ts" setup>
 //引入vue3-cookies
 import { useCookies } from "vue3-cookies";
+//搜索框图标
+import { Search } from '@element-plus/icons-vue'
+import { activitySearchBytitle } from '@/api/activity'
+import { activityResponseData, } from '@/model/activityData'
+//引入mitt实现兄弟组件通信
+import bus from '@/utils/mitt'
 //使用vue3-cookies
 const { cookies } = useCookies();
 import { ref, reactive, onMounted, toRefs, computed } from 'vue';
@@ -100,17 +115,49 @@ function updateLeftMenu() {
   left_btn.value = !left_btn.value
   console.log(left_btn);
 }
-
+//搜索框的信息
+let inputData = reactive<any>({
+  token: '',
+  title: '',
+  status: 0,
+  delFlag: 0
+});
+let sendInputData = ref([]);
 const token = ref(cookies.get("token"))
 const user = ref(cookies.get("user"))
+//搜索框的接口
+const activeSelect = async () => {
+  inputData.token = token;
+  const result: activityResponseData = await activitySearchBytitle(inputData)
+  if (result.code === "0x200") {
+    sendInputData = result.data;
 
-const loginOut = ()=>{
+    //发送数组给activityManagement
+    bus.emit('InputData', sendInputData)
+    sendInputData.value = []
+  }
+  console.log('456', result);
+
+}
+//控制搜索框的显示和隐藏
+let shouInput = computed(() => {
+  if (token && route.name === 'activityManagement') {
+    return true
+  } else {
+    return false
+  }
+})
+//退出登录
+const loginOut = () => {
   cookies.remove("token");
   cookies.remove("user");
   user.value = '';
   router.push('/login');
 }
+onMounted(() => {
+  // console.log(route.name);
 
+})
 </script>
 
 <style lang="less" scoped>
@@ -219,6 +266,7 @@ header {
   justify-content: center;
 }
 
+
 .dropdown_menu .action_btn {
   width: 100%;
   display: flex;
@@ -324,6 +372,11 @@ header {
 
 
 <style scoped lang="less">
+//搜索框的样式
+.mt-4 {
+  margin-top: 0 !important;
+}
+
 .box {
   width: 100%;
   height: 100%;
@@ -339,7 +392,7 @@ header {
 
         a {
           img {
-            width: 100%;
+            width: 77%;
           }
         }
       }
