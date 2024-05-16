@@ -1,7 +1,7 @@
 <!--
  * @Author: tianleiyu 
  * @Date: 2024-04-26 08:33:35
- * @LastEditTime: 2024-05-14 13:58:48
+ * @LastEditTime: 2024-05-16 13:17:41
  * @LastEditors: tianleiyu
  * @Description: 
  * @FilePath: /organization1/src/components/fream/Top.vue
@@ -31,52 +31,47 @@
 
     <a class="btn btn-block btn-dark text-truncate rounded-0 py-2 d-none d-lg-block"
       style="z-index: 1000; color: aliceblue" target="_blank">
-      <strong>哈尔滨广厦学院</strong> 向导系统 V0.2 By TLM Team
+      <strong>哈尔滨广厦学院</strong> 向导系统 V0.1 By TLM Team
     </a>
     <!-- 头栏目 -->
     <header>
       <div class="navbor">
         <div class="logo">
-          <a href="#">Web Creative</a>
+          <router-link to="/"><img src="../../assets/gs_xy_logo.png" alt=""></router-link>
         </div>
-
-
         <ul class="links">
-
-          <li><a href="Home">Home</a></li>
-          <li><router-link to="/login">Login</router-link></li>
-          <li><router-link to="/register">Register</router-link></li>
-          <li><a href="Countact">Countact</a></li>
-          <el-dropdown>
-            <span class="el-dropdown-link">
-              {{ username }}
-              <el-icon class="el-icon--right">
-                <ArrowDown />
-              </el-icon>
-            </span>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item>信息</el-dropdown-item>
-                <el-dropdown-item>签到</el-dropdown-item>
-                <el-dropdown-item>退出登录</el-dropdown-item>
-
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
+          <div v-if="token">
+            <li><router-link to="/">Home</router-link></li>
+            <li><a><el-dropdown>
+                {{ user.username }}
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item><router-link to="/notice">消息</router-link></el-dropdown-item>
+                    <el-dropdown-item><router-link to="/signIn">签到</router-link></el-dropdown-item>
+                    <el-dropdown-item><a @click="loginOut()">退出</a></el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown></a>
+            </li>
+          </div>
+          <div v-else>
+            <li><router-link to="/login">Login</router-link></li>
+            <li><router-link to="/register">Register</router-link></li>
+          </div>
         </ul>
         <!-- <a href="#" class="action_btn">Get Started</a> -->
-        <!-- <div class="toggle_btn" @click="updateTopMenu">
+        <div class="toggle_btn" @click="updateTopMenu">
           <i class="fa-solid fa-bars fa-beat fa-xl"></i>
-        </div> -->
+        </div>
       </div>
       <!-- 点击面包屑后的展示 -->
-      <!-- <div class="dropdown_menu" v-if="top_btn">
+      <div class="dropdown_menu" v-if="top_btn">
         <li><a href="Home">Home</a></li>
         <li><router-link to="/login">Login</router-link></li>
         <li><router-link to="/register">Register</router-link></li>
         <li><a href="Countact">Countact</a></li>
-        <li><a href="#" class="action_btn">Get Started</a></li>
-      </div> -->
+        <!-- <li><a href="#" class="action_btn">Get Started</a></li> -->
+      </div>
     </header>
 
     <!-- 按钮 -->
@@ -89,30 +84,35 @@ import { useCookies } from "vue3-cookies";
 //使用vue3-cookies
 const { cookies } = useCookies();
 import { ref, reactive, onMounted, toRefs, computed } from 'vue';
-import { RouterLink } from 'vue-router'
+// import { RouterLink } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router';
+const router = useRouter();
+const route = useRoute();
 // 控制头部导航栏
-// const top_btn = ref(false);
-// function updateTopMenu() {
-//   top_btn.value = !top_btn.value
-//   console.log(top_btn);
-// }
+const top_btn = ref(false);
+function updateTopMenu() {
+  top_btn.value = !top_btn.value
+  console.log(top_btn);
+}
 
-// const left_btn = ref(false);
-// function updateLeftMenu() {
-//   left_btn.value = !left_btn.value
-//   console.log(left_btn);
-// }
+const left_btn = ref(false);
+function updateLeftMenu() {
+  left_btn.value = !left_btn.value
+  console.log(left_btn);
+}
 
-//用户名
-let username: string = computed(() => {
-  return cookies.get('user').name
-})
+const token = ref(cookies.get("token"))
+const user = ref(cookies.get("user"))
 
-
+const loginOut = ()=>{
+  cookies.remove("token");
+  cookies.remove("user");
+  user.value = '';
+  router.push('/login');
+}
 
 </script>
 
-<!-- 头部导航栏 -->
 <style lang="less" scoped>
 * {
   margin: 0;
@@ -126,12 +126,12 @@ li {
 
 a {
   text-decoration: none;
-  color: #008aff;
+  color: rgb(0, 195, 255);
   font-style: 1rem;
 }
 
 a:hover {
-  color: #0161B3;
+  color: orange;
 }
 
 header {
@@ -157,9 +157,12 @@ header {
 }
 
 /* 修饰ul */
-.navbor .links {
+.navbor .links div {
   display: flex;
   gap: 2rem;
+  align-items: center;
+  color: #00c3ff;
+  /* 定义一个间隔，单位为rem */
 }
 
 /* 修饰Get started */
@@ -201,11 +204,11 @@ header {
   right: 2rem;
   top: 60px;
   width: 300px;
-  background: #171347;
+  background: rgba(155, 235, 198, 0.977);
   border-radius: 10px;
   overflow: hidden;
   transition: height 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  z-index: 4;
+  z-index: 1;
 }
 
 
@@ -249,16 +252,6 @@ header {
         left: 2rem;
         width: unset;
     } */
-}
-</style>
-
-<!-- 饿了么面包屑 -->
-<style scoped>
-.el-dropdown-link {
-  cursor: pointer;
-  color: var(--el-color-primary);
-  display: flex;
-  align-items: center;
 }
 </style>
 
@@ -328,6 +321,8 @@ header {
 }
 </style>
 
+
+
 <style scoped lang="less">
 .box {
   width: 100%;
@@ -340,7 +335,13 @@ header {
       width: 100%;
 
       .logo {
-        a {}
+        width: 30%;
+
+        a {
+          img {
+            width: 100%;
+          }
+        }
       }
 
       .links {

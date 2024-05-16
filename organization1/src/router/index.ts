@@ -1,7 +1,7 @@
 /*
  * @Author: tianleiyu 
  * @Date: 2024-04-22 15:36:51
- * @LastEditTime: 2024-05-08 15:37:57
+ * @LastEditTime: 2024-05-16 13:20:42
  * @LastEditors: tianleiyu
  * @Description: 
  * @FilePath: /organization1/src/router/index.ts
@@ -39,7 +39,23 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import(/* webpackChunkName: "about" */ '../views/activity/associationActivityManagement.vue'),
         meta: {
           requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
-        }
+        },
+      },
+      {
+        path: 'notice',
+        name: 'notice',
+        component: () => import(/* webpackChunkName: "about" */ '../views/message/notice.vue'),
+        meta: {
+          requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
+        },
+      },
+      {
+        path: 'signIn',
+        name: 'signIn',
+        component: () => import(/* webpackChunkName: "about" */ '../views/message/signIn.vue'),
+        meta: {
+          requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
+        },
       },
     ]
   },
