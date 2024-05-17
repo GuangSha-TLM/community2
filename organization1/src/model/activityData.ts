@@ -28,13 +28,12 @@ export interface IActivityItem {
     status: number
     title: string
 }
+//Top组件的搜索框ts类型
 export interface activityResponseData extends ResponseData {
     data: IActivityList[]
 }
 
-export interface delectActivityResponseData extends ResponseData {
-    data: number
-}
+
 
 export interface imgUpDown extends ResponseData {
     data: string
@@ -75,20 +74,27 @@ export interface activeAddBo {
     startTime: string
     title: string
 }
-
+//修改接口传递参数
 export interface activeUpdateBo {
-    community: number
-    context: string
-    startTime: string
+    community?: number
+    context?: string
+    startTime?: string
     title: string
     id: number
 }
-
+//修改接口返回的参数ts类型
+export interface exitActivityResponseData extends ResponseData {
+    data: IActivityList[]
+}
+//删除接口传递参数的ts类型
 export interface activeDeleteByIdBo {
     id: number
     token: string
 }
-
+//删除接口返回的参数ts类型
+export interface delectActivityResponseData extends ResponseData {
+    data: number
+}
 export interface activeToGetBo {
     context: string
     id: number

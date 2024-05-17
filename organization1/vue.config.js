@@ -12,20 +12,24 @@ module.exports = defineConfig({
   transpileDependencies: true,
   lintOnSave: false,
   devServer: {
+    //解决组件重新绘制大小时dev环境出现报错提示
+    client: {
+      overlay: false
+    },
     proxy: {
       "/api": {
         target: "http://127.0.0.1:8005",
-        ws:false,
+        ws: false,
         pathRewrite: {
           '^/api': '/'
         }
       },
-      
+
     },
   },
-  publicPath:'/',
+  publicPath: '/',
   outputDir: "dist",
-  assetsDir:"static",
+  assetsDir: "static",
   chainWebpack: (config) => {
     config.plugin('define').tap((definitions) => {
       Object.assign(definitions[0], {
@@ -35,5 +39,6 @@ module.exports = defineConfig({
       })
       return definitions
     })
-  }
+  },
+
 })

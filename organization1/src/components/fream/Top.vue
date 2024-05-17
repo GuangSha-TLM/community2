@@ -52,7 +52,7 @@
           <div v-if="token">
             <li><router-link to="/">Home</router-link></li>
             <li><el-dropdown>
-                <span style="font-size: large;">{{ user.username }}</span>
+                <span style="font-size: large">{{ user.username }}</span>
                 <template #dropdown>
                   <el-dropdown-menu>
                     <el-dropdown-item><router-link to="/notice">消息</router-link></el-dropdown-item>
@@ -122,21 +122,22 @@ let inputData = reactive<any>({
   status: 0,
   delFlag: 0
 });
-let sendInputData = ref([]);
-const token = ref(cookies.get("token"))
-const user = ref(cookies.get("user"))
+let sendInputData: {}[];
+const token = ref<string>(cookies.get("token"))
+const user = ref<string>(cookies.get("user"))
 //搜索框的接口
 const activeSelect = async () => {
   inputData.token = token;
   const result: activityResponseData = await activitySearchBytitle(inputData)
   if (result.code === "0x200") {
     sendInputData = result.data;
+    // console.log(sendInputData, '123');
 
     //发送数组给activityManagement
     bus.emit('InputData', sendInputData)
-    sendInputData.value = []
+    sendInputData = []
   }
-  console.log('456', result);
+  // console.log('456', result);
 
 }
 //控制搜索框的显示和隐藏
