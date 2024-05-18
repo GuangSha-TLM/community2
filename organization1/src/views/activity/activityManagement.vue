@@ -12,7 +12,7 @@
         <el-table-column prop="id" label="ID" width="350" />
         <el-table-column prop="title" label="活动内容" width="350" />
         <el-table-column prop="createTime" label="活动创建时间" width="350" />
-        <el-table-column label="Operations" width="240">
+        <el-table-column label="操作" width="240">
             <template #default="scope">
                 <el-button size="default" @click="handleEdit(scope.$index, scope.row)">
                     修改
@@ -27,7 +27,14 @@
 
             </template>
         </el-table-column>
+
     </el-table>
+    <!-- 分页查询 -->
+    <div class="example-pagination-block">
+        <div class="example-demonstration"></div>
+        <el-pagination @current-change="Pagenation" v-model:current-page="pageData.start"
+            v-model:page-size="pageData.size" layout="prev, pager, next,total" :total="pageData.total" />
+    </div>
     <!-- 修改窗口 -->
     <el-dialog v-model="dialogVisible" title="请修改内容" width="500">
         <el-form :model="active" label-width="auto" style="max-width: 600px">
@@ -45,14 +52,14 @@
     </el-dialog>
 </template>
 <script lang="ts" setup>
-import { activitySelectById, selectByToken, exitActivity, delectActivity } from '@/api/activity'
+import { activitySelectById, selectByToken, exitActivity, delectActivity, activityPageByBo } from '@/api/activity'
 import { onMounted, ref, onUnmounted, reactive } from 'vue';
 import { useCookies } from 'vue3-cookies'
-import { activityResponseData, delectActivityResponseData, exitActivityResponseData } from '@/model/activityData'
+import { activitySerachResponseData, activityResponseData, delectActivityResponseData, activityPageData, exitActivityResponseData } from '@/model/activityData'
 import { ElNotification } from 'element-plus'
 import bus from '@/utils/mitt'
 const { cookies } = useCookies()
-let tableData = ref<{}[]>([]);
+let tableData = ref<{}[]>();
 let token: string = cookies.get('token')
 //修改的数据
 let active = reactive({
@@ -66,6 +73,16 @@ let active = reactive({
 let deleteId: number;
 //修改窗口开启和关闭
 const dialogVisible = ref(false)
+//分页的数据
+let pageData = reactive<activityPageData>({
+    delFlag: 0,
+    size: 5,
+    start: 1,
+    status: 0,
+    title: "",
+    token: '',
+    total: 0
+});
 //请求活动数据的接口
 const getActivityData = async () => {
     const result: activityResponseData = await selectByToken(token)
@@ -124,8 +141,21 @@ async function ActivityDelete() {
         })
     }
 }
+//分页的接口
+async function Pagenation() {
+    pageData.token = token;
+    const result: activitySerachResponseData = await activityPageByBo(pageData)
+    if (result.code === '0x200') {
+        console.log('page', result);
+        pageData.total = result.data.count;
+        tableData.value = result.data.list;
+        console.log('total', pageData.total);
+
+    }
+}
 onMounted(() => {
     getActivityData();
+    Pagenation();
     //接收Top组件传递过来的查询后的数组
     const changeTableData = bus.on('InputData', (data: any) => {
         tableData.value = data
@@ -139,3 +169,12 @@ onMounted(() => {
 })
 
 </script>
+<style scoped>
+.example-pagination-block+.example-pagination-block {
+    margin-top: 10px;
+}
+
+.example-pagination-block .example-demonstration {
+    margin-bottom: 16px;
+}
+</style>

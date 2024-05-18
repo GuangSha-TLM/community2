@@ -8,7 +8,7 @@
  * 可以输入预定的版权声明、个性签名、空行等
  */
 import request from '@/utils/request'
-import { activeUpdateBo, activityResponseData, imgUpDown, activityByIdResponseData, activeSelectByIdBo, addActivityResponseData, activeAdd, activeDeleteByIdBo, delectActivityResponseData } from '@/model/activityData'
+import { activitySerachResponseData, activitySearchData, activeUpdateBo, activityResponseData, imgUpDown, activityByIdResponseData, activeSelectByIdBo, addActivityResponseData, activeAdd, activeDeleteByIdBo, delectActivityResponseData } from '@/model/activityData'
 
 
 //获取所属社团的活动列表
@@ -42,6 +42,10 @@ export const activitySelectById = (activeSelectByIdBo: activeSelectByIdBo) => {
     return request.post<any, activityByIdResponseData>('/activity/select', activeSelectByIdBo)
 }
 //通过title来获取数据
-export const activitySearchBytitle = (activitySearchBytitle: any) => {
-    return request.post<any, any>('/activity/likeToGet', activitySearchBytitle)
+export const activitySearchBytitle = (activitySearchBytitle: activitySearchData) => {
+    return request.post<any, activityResponseData>('/activity/likeToGet', activitySearchBytitle)
+}
+//分页查询
+export const activityPageByBo = (activityPage: activityPageData,) => {
+    return request.post<any, activitySerachResponseData>('/activity/pagingQuery', activityPage)
 }

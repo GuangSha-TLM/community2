@@ -28,18 +28,46 @@ export interface IActivityItem {
     status: number
     title: string
 }
-//Top组件的搜索框ts类型
+//Top组件的搜索框参数返回的ts类型
 export interface activityResponseData extends ResponseData {
-    data: IActivityList[]
+    data: IActivityList
+}
+//Top组件搜索框参数传递的ts类型
+export interface activitySearchData {
+    token: string
+    delFlag: number
+    status: number
+    title: string
+}
+//分页的参数的ts类型
+export interface activityPageData {
+    token: string
+    delFlag: number
+    status: number
+    title?: string
+    start: number
+    total: number
+    size: number
+
+}
+//分页返回的参数的ts类型
+// export type IActivityList = IActivityItem[]
+export interface SearchData {
+    count: number
+    list: IActivityItem
 }
 
+export interface activitySerachResponseData {
+    code: string
+    data: SearchData
+}
 
 
 export interface imgUpDown extends ResponseData {
     data: string
 }
 export interface addActivityResponseData extends ResponseData {
-
+    count: number
 }
 export interface activeAdd {
     title: string
