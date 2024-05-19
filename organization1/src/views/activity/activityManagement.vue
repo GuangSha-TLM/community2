@@ -55,7 +55,7 @@
 import { activitySelectById, selectByToken, exitActivity, delectActivity, activityPageByBo } from '@/api/activity'
 import { onMounted, ref, onUnmounted, reactive } from 'vue';
 import { useCookies } from 'vue3-cookies'
-import { activitySerachResponseData, activityResponseData, delectActivityResponseData, activityPageData, exitActivityResponseData } from '@/model/activityData'
+import { activityPageResponseData, activityResponseData, delectActivityResponseData, activityPageData, exitActivityResponseData } from '@/model/activityData'
 import { ElNotification } from 'element-plus'
 import bus from '@/utils/mitt'
 const { cookies } = useCookies()
@@ -144,7 +144,7 @@ async function ActivityDelete() {
 //分页的接口
 async function Pagenation() {
     pageData.token = token;
-    const result: activitySerachResponseData = await activityPageByBo(pageData)
+    const result: activityPageResponseData = await activityPageByBo(pageData)
     if (result.code === '0x200') {
         console.log('page', result);
         pageData.total = result.data.count;

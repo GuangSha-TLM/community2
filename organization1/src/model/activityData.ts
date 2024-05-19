@@ -51,15 +51,14 @@ export interface activityPageData {
 
 }
 //分页返回的参数的ts类型
-// export type IActivityList = IActivityItem[]
-export interface SearchData {
+export interface PageData {
     count: number
     list: IActivityItem
 }
 
-export interface activitySerachResponseData {
+export interface activityPageResponseData {
     code: string
-    data: SearchData
+    data: PageData
 }
 
 
