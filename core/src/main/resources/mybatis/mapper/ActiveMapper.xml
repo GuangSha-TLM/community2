@@ -56,7 +56,8 @@
     <!-- 查询所有活动信息 -->
     <select id="findAll" resultType="com.gsxy.core.pojo.Active">
         select
-            *
+            title,context,community,community_list,start_time,create_time
+                 ,create_by,status,del_flag
         from
             active
         limit 0,15
