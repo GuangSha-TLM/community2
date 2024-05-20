@@ -57,6 +57,14 @@ const routes: Array<RouteRecordRaw> = [
           requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
         },
       },
+      {
+        path: 'userInfo',
+        name: 'userInfo',
+        component: () => import(/* webpackChunkName: "about" */ '@/views/user/index.vue'),
+        meta: {
+          requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
+        },
+      },
     ]
   },
   {
@@ -71,13 +79,13 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/login',
     name: 'login',
-    component: () => import(/* webpackChunkName: "about" */ '../views/user/login.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/login.vue')
   },
   //用户注册界面
   {
     path: '/register',
     name: 'register',
-    component: () => import(/* webpackChunkName: "about" */ '../views/user/register.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/register.vue')
   },
   {
     path: '/HelloWorld',

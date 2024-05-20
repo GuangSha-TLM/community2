@@ -12,11 +12,19 @@ export interface ResponseData {
     message: string
 }
 
-export interface IUserLogin{
+export interface IUserLogin {
     username: string,
     password: string,
 }
-
+//用户数据接口的传递参数ts类型
+export interface userData {
+    id: number
+    token: string
+}
+//用户数据接口的返回参数ts类型
+export interface userResponseData extends ResponseData {
+    data: userAndUserAdminBo
+}
 export interface loginResponseData extends ResponseData {
     data: {
         token: string,
@@ -34,6 +42,7 @@ export interface userAndUserAdminBo {
     studentId: string
     username: string
 }
+//注册的ts类型接口
 export interface IUserRegister {
     username: string,
     password: string,

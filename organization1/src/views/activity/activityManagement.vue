@@ -9,13 +9,17 @@
 -->
 <template>
     <el-table :data="tableData" style="width: 100%">
-        <el-table-column prop="id" label="ID" width="350" />
-        <el-table-column prop="title" label="活动内容" width="350" />
-        <el-table-column prop="createTime" label="活动创建时间" width="350" />
-        <el-table-column label="操作" width="240">
+        <el-table-column type="index" label="ID" width="200" />
+        <el-table-column prop="title" label="活动标题" width="200" />
+        <el-table-column prop="context" label="活动内容" width="200" />
+        <el-table-column prop="createTime" label="活动创建时间" width="200" />
+        <el-table-column label="操作" width="300">
             <template #default="scope">
                 <el-button size="default" @click="handleEdit(scope.$index, scope.row)">
                     修改
+                </el-button>
+                <el-button size="default" @click="handleAdd()">
+                    增加
                 </el-button>
                 <el-popconfirm @confirm="ActivityDelete" title="你确定要删除吗?">
                     <template #reference>
@@ -36,7 +40,7 @@
             v-model:page-size="pageData.size" layout="prev, pager, next,total" :total="pageData.total" />
     </div>
     <!-- 修改窗口 -->
-    <el-dialog v-model="dialogVisible" title="请修改内容" width="500">
+    <el-dialog v-model="dialogVisible" title="请修改活动内容" width="500">
         <el-form :model="active" label-width="auto" style="max-width: 600px">
             <el-form-item label="活动内容">
                 <el-input v-model="active.title" />
@@ -50,17 +54,41 @@
             </div>
         </template>
     </el-dialog>
+    <!-- 添加接口 -->
+    <el-dialog v-model="dialogVisible" title="请添加活动内容" width="500">
+        <el-form :model="addActive" label-width="auto" style="max-width: 600px">
+            <el-form-item label="活动标题">
+                <el-input v-model="addActive.title" />
+            </el-form-item>
+            <el-form-item label="活动内容">
+                <el-input v-model="addActive.context" />
+            </el-form-item>
+        </el-form> <template #footer>
+            <div class="dialog-footer">
+                <el-button @click="dialogVisible = false">取消</el-button>
+                <el-button type="primary" @click.native="getAddData" @click="dialogVisible = false">
+                    确认
+                </el-button>
+            </div>
+        </template>
+    </el-dialog>
 </template>
 <script lang="ts" setup>
-import { activitySelectById, selectByToken, exitActivity, delectActivity, activityPageByBo } from '@/api/activity'
+import { activityAddData, activitySelectById, selectByToken, exitActivity, delectActivity, activityPageByBo } from '@/api/activity'
 import { onMounted, ref, onUnmounted, reactive } from 'vue';
 import { useCookies } from 'vue3-cookies'
-import { activityPageResponseData, activityResponseData, delectActivityResponseData, activityPageData, exitActivityResponseData } from '@/model/activityData'
+import { ResponseData, activityPageResponseData, activityResponseData, delectActivityResponseData, activityPageData, exitActivityResponseData } from '@/model/activityData'
 import { ElNotification } from 'element-plus'
 import bus from '@/utils/mitt'
 const { cookies } = useCookies()
-let tableData = ref<{}[]>();
+let tableData = ref<{}>();
 let token: string = cookies.get('token')
+//添加功能的数据
+let addActive = reactive({
+    context: '',
+    title: '',
+    token: token
+})
 //修改的数据
 let active = reactive({
     // context: "",
@@ -141,6 +169,33 @@ async function ActivityDelete() {
         })
     }
 }
+
+
+//添加按钮
+function handleAdd() {
+    dialogVisible.value = true;
+    addActive.title = "";
+    addActive.context = "";
+}
+
+//添加活动的接口
+async function getAddData() {
+    const result: ResponseData = await activityAddData(addActive)
+    if (result.code === '0x200') {
+        ElNotification({
+            title: 'Success',
+            message: '添加成功',
+            type: 'success',
+        })
+        getActivityData();
+    } else {
+        ElNotification({
+            title: 'Error',
+            message: '添加失败',
+            type: 'error',
+        })
+    }
+}
 //分页的接口
 async function Pagenation() {
     pageData.token = token;
@@ -149,7 +204,7 @@ async function Pagenation() {
         console.log('page', result);
         pageData.total = result.data.count;
         tableData.value = result.data.list;
-        console.log('total', pageData.total);
+        // console.log('total', result.data.list);
 
     }
 }
@@ -170,6 +225,10 @@ onMounted(() => {
 
 </script>
 <style scoped>
+.el-pagination {
+    --el-pagination-font-size: 16px;
+}
+
 .example-pagination-block+.example-pagination-block {
     margin-top: 10px;
 }

@@ -12,7 +12,7 @@
         <el-col :span="12">
             <h5 class="mb-2">社团管理主页</h5>
             <el-menu class="el-menu-vertical-demo">
-                <el-sub-menu index="/">
+                <el-sub-menu index="1">
                     <template #title>
                         <el-icon>
                             <Menu />
@@ -20,7 +20,7 @@
                         <span>活动管理面板</span>
                     </template>
                     <el-menu-item-group>
-                        <el-menu-item @click="toActivity" index="/">活动信息</el-menu-item>
+                        <el-menu-item @click="toActivity" index="1-1">活动信息</el-menu-item>
                     </el-menu-item-group>
                 </el-sub-menu>
 
@@ -32,7 +32,7 @@
                         <span>社团人员面板</span>
                     </template>
                     <el-menu-item-group>
-                        <el-menu-item index="3-1">社团人员信息</el-menu-item>
+                        <el-menu-item @click="toUserInfo" index="3-1">社团人员信息</el-menu-item>
                     </el-menu-item-group>
                 </el-sub-menu>
 
@@ -44,7 +44,10 @@
                         <span>社团人员管理面板</span>
                     </template>
                     <el-menu-item-group>
-                        <el-menu-item index="2-1">社团人员信息</el-menu-item>
+                        <el-menu-item index="2-1">社团人员管理</el-menu-item>
+                    </el-menu-item-group>
+                    <el-menu-item-group>
+                        <el-menu-item @click="toAssociation" index="2-2">社团活动管理</el-menu-item>
                     </el-menu-item-group>
                 </el-sub-menu>
 
@@ -62,6 +65,14 @@ let router = useRouter();
 // console.log(userRouter);
 const toActivity = () => {
     router.push('/activityManagement')
+}
+//跳转社团管理界面
+const toAssociation = () => {
+    router.push('/associationActivityManagement')
+}
+//跳转社团人员界面
+const toUserInfo = () => {
+    router.push('/userInfo')
 }
 
 </script>
