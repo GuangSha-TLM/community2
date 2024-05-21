@@ -9,11 +9,11 @@ import java.io.Serializable;
 public class UserSelectToGetBo implements Serializable {
 
     private String token;
-    private Integer college;
+    private String college;
     private String grade;
     private String professional;
 
-    public UserSelectToGetBo(String token, Integer college, String grade, String professional) {
+    public UserSelectToGetBo(String token, String college, String grade, String professional) {
         this.token = token;
         this.college = college;
         this.grade = grade;
@@ -31,11 +31,11 @@ public class UserSelectToGetBo implements Serializable {
         this.token = token;
     }
 
-    public Integer getCollege() {
+    public String getCollege() {
         return college;
     }
 
-    public void setCollege(Integer college) {
+    public void setCollege(String college) {
         this.college = college;
     }
 

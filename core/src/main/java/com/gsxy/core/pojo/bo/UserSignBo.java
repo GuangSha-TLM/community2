@@ -6,13 +6,13 @@ public class UserSignBo implements Serializable {
 
     private Long userId;//用户ID
     private String name;//用户性名
-    private Integer college;//学院
+    private String college;//学院
     private String grade;//年级
     private String professional;//专业
     private Integer org;//班级
     private String studentId;//学号
 
-    public UserSignBo(Long userId, String name, Integer college, String grade, String professional, Integer org, String studentId) {
+    public UserSignBo(Long userId, String name, String college, String grade, String professional, Integer org, String studentId) {
         this.userId = userId;
         this.name = name;
         this.college = college;
@@ -41,11 +41,11 @@ public class UserSignBo implements Serializable {
         this.name = name;
     }
 
-    public Integer getCollege() {
+    public String getCollege() {
         return college;
     }
 
-    public void setCollege(Integer college) {
+    public void setCollege(String college) {
         this.college = college;
     }
 

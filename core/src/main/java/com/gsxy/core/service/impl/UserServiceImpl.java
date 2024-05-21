@@ -197,6 +197,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseVo pagingToGetUserData(PagingToGetUserDataBo pagingToGetUserDataBo) {
 
+        pagingToGetUserDataBo.setStart((pagingToGetUserDataBo.getStart() - 1) * pagingToGetUserDataBo.getSize());
+
         //获取所有用户的数据
         List<User> userList = userMapper.pagingToGetUserData(pagingToGetUserDataBo);
 
