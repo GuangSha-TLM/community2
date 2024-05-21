@@ -7,12 +7,18 @@
  * @FilePath: /organization1/src/api/user.ts
  * 可以输入预定的版权声明、个性签名、空行等
  */
-import  request from '@/utils/request'
-import { IUserLogin , IUserRegister} from '@/model/userData'
-export const userLogin = (user:IUserLogin)=>{
-    return request.post('/user/login',user)
+import request from '@/utils/request'
+import { userResponseData, userData, IUserLogin, IUserRegister } from '@/model/userData'
+
+export const userLogin = (user: IUserLogin) => {
+    return request.post('/user/login', user)
 }
 
-export const userRegister = (user:IUserRegister)=>{
-    return request.post('/user/register',user)
+export const userRegister = (user: IUserRegister) => {
+    return request.post('/user/register', user)
 }
+
+export const userCenterData = (user: userData) => {
+    return request.post<any, userResponseData>('/user/select', user)
+}
+

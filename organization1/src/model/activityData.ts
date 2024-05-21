@@ -14,6 +14,12 @@ export interface ResponseData {
     code: string
     message: string
 }
+//添加接口传递的ts类型
+export interface ResponseAddData {
+    context: string
+    title: string
+    token: string
+}
 //activityManagement的接口ts类型
 export type IActivityList = IActivityItem[]
 
