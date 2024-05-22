@@ -44,7 +44,7 @@
                         <span>社团人员管理面板</span>
                     </template>
                     <el-menu-item-group>
-                        <el-menu-item index="2-1">社团人员管理</el-menu-item>
+                        <el-menu-item @click="toUserManage" index="2-1">社团人员管理</el-menu-item>
                     </el-menu-item-group>
                     <el-menu-item-group>
                         <el-menu-item @click="toAssociation" index="2-2">社团活动管理</el-menu-item>
@@ -73,6 +73,10 @@ const toAssociation = () => {
 //跳转社团人员界面
 const toUserInfo = () => {
     router.push('/userInfo')
+}
+//跳转社团管理用户界面
+const toUserManage = () => {
+    router.push('/userManage')
 }
 
 </script>
