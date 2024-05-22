@@ -182,6 +182,9 @@ public class ActivityServiceImpl implements ActiveService {
     @Override
     public ResponseVo pagingToGetActiveData(PagingToGetActiveDataBo pagingToGetActiveDataBo) {
 
+        long start = (pagingToGetActiveDataBo.getStart() - 1) * pagingToGetActiveDataBo.getSize();
+        pagingToGetActiveDataBo.setStart(start);
+
         //获取所有活动的数据
         List<Active> activeList = activeMapper.pagingToGetActiveData(pagingToGetActiveDataBo);
 

@@ -65,6 +65,14 @@ const routes: Array<RouteRecordRaw> = [
           requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
         },
       },
+      {
+        path: 'userManage',
+        name: 'userManage',
+        component: () => import(/* 社团管理用户信息 */ '@/views/assosiation/userManage.vue'),
+        meta: {
+          requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
+        },
+      },
     ]
   },
   {
