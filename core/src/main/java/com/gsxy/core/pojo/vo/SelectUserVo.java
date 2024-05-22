@@ -5,14 +5,14 @@ public class SelectUserVo {
     private Long id;
     private String username;//用户名
     private String name;//姓名
-    private Integer college;//学院
+    private String college;//学院
     private String studentId;//学号
     private Integer org;//班级
     private String grade;//年级
     private String professional;//专业
     private Integer role;//权限
 
-    public SelectUserVo(Long id, String username, String name, Integer college, String studentId, Integer org, String grade, String professional, Integer role) {
+    public SelectUserVo(Long id, String username, String name, String college, String studentId, Integer org, String grade, String professional, Integer role) {
         this.id = id;
         this.username = username;
         this.name = name;
@@ -51,11 +51,11 @@ public class SelectUserVo {
         this.name = name;
     }
 
-    public Integer getCollege() {
+    public String getCollege() {
         return college;
     }
 
-    public void setCollege(Integer college) {
+    public void setCollege(String college) {
         this.college = college;
     }
 
