@@ -12,7 +12,7 @@ public class User implements Serializable {
     private String username;
     private String password;
     private String name;
-    private String college;
+    private Integer college;
     private String studentId;
     private Integer org;
     private String professional;
@@ -25,7 +25,7 @@ public class User implements Serializable {
     private Integer status;
     private Integer delFlag;
 
-    public User(Long id, String username, String password, String name, String college, String studentId, Integer org, String professional, String grade, Date loginTime, Long createBy, Date createTime, Long updateBy, Date updateTime, Integer status, Integer delFlag) {
+    public User(Long id, String username, String password, String name, Integer college, String studentId, Integer org, String professional, String grade, Date loginTime, Long createBy, Date createTime, Long updateBy, Date updateTime, Integer status, Integer delFlag) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -79,11 +79,11 @@ public class User implements Serializable {
         this.name = name;
     }
 
-    public String getCollege() {
+    public Integer getCollege() {
         return college;
     }
 
-    public void setCollege(String college) {
+    public void setCollege(Integer college) {
         this.college = college;
     }
 

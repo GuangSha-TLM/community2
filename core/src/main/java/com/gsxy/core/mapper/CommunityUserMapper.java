@@ -1,8 +1,7 @@
 package com.gsxy.core.mapper;
 
 import com.gsxy.core.pojo.CommunityUser;
-import com.gsxy.core.pojo.bo.CommunityUserAndUserBo;
-import com.gsxy.core.pojo.bo.CommunityUserdeleteUserBo;
+import com.gsxy.core.pojo.vo.CommunityUserAndUserVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -43,11 +42,11 @@ public interface CommunityUserMapper {
     public Long communityUserUpdateById(CommunityUser communityUser);
 
     /**
+     * @return
      * @author zhuxinyu 2023-10-30
      * 查询社团所有用户
-     * @return
      */
-    public List<CommunityUserAndUserBo> communityUserAndUser();
+    public List<CommunityUserAndUserVO> communityUserAndUser();
 
     /**
      * @author zhuxinyu 2023-11-03

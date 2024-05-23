@@ -14,7 +14,7 @@ public class UserSignInStatusBo implements Serializable {
     private Long userId;//用户ID
     private Long communityId;//社团ID
     private String name;//用户性名
-    private String college;//学院
+    private Integer college;//学院
     private String grade;//年级
     private String professional;//专业
     private Integer org;//班级
@@ -22,7 +22,7 @@ public class UserSignInStatusBo implements Serializable {
     private Integer status;//状态(0未签，1签到 默认为0)
     private Date createTime;//签到时间
 
-    public UserSignInStatusBo(String token, Long id, Long adminId, Long userId, Long communityId, String name, String college, String grade, String professional, Integer org, String studentId, Integer status, Date createTime) {
+    public UserSignInStatusBo(String token, Long id, Long adminId, Long userId, Long communityId, String name, Integer college, String grade, String professional, Integer org, String studentId, Integer status, Date createTime) {
         this.token = token;
         this.id = id;
         this.adminId = adminId;
@@ -89,11 +89,11 @@ public class UserSignInStatusBo implements Serializable {
         this.name = name;
     }
 
-    public String getCollege() {
+    public Integer getCollege() {
         return college;
     }
 
-    public void setCollege(String college) {
+    public void setCollege(Integer college) {
         this.college = college;
     }
 

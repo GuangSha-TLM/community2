@@ -57,5 +57,5 @@ public interface CommunityUserService {
      * 查询社团所有用户
      * @return
      */
-    public ResponseVo communityUserAndUser();
+    public ResponseVo communityUserAndUser(CommunityUserAndUserqueryBo communityUserAndUserqueryBo);
 }

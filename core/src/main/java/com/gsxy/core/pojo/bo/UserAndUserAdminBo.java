@@ -8,7 +8,7 @@ public class UserAndUserAdminBo implements Serializable {
     private Long id;
     private String username;//用户名
     private String name;//姓名
-    private String college;//学院
+    private Integer college;//学院
     private String studentId;//学号
     private Integer org;//班级
     private String professional;//专业
@@ -16,7 +16,7 @@ public class UserAndUserAdminBo implements Serializable {
     private Date loginTime;//登陆时间
     private Integer role;//权限
 
-    public UserAndUserAdminBo(Long id, String username, String name, String college, String studentId, Integer org, String professional, String grade, Date loginTime, Integer role) {
+    public UserAndUserAdminBo(Long id, String username, String name, Integer college, String studentId, Integer org, String professional, String grade, Date loginTime, Integer role) {
         this.id = id;
         this.username = username;
         this.name = name;
@@ -56,11 +56,11 @@ public class UserAndUserAdminBo implements Serializable {
         this.name = name;
     }
 
-    public String getCollege() {
+    public Integer getCollege() {
         return college;
     }
 
-    public void setCollege(String college) {
+    public void setCollege(Integer college) {
         this.college = college;
     }
 

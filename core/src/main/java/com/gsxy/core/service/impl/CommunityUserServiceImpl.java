@@ -3,6 +3,7 @@ package com.gsxy.core.service.impl;
 import com.gsxy.core.mapper.*;
 import com.gsxy.core.pojo.*;
 import com.gsxy.core.pojo.bo.*;
+import com.gsxy.core.pojo.vo.CommunityUserAndUserVO;
 import com.gsxy.core.pojo.vo.ResponseVo;
 import com.gsxy.core.service.CommunityUserService;
 import com.gsxy.core.util.ThreadLocalUtil;
@@ -289,8 +290,8 @@ public class CommunityUserServiceImpl implements CommunityUserService {
      * @return
      */
     @Override
-    public ResponseVo communityUserAndUser() {
-        List <CommunityUserAndUserBo> list = communityUserMapper.communityUserAndUser();
+    public ResponseVo communityUserAndUser(CommunityUserAndUserqueryBo communityUserAndUserBo) {
+        List <CommunityUserAndUserVO> list = communityUserMapper.communityUserAndUser();
         return new ResponseVo("查询成功",list,"0x200");
     }
 }
