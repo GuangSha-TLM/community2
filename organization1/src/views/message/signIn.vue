@@ -1,7 +1,7 @@
 <!--
  * @Author: tianleiyu 
  * @Date: 2024-05-15 16:24:11
- * @LastEditTime: 2024-05-16 15:42:18
+ * @LastEditTime: 2024-05-16 15:47:27
  * @LastEditors: tianleiyu
  * @Description: 
  * @FilePath: /organization1/src/views/message/signIn.vue
@@ -94,8 +94,6 @@ const getSignInList=async ()=>{
         })
 
     }
-    
-    
     
 }
 

@@ -1,7 +1,7 @@
 <!--
  * @Author: tianleiyu 
  * @Date: 2024-04-26 08:33:35
- * @LastEditTime: 2024-05-16 13:17:41
+ * @LastEditTime: 2024-05-23 08:34:40
  * @LastEditors: tianleiyu
  * @Description: 
  * @FilePath: /organization1/src/components/fream/Top.vue
@@ -42,7 +42,7 @@
         <!-- 活动面板的模糊查询 -->
         <div v-if="shouInput" class="mt-4">
           <el-input size="large" v-model="inputData.title" style="width: 460px" placeholder="Please input"
-            class="input-with-select">
+            class="input-with-select" @keydown.enter="activeSelect">
             <template #prepend>
               <el-button @click="activeSelect" :icon="Search" />
             </template>

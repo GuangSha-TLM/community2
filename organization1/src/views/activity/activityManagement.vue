@@ -1,37 +1,22 @@
 <!--
  * @Author: tianleiyu 
  * @Date: 2024-05-08 15:32:45
- * @LastEditTime: 2024-05-08 15:36:08
+ * @LastEditTime: 2024-05-23 08:33:05
  * @LastEditors: tianleiyu
  * @Description: 
  * @FilePath: /organization1/src/views/activity/activityManagement.vue
  * 可以输入预定的版权声明、个性签名、空行等
 -->
 <template>
-    <el-table :data="tableData" style="width: 100%">
+    <el-table :data="tableData" style="width: 100%" @row-click="handleClick">
         <el-table-column type="index" label="ID" width="200" />
         <el-table-column prop="title" label="活动标题" width="200" />
-        <el-table-column prop="context" label="活动内容" width="200" />
         <el-table-column prop="createTime" label="活动创建时间" width="200" />
-        <el-table-column label="操作" width="300">
-            <template #default="scope">
-                <el-button size="default" @click="handleEdit(scope.$index, scope.row)">
-                    修改
-                </el-button>
-                <el-button size="default" @click="handleAdd()">
-                    增加
-                </el-button>
-                <el-popconfirm @confirm="ActivityDelete" title="你确定要删除吗?">
-                    <template #reference>
-                        <el-button size="default" type="danger" @click="handleDelete(scope.$index, scope.row)">
-                            删除
-                        </el-button>
-                    </template>
-                </el-popconfirm>
-
-            </template>
+        <el-table-column>
+            <div class="item_icon"><el-icon>
+                            <ArrowRight />
+                        </el-icon></div>
         </el-table-column>
-
     </el-table>
     <!-- 分页查询 -->
     <div class="example-pagination-block">
@@ -79,6 +64,12 @@ import { onMounted, ref, onUnmounted, reactive } from 'vue';
 import { useCookies } from 'vue3-cookies'
 import { ResponseData, activityPageResponseData, activityResponseData, delectActivityResponseData, activityPageData, exitActivityResponseData } from '@/model/activityData'
 import { ElNotification } from 'element-plus'
+import { Delete, ArrowRight, InfoFilled } from '@element-plus/icons-vue'
+
+import { useRouter } from 'vue-router'
+const router = useRouter()
+
+
 import bus from '@/utils/mitt'
 const { cookies } = useCookies()
 let tableData = ref<{}>();
@@ -126,6 +117,18 @@ function handleEdit(index: number, scope: any) {
     active.title = "";
 
 }
+function handleClick(row, column, event){
+    // console.log(row, column, event);
+    // console.log(row.id);
+    
+    router.push({
+        name: 'activity',
+        params: {
+            id: row.id,
+        }
+    })
+    
+}
 //修改的接口
 async function getExitData() {
     const result: exitActivityResponseData = await exitActivity(active, token)
@@ -136,7 +139,7 @@ async function getExitData() {
             type: 'success',
         })
         getActivityData();
-        console.log(result);
+        // console.log(result);
     } else {
         ElNotification({
             title: 'Error',
@@ -201,7 +204,7 @@ async function Pagenation() {
     pageData.token = token;
     const result: activityPageResponseData = await activityPageByBo(pageData)
     if (result.code === '0x200') {
-        console.log('page', result);
+        // console.log('page', result);
         pageData.total = result.data.count;
         tableData.value = result.data.list;
         // console.log('total', result.data.list);
