@@ -1,6 +1,7 @@
 package com.gsxy.core.mapper;
 
 import com.gsxy.core.pojo.CommunityUser;
+import com.gsxy.core.pojo.bo.CommunityUserAndUserqueryBo;
 import com.gsxy.core.pojo.vo.CommunityUserAndUserVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -42,13 +43,6 @@ public interface CommunityUserMapper {
     public Long communityUserUpdateById(CommunityUser communityUser);
 
     /**
-     * @return
-     * @author zhuxinyu 2023-10-30
-     * 查询社团所有用户
-     */
-    public List<CommunityUserAndUserVO> communityUserAndUser();
-
-    /**
      * @author zhuxinyu 2023-11-03
      *      删除社员
      * @param communityId
@@ -65,4 +59,10 @@ public interface CommunityUserMapper {
      */
     public CommunityUser communityUserSelectByUserId(Long id, Long communityId);
 
+    /**
+     * @return
+     * @author hln 2024-5-23
+     * 查询社团所有用户
+     */
+    List<CommunityUserAndUserVO> communityUserAndUser(CommunityUserAndUserqueryBo communityUserAndUserBo);
 }

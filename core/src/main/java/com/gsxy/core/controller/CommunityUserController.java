@@ -114,7 +114,7 @@ public class CommunityUserController {
      * @return
      */
     @PostMapping("/communityUserAndUser")
-    @ApiOperation("社团用户查找")
+    @ApiOperation("查看社团内所有用户")
     public String CommunityUserAndUser(@RequestBody CommunityUserAndUserqueryBo communityUserAndUserqueryBo){
        return JSONArray.toJSONString(communityUserService.communityUserAndUser(communityUserAndUserqueryBo));
     }

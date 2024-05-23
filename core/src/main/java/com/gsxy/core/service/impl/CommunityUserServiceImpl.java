@@ -291,7 +291,7 @@ public class CommunityUserServiceImpl implements CommunityUserService {
      */
     @Override
     public ResponseVo communityUserAndUser(CommunityUserAndUserqueryBo communityUserAndUserBo) {
-        List <CommunityUserAndUserVO> list = communityUserMapper.communityUserAndUser();
+        List <CommunityUserAndUserVO> list = communityUserMapper.communityUserAndUser(communityUserAndUserBo);
         return new ResponseVo("查询成功",list,"0x200");
     }
 }
