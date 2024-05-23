@@ -297,11 +297,18 @@ public class CommunityServiceImpl implements CommunityService {
      */
     @Override
     public ResponseVo communityPagingToGetData(CommunityPagingToGetDataBo communityPagingToGetDataBo) {
+        long start = (communityPagingToGetDataBo.getStart() - 1) * communityPagingToGetDataBo.getSize();
+        communityPagingToGetDataBo.setStart(start);
+
         List <Community> list = communityMapper.communityPagingToGetData(communityPagingToGetDataBo);
+        //获取活动总数
+        Long count = communityMapper.pagingToGetCountOfActiveData();
+
         CommunityPagingToGetDataVo communityPagingToGetDataVo = new CommunityPagingToGetDataVo();
         communityPagingToGetDataVo.setList(list);
         communityPagingToGetDataVo.setCount(list.size());
-        return null;
+
+        return new ResponseVo("查询成功",communityPagingToGetDataVo,"0x200");
     }
 
 

@@ -115,6 +115,20 @@ public class UserServiceImpl implements UserService {
         }
 
         SelectUserVo user = userMapper.selectToUserId(userSelectByUserIdBo.getId());
+        switch (user.getCollege()){
+            case "1":
+                user.setCollege("信息学院");
+                break;
+            case "2":
+                user.setCollege("财经学院");
+                break;
+            case "3":
+                user.setCollege("艺术学院");
+                break;
+            case "4":
+                user.setCollege("通识学院");
+                break;
+        }
 
         if(user == null){
             return new ResponseVo("查询条件不存在",null,"0x500");

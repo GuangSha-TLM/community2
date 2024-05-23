@@ -92,4 +92,10 @@ public interface CommunityMapper {
      * 获取该社团内所有用户的id
      */
     List<Long> selectToGetUserId(Long adminId);
+
+    /**
+     * 统计数据总数
+     * @return
+     */
+    Long pagingToGetCountOfActiveData();
 }

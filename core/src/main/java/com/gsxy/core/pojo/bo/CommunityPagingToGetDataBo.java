@@ -8,7 +8,6 @@ import java.io.Serializable;
  */
 public class CommunityPagingToGetDataBo implements Serializable {
     private String token;
-    private String name;
     private Long start;
     private Integer size;
     private Integer status;
@@ -17,9 +16,8 @@ public class CommunityPagingToGetDataBo implements Serializable {
 
     }
 
-    public CommunityPagingToGetDataBo(String token, String name, Long start, Integer size, Integer status, Integer delFlag) {
+    public CommunityPagingToGetDataBo(String token, Long start, Integer size, Integer status, Integer delFlag) {
         this.token = token;
-        this.name = name;
         this.start = start;
         this.size = size;
         this.status = status;
@@ -32,14 +30,6 @@ public class CommunityPagingToGetDataBo implements Serializable {
 
     public void setToken(String token) {
         this.token = token;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Long getStart() {
@@ -78,7 +68,6 @@ public class CommunityPagingToGetDataBo implements Serializable {
     public String toString() {
         return "CommunityPagingToGetDataBo{" +
                 "token='" + token + '\'' +
-                ", name='" + name + '\'' +
                 ", start=" + start +
                 ", size=" + size +
                 ", status=" + status +
