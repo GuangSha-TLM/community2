@@ -1,7 +1,7 @@
 <!--
  * @Author: tianleiyu 
  * @Date: 2024-05-08 15:38:30
- * @LastEditTime: 2024-05-14 14:23:38
+ * @LastEditTime: 2024-05-22 17:19:37
  * @LastEditors: tianleiyu
  * @Description: 
  * @FilePath: /organization1/src/views/activity/associationActivityManagement.vue
@@ -174,8 +174,8 @@ a {
 }
 
 .content {
-    width: 70%;
-    margin: 0 15%;
+    // width: 100%;
+    margin: 0 5%;
 }
 
 .item {

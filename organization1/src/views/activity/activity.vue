@@ -1,7 +1,7 @@
 <!--
  * @Author: tianleiyu 
  * @Date: 2024-05-08 15:32:33
- * @LastEditTime: 2024-05-11 09:23:18
+ * @LastEditTime: 2024-05-22 17:20:09
  * @LastEditors: tianleiyu
  * @Description: 
  * @FilePath: /organization1/src/views/activity/activity.vue
@@ -114,6 +114,7 @@ a {
 }
 .title{
     font-size: 70px;
+    text-align: center;
 }
 .item_list{
     display: flex;

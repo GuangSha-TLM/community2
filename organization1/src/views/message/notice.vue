@@ -1,7 +1,7 @@
 <!--
  * @Author: tianleiyu 
  * @Date: 2024-05-15 16:24:11
- * @LastEditTime: 2024-05-15 16:46:19
+ * @LastEditTime: 2024-05-16 15:48:15
  * @LastEditors: tianleiyu
  * @Description: 
  * @FilePath: /organization1/src/views/message/notice.vue
@@ -18,6 +18,7 @@
                                 <th scope="col">序号</th>
                                 <th scope="col">简要</th>
                                 <th scope="col">发起时间</th>
+                                <th scope="col">申请原因</th>
                                 <th scope="col">操作</th>
                             </tr>
                         </thead>
@@ -27,11 +28,12 @@
                                 <th scope="row"><el-badge style="margin: 0;" :is-dot="obj.read == 0"
                                         class="item"></el-badge>{{ index + 1 }}
                                 </th>
-                                <td>{{ obj.noticeContext }}</td>
-                                <td>{{ obj.signInTime }}</td>
+                                <td>{{ obj.noticeName }}</td>
+                                <td>{{ obj.createTime }}</td>
+                                <td>{{ obj.context }}</td>
                                 <td>
-
-                                    <el-link type="success" @click="open(obj.communityId)">去处理</el-link>
+                                    <el-link v-if="obj.kinds == 0" type="success" @click="read(index)">标为已读</el-link>
+                                    <el-link v-else type="success" @click="manage(index)">去处理</el-link>
                                 </td>
 
                             </tr>
@@ -41,11 +43,14 @@
                 </div>
             </section>
 
-            <el-dialog title="签到" :visible.sync="dialogVisible" width="30%" @close="close">
+            <el-dialog :title="title" :visible.sync="dialogVisible" width="30%" @close="close">
                 <span slot="footer" class="dialog-footer">
-                    <el-input placeholder="请输入签到内容" v-model="communityReplyNoticeBo.context" clearable>
+                    <el-input placeholder="请输入内容" v-model="communityReplyNoticeBo.content" clearable>
                     </el-input>
-                    <el-button class="but" @click="sign()">签到</el-button>
+                    <div class="but">
+                        <el-button @click="applyForCommunity(1)">拒绝</el-button>
+                        <el-button type="primary" @click="applyForCommunity(0)">同意</el-button>
+                    </div>
 
                 </span>
             </el-dialog>

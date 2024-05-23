@@ -1,7 +1,7 @@
 <!--
  * @Author: tianleiyu 
  * @Date: 2024-05-16 13:07:00
- * @LastEditTime: 2024-05-16 13:07:01
+ * @LastEditTime: 2024-05-22 17:18:02
  * @LastEditors: tianleiyu
  * @Description: 
  * @FilePath: /organization1/src/components/fream/Aside.vue
@@ -53,7 +53,7 @@
 
             </el-menu>
         </el-col>
-        <el-card style="max-width: 1571px">
+        <el-card style="width: 80%;">
             <RouterView></RouterView>
         </el-card>
     </el-row>
@@ -80,7 +80,7 @@ const toUserManage = () => {
 }
 
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .el-col-12 {
     margin-left: 25px;
     max-width: 15% !important;

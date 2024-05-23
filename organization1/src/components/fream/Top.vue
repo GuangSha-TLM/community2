@@ -1,7 +1,7 @@
 <!--
  * @Author: tianleiyu 
  * @Date: 2024-04-26 08:33:35
- * @LastEditTime: 2024-05-16 13:17:41
+ * @LastEditTime: 2024-05-23 08:34:40
  * @LastEditors: tianleiyu
  * @Description: 
  * @FilePath: /organization1/src/components/fream/Top.vue
@@ -42,7 +42,7 @@
         <!-- 活动面板的模糊查询 -->
         <div v-if="shouInput" class="mt-4">
           <el-input size="large" v-model="inputData.title" style="width: 460px" placeholder="Please input"
-            class="input-with-select">
+            class="input-with-select" @keydown.enter="activeSelect">
             <template #prepend>
               <el-button @click="activeSelect" :icon="Search" />
             </template>
@@ -101,6 +101,7 @@ const { cookies } = useCookies();
 import { ref, reactive, onMounted, toRefs, computed } from 'vue';
 // import { RouterLink } from 'vue-router'
 import { useRouter, useRoute } from 'vue-router';
+import { ElNotification } from 'element-plus'
 const router = useRouter();
 const route = useRoute();
 // 控制头部导航栏
@@ -128,16 +129,24 @@ const user = ref<string>(cookies.get("user"))
 //搜索框的接口
 const activeSelect = async () => {
   inputData.token = token;
-  const result: activityResponseData = await activitySearchBytitle(inputData)
-  if (result.code === "0x200") {
-    sendInputData = result.data;
-    // console.log(sendInputData, '123');
+  if (inputData.title === '') {
+    return ElNotification({
+      title: 'Error',
+      message: '请输入内容',
+      type: 'error',
+    })
+  } else {
+    const result: activityResponseData = await activitySearchBytitle(inputData)
+    if (result.code === "0x200") {
+      sendInputData = result.data;
+      // console.log(sendInputData, '123');
 
-    //发送数组给activityManagement
-    bus.emit('InputData', sendInputData)
-    sendInputData = []
+      //发送数组给activityManagement
+      bus.emit('InputData', sendInputData)
+      sendInputData = []
+    }
+    // console.log('456', result);
   }
-  // console.log('456', result);
 
 }
 //控制搜索框的显示和隐藏
