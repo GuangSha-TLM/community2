@@ -1,6 +1,7 @@
 package com.gsxy.core.service.impl;
 
 import com.gsxy.core.mapper.ActiveMapper;
+import com.gsxy.core.mapper.CommunityMapper;
 import com.gsxy.core.pojo.Active;
 import com.gsxy.core.pojo.bo.*;
 import com.gsxy.core.pojo.vo.PagingToGetActiveDataVO;
@@ -173,6 +174,9 @@ public class ActivityServiceImpl implements ActiveService {
         return new ResponseVo("查询成功",list,"0x200");
     }
 
+    @Autowired
+    private CommunityMapper communityMapper;
+
     /**
      * @author hln 2023-10-27
      *      分页查询
@@ -185,11 +189,16 @@ public class ActivityServiceImpl implements ActiveService {
         long start = (pagingToGetActiveDataBo.getStart() - 1) * pagingToGetActiveDataBo.getSize();
         pagingToGetActiveDataBo.setStart(start);
 
+        //获取社团id进行社团数据隔离
+        String userIdOfStr = (String) ThreadLocalUtil.mapThreadLocalOfJWT.get().get("userinfo").get("id");
+        Long userId = Long.valueOf(userIdOfStr);
+        Long communityId = communityMapper.queryByUserId(userId);
+
         //获取所有活动的数据
-        List<Active> activeList = activeMapper.pagingToGetActiveData(pagingToGetActiveDataBo);
+        List<Active> activeList = activeMapper.pagingToGetActiveData(pagingToGetActiveDataBo,communityId);
 
         //获取活动总数
-        Long count = activeMapper.pagingToGetCountOfActiveData(pagingToGetActiveDataBo);
+        Long count = activeMapper.pagingToGetCountOfActiveData(pagingToGetActiveDataBo,communityId);
 
         PagingToGetActiveDataVO pagingToGetActiveDataVO = new PagingToGetActiveDataVO();
         pagingToGetActiveDataVO.setCount(count);

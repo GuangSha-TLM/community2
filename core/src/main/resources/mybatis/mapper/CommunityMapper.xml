@@ -7,7 +7,7 @@
         @author zhuxinyu 2023-10-24
             添加社团
     -->
-    <insert id="addcommunity">
+    <insert id="addcommunity" parameterType="com.gsxy.core.pojo.Community" useGeneratedKeys="true" keyProperty="id">
         insert into
             Community
         values

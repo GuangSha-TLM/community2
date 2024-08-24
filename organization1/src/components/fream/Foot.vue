@@ -20,7 +20,7 @@
                         </a>
                         <!-- Webpixels' mission -->
                         <p class="mt-4 text-sm opacity-8 pr-lg-4">
-                            哈尔滨广厦学院 <strong>向导系统 </strong> 测试版本 v0.1
+                            哈尔滨广厦学院 <strong>社团系统 </strong> 测试版本 v0.1
                             <br> <br> <br> <br>
                         </p>
                         <!-- Social -->

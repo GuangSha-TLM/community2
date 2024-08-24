@@ -6,6 +6,8 @@ import com.gsxy.core.pojo.bo.CommunityPagingToGetDataBo;
 import com.gsxy.core.pojo.vo.CommunityAndActiveVo;
 import com.gsxy.core.pojo.vo.CommunityAndUserVo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -29,7 +31,8 @@ public interface CommunityMapper {
      * @param community
      * @return
      */
-    public Long addcommunity(Community community);
+    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
+    Long addcommunity(Community community);
 
     /**
      * @author zhuxinyu 2023-10-24
@@ -98,4 +101,7 @@ public interface CommunityMapper {
      * @return
      */
     Long pagingToGetCountOfActiveData();
+
+    @Select("select community_id from community_user where user_id = #{userId} limit 1")
+    Long queryByUserId(Long userId);
 }

@@ -39,7 +39,7 @@ public class Knife4jConfig {
         //添加head参数end
 
         Docket adminApi = new Docket(DocumentationType.SWAGGER_2)
-                .groupName("adminApi")
+                .groupName("社团系统接口文档-version 1.0")
                 .apiInfo(adminApiInfo())
                 .select()
                 // 包含所有路径的接口

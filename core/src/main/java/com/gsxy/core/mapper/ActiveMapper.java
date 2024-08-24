@@ -57,20 +57,22 @@ public interface ActiveMapper {
     List<Active> activeLikeToGetByTitle(ActiveLikeToGetByTitleBo activeLikeToGetByTitleBo);
 
     /**
-     * @author hln 2023-10-27
-     *      获取所有活动的数据
      * @param pagingToGetActiveDataBo
+     * @param communityId
      * @return
+     * @author hln 2023-10-27
+     * 获取所有活动的数据
      */
-    List<Active> pagingToGetActiveData(PagingToGetActiveDataBo pagingToGetActiveDataBo);
+    List<Active> pagingToGetActiveData(PagingToGetActiveDataBo pagingToGetActiveDataBo, Long communityId);
 
     /**
-     * @author hln 2023-10-27
-     *      获取活动总数
      * @param pagingToGetActiveDataBo
+     * @param communityId
      * @return
+     * @author hln 2023-10-27
+     * 获取活动总数
      */
-    Long pagingToGetCountOfActiveData(PagingToGetActiveDataBo pagingToGetActiveDataBo);
+    Long pagingToGetCountOfActiveData(PagingToGetActiveDataBo pagingToGetActiveDataBo, Long communityId);
 
     /**
      * @author hln 2023-10-29

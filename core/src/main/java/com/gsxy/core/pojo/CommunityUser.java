@@ -1,8 +1,11 @@
 package com.gsxy.core.pojo;
 
+import lombok.Builder;
+
 import java.io.Serializable;
 import java.util.Date;
 
+@Builder
 public class CommunityUser implements Serializable {
     private Long id;
     private Long communityId;//社团id

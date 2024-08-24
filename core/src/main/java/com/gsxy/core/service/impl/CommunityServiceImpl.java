@@ -12,6 +12,7 @@ import com.gsxy.core.service.UserService;
 import com.gsxy.core.util.ThreadLocalUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -48,16 +49,28 @@ public class CommunityServiceImpl implements CommunityService {
      * @return
      */
     @Override
+    @Transactional
     public ResponseVo addCommunity(CommunityAddBo communityAddByIdBo) {
-        String communityIdOfStr = (String) ThreadLocalUtil.mapThreadLocalOfJWT.get().get("userinfo").get("id");
-        Long communityId = Long.valueOf(communityIdOfStr);
+        String userId = (String) ThreadLocalUtil.mapThreadLocalOfJWT.get().get("userinfo").get("id");
+        Long communityId = Long.valueOf(userId);
         communityAddByIdBo.getCommunity().setCommunityId(communityId);
         communityAddByIdBo.getCommunity().setCreateBy(communityId);
         communityAddByIdBo.getCommunity().setCreateTime(new Date());
+
         Long aLong = communityMapper.addcommunity(communityAddByIdBo.getCommunity());
+
         if (aLong.longValue() == 0L) {
             return new ResponseVo("增加失败",  null, "0x500");
         }
+
+        Long communityIdLast = communityAddByIdBo.getCommunity().getId();
+        CommunityUser communityUser = CommunityUser.builder()
+                .communityId(communityIdLast)
+                .createTime(new Date())
+                .createBy(Long.valueOf(userId))
+                .userId(Long.valueOf(userId))
+                .build();
+        communityUserMapper.communityUseAdd(communityUser);
 
         return new ResponseVo("增加成功", communityId, "0x200");
     }

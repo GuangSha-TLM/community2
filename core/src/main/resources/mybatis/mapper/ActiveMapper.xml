@@ -86,28 +86,32 @@
         from
             active
         where
-            <if test="title != null and title != ''">
-                title like #{title} and
+            <if test="pagingToGetActiveDataBo.title != null and pagingToGetActiveDataBo.title != ''">
+                title like #{pagingToGetActiveDataBo.title} and
             </if>
-                status = #{status} and
-                del_flag = #{delFlag}
+                status = #{pagingToGetActiveDataBo.status}
+          and
+                del_flag = 0
+            and
+                community = #{communityId}
         limit
-            #{start},#{size}
+            #{pagingToGetActiveDataBo.start},#{pagingToGetActiveDataBo.size}
     </select>
 
     <!-- 获取活动总数 -->
     <select id="pagingToGetCountOfActiveData" resultType="java.lang.Long"
             parameterType="com.gsxy.core.pojo.bo.PagingToGetActiveDataBo">
         select
-            count(*)
+        count(*)
         from
-            active
+        active
         where
-            <if test="title != null and title != ''">
-                title like #{title} and
-            </if>
-            status = #{status} and
-            del_flag = #{delFlag}
+        <if test="pagingToGetActiveDataBo.title != null and pagingToGetActiveDataBo.title != ''">
+            title like #{pagingToGetActiveDataBo.title} and
+        </if>
+        community = #{communityId} and
+        status = #{pagingToGetActiveDataBo.status} and
+        del_flag = 0
     </select>
 
     <!-- 获取前端指定社团相关字段实体类 -->

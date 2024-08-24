@@ -4,13 +4,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gsxy.core.mapper.CommunityUserMapper">
     <insert id="communityUseAdd">
-        insert into
-            community_user
-        values
-            (null, #{communityId},
-             #{userId},#{createBy}, #{createTime},
-             #{updateBy}, #{updateTime},
-             #{status}, #{delFlag})
+        insert into community_user
+            (community_id, user_id, create_by, create_time)
+        values (#{communityId},
+                #{userId}, #{createBy}, #{createTime})
     </insert>
 
 
