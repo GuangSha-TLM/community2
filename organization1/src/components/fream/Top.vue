@@ -52,7 +52,7 @@
           <div v-if="token">
             <li><router-link to="/">Home</router-link></li>
             <li><el-dropdown>
-                <span style="font-size: large">{{ user.username }}</span>
+                <span style="font-size: large">{{ user.name }}</span>
                 <template #dropdown>
                   <el-dropdown-menu>
                     <el-dropdown-item><router-link to="/notice">消息</router-link></el-dropdown-item>
@@ -67,6 +67,11 @@
             <li><router-link to="/login">Login</router-link></li>
             <li><router-link to="/register">Register</router-link></li>
           </div>
+          <!-- 社团logo -->
+          <div class="logoImg">
+            <img :src="logoImg" style="width: 40px;   height: 40px;">
+            <p>TLM组织</p>
+          </div>
         </ul>
         <!-- <a href="#" class="action_btn">Get Started</a> -->
         <div class="toggle_btn" @click="updateTopMenu">
@@ -80,6 +85,7 @@
         <li><router-link to="/register">Register</router-link></li>
         <li><a href="Countact">Countact</a></li>
         <!-- <li><a href="#" class="action_btn">Get Started</a></li> -->
+
       </div>
     </header>
 
@@ -88,16 +94,19 @@
 </template>
 
 <script lang="ts" setup>
-//引入vue3-cookies
-import { useCookies } from "vue3-cookies";
+
 //搜索框图标
 import { Search } from '@element-plus/icons-vue'
 import { activitySearchBytitle } from '@/api/activity'
 import { activityResponseData, } from '@/model/activityData'
+//获取logo
+let logoImg = require('@/assets/logo.png')
 //引入mitt实现兄弟组件通信
 import bus from '@/utils/mitt'
-//使用vue3-cookies
-const { cookies } = useCookies();
+//引入vue3-cookies封装的方法
+import {
+  REMOVE_TOKEN, REMOVE_USER, GET_TOKEN, GET_USER
+} from '@/utils/cookie'
 import { ref, reactive, onMounted, toRefs, computed } from 'vue';
 // import { RouterLink } from 'vue-router'
 import { useRouter, useRoute } from 'vue-router';
@@ -124,11 +133,11 @@ let inputData = reactive<any>({
   delFlag: 0
 });
 let sendInputData: {}[];
-const token = ref<string>(cookies.get("token"))
-const user = ref<string>(cookies.get("user"))
+const token = ref<string>(GET_TOKEN())
+const user = ref<string>(JSON.parse(GET_USER()))
 //搜索框的接口
 const activeSelect = async () => {
-  inputData.token = token;
+  inputData.token = token.value;
   if (inputData.title === '') {
     return ElNotification({
       title: 'Error',
@@ -151,7 +160,7 @@ const activeSelect = async () => {
 }
 //控制搜索框的显示和隐藏
 let shouInput = computed(() => {
-  if (token && route.name === 'activityManagement') {
+  if (token.value && route.name === 'activityManagement') {
     return true
   } else {
     return false
@@ -159,13 +168,13 @@ let shouInput = computed(() => {
 })
 //退出登录
 const loginOut = () => {
-  cookies.remove("token");
-  cookies.remove("user");
+  REMOVE_TOKEN();
+  REMOVE_USER();
   user.value = '';
   router.push('/login');
 }
 onMounted(() => {
-  // console.log(route.name);
+  console.log(user.value, 'tokne');
 
 })
 </script>
@@ -376,6 +385,15 @@ header {
 .left_links.open {
   display: block;
   height: 439px;
+}
+
+//links的弹性盒子
+.links {
+  display: flex;
+
+  .logoImg {
+    margin-left: 2rem;
+  }
 }
 </style>
 

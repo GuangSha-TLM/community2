@@ -11,8 +11,17 @@
     <el-row class="tac">
         <el-col :span="12">
             <h5 class="mb-2">社团管理主页</h5>
-            <el-menu class="el-menu-vertical-demo">
-                <el-sub-menu index="1">
+            <el-menu :router="true" default-active="/home" class="el-menu-vertical-demo">
+                <el-menu-item index="/home">
+                    <template #title>
+                        <el-icon>
+                            <HomeFilled />
+                        </el-icon>
+                        <span>主页</span>
+                    </template>
+                </el-menu-item>
+
+                <el-sub-menu index="2">
                     <template #title>
                         <el-icon>
                             <Menu />
@@ -20,7 +29,7 @@
                         <span>活动管理面板</span>
                     </template>
                     <el-menu-item-group>
-                        <el-menu-item @click="toActivity" index="1-1">活动信息</el-menu-item>
+                        <el-menu-item index="/activityManagement">活动信息</el-menu-item>
                     </el-menu-item-group>
                 </el-sub-menu>
 
@@ -32,11 +41,11 @@
                         <span>社团人员面板</span>
                     </template>
                     <el-menu-item-group>
-                        <el-menu-item @click="toUserInfo" index="3-1">社团人员信息</el-menu-item>
+                        <el-menu-item index="userInfo">社团人员信息</el-menu-item>
                     </el-menu-item-group>
                 </el-sub-menu>
 
-                <el-sub-menu index="2">
+                <el-sub-menu index="4">
                     <template #title>
                         <el-icon>
                             <Avatar />
@@ -44,10 +53,10 @@
                         <span>社团人员管理面板</span>
                     </template>
                     <el-menu-item-group>
-                        <el-menu-item @click="toUserManage" index="2-1">社团人员管理</el-menu-item>
+                        <el-menu-item index="/userManage">社团人员管理</el-menu-item>
                     </el-menu-item-group>
                     <el-menu-item-group>
-                        <el-menu-item @click="toAssociation" index="2-2">社团活动管理</el-menu-item>
+                        <el-menu-item index="/associationActivityManagement">社团活动管理</el-menu-item>
                     </el-menu-item-group>
                 </el-sub-menu>
 
@@ -60,24 +69,15 @@
 </template>
 
 <script lang="ts" setup>
-import { useRouter, useRoute } from 'vue-router'
-let router = useRouter();
-// console.log(userRouter);
-const toActivity = () => {
-    router.push('/activityManagement')
-}
-//跳转社团管理界面
-const toAssociation = () => {
-    router.push('/associationActivityManagement')
-}
-//跳转社团人员界面
-const toUserInfo = () => {
-    router.push('/userInfo')
-}
-//跳转社团管理用户界面
-const toUserManage = () => {
-    router.push('/userManage')
-}
+//引入onMount
+import { ref, onMounted } from 'vue'
+
+//测试代码
+onMounted(() => {
+
+})
+
+
 
 </script>
 <style lang="less" scoped>

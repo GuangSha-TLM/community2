@@ -12,10 +12,19 @@ import HomeView from './../views/HomeView.vue'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'home',
-    redirect: '/activityManagement',
+    name: 'layout',
+    redirect: '/home',
     component: HomeView,
     children: [
+      {
+        path: '/home',
+        name: 'home',
+        component: () => import(/* webpackChunkName: "about" */ '../views/home/index.vue'),
+        meta: {
+          requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
+          name: '主页'
+        }
+      },
       {
         path: '/activityManagement',
         name: 'activityManagement',
@@ -75,14 +84,14 @@ const routes: Array<RouteRecordRaw> = [
       },
     ]
   },
-  {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  },
+  // {
+  //   path: '/about',
+  //   name: 'about',
+  //   // route level code-splitting
+  //   // this generates a separate chunk (about.[hash].js) for this route
+  //   // which is lazy-loaded when the route is visited.
+  //   component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+  // },
   //用户登录界面
   {
     path: '/login',
